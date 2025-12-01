@@ -125,8 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       id: "project1",
       title: "Satellite Data Analytics Project (SDAP)",
-      duration: "August 2023 – September 2025 | Antarikchya Pratisthan Nepal",
-      description: "Leveraged satellite data and GIS mapping for flood damage assessment in Sapta Koshi, environmental monitoring in Chure region, earthquake and forest fire visualization, and dynamic population density mapping.",
+      duration: "August 2023 – September 2025",
+      organization: "Antarikchya Pratisthan Nepal",
+      description: "Leveraged satellite data and GIS mapping for flood damage assessment in Sapta Koshi, KMC Flood 2024 1D Simulation, environmental monitoring in Chure region, earthquake and forest fire visualization and dynamic population density mapping.",
       tools: "ArcGIS Pro, QGIS, HEC-HMS, Google Earth Engine, WebGIS, PHP",
       link: "https://antarikchya.org.np/visualization.php",
       image: "image/sdap.png"
@@ -134,7 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       id: "project2",
       title: "Space-enabled Urban Solutions in Nepal (SUSN)",
-      duration: "August 2023 – July 2024 | Kathmandu Metropolitan City",
+      duration: "August 2023 – July 2024",
+      organization: "Kathmandu Metropolitan City (KMC)",
       description: "Collaborated with KMC departments for land use classification and GIS mapping to support urban development and disaster risk management.",
       tools: "ArcGIS Pro, QGIS, AutoCAD, Google Earth Engine, Python",
       link: "https://www.antarikchya.org.np/susn.php | https://www.kmc.antarikchya.org.np/",
@@ -143,30 +145,43 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       id: "project3",
       title: "Land Use/Land Cover Classification and Future Prediction",
-      duration: "March 2024 – August 2024 | Asian Institute of Technology",
+      duration: "March 2024 – August 2024",
+      organization: "AIT",
       description: "Utilized Google Earth Engine for LULC mapping and TerrSet 2020 for predicting future LULC changes.",
       tools: "ArcGIS Pro, Google Earth Engine, TerrSet 2020",
       // link: "https://antarikchya.org.np/visualization.php",
       image: "image/lulc.png"
     },
-    // {
-    //   id: "project4",
-    //   title: "",
-    //   duration: "",
-    //   description: "Utilized Google Earth Engine for LULC mapping and TerrSet 2020 for predicting future LULC changes.",
-    //   tools: "ArcGIS Pro, Google Earth Engine, TerrSet 2020",
-    //   // link: "https://antarikchya.org.np/visualization.php",
-    //   image: "image/apn_chair.jpg"
-    // },
-    // {
-    //   id: "project5",
-    //   title: "Land Use/Land Cover Classification and Future Prediction",
-    //   duration: "March 2024 – August 2024 | Asian Institute of Technology",
-    //   description: "Utilized Google Earth Engine for LULC mapping and TerrSet 2020 for predicting future LULC changes.",
-    //   tools: "ArcGIS Pro, Google Earth Engine, TerrSet 2020",
-    //   // link: "https://antarikchya.org.np/visualization.php",
-    //   image: "image/apn_chair.jpg"
-    // }
+    {
+      id: "project4",
+      title: "National Building Exposure",
+      duration: " June 2023 – July 2023 ",
+      organization: "NAXA",
+      description: "Contributed to the National Building Exposure project by working as a building digitizer. Implemented manual digitization techniques to accurately capture building footprints, contributing tothe creation of a comprehensive building exposure database.",
+      tools: "ArcGIS",
+      link: "https://exposure.ndrrma.gov.np/",
+      image: "image/ndrrma.png"
+    },
+    {
+      id: "project5",
+      title: "Topographical and Cadastral Surveying | Jiri, Nepal",
+      duration: "November 2022 – March 2023",
+      organization: "Asian Institute of Technology",
+      description: "Participated in topographical and cadastral surveying in Jiri, Nepal. Utilized DGPS to establish control points and employed total stations and prisms for various surveying tasks, including projects related to hydropower, routes, transmission lines, bridges, and canals. Processed the collected data and visualized itusing ArcGIS.",
+      tools: "ArcGIS, Total Station (TS), Differential Global Positioning Systems (DGPSs), Prism, Measuring Tape",
+      // link: "https://antarikchya.org.np/visualization.php",
+      image: "image/ts.jpg"
+    },
+    {
+      id: "project6",
+      title: "Impact on COR Station due to Gorkha Earthquake 2015",
+      duration: "November 2022 – March 2023",
+      organization: "Asian Institute of Technology",
+      description: "This is the final year project for my Diploma degree, I utilized UNAVCO to gather control point data, which was then processed. The processed data was visualized using ArcGIS. The project focused on investigating the impact of the Gorkha Earthquake in 2015 on COR Station, specifically identifying the shift of control points caused by the Gorkha Earthquake 2015.",
+      tools: "ArcGIS, UNAVCO",
+      // link: "https://antarikchya.org.np/visualization.php",
+      image: "image/cors.jpg"
+    }
   ];
 
   const projectContainer = document.getElementById("projects-container");
@@ -185,7 +200,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ${imgTag}
           <div class="p-3">
             <h5 class="fw-bold">${p.title}</h5>
-            <p class="text-muted small mb-2">${p.duration}</p>
+            <p class="text-muted small mb-0">${p.duration}</p>
+            <p class="fw-bold small mb-2">${p.organization}</p>
             <p>${p.description.substring(0, 140)}...</p>
             <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-reset">Read More</a>
           </div>
@@ -228,22 +244,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const skillsData = [
     { name: "ArcGIS / ArcGIS Pro", percentage: 90, color: "#04d415" },
     { name: "AutoCAD", percentage: 45, color: "#71d16e" },
-    { name: "Differential GPS", percentage: 55, color: "#dbce11" },
+    { name: "Differential GPS", percentage: 65, color: "#dbce11" },
     { name: "Django", percentage: 50, color: "#e98007" },
     { name: "ENVI", percentage: 35, color: "#e91a13" },
-    { name: "ERDAS Imagine", percentage: 35, color: "#04d415" },
+    { name: "ERDAS Imagine", percentage: 40, color: "#04d415" },
+    { name: "Leaflet", percentage: 70, color: "#71d16e" },
     { name: "Google Earth Engine", percentage: 90, color: "#71d16e" },
     { name: "HEC-HMS / HEC-RAS", percentage: 65, color: "#dbce11" },
-    { name: "HTML/CSS/JS", percentage: 75, color: "#e98007" },
+    { name: "HTML/CSS/JS", percentage: 80, color: "#e98007" },
     { name: "Microsoft 365", percentage: 80, color: "#e91a13" },
-    { name: "Plane Table", percentage: 50, color: "#04d415" },
+    { name: "Plane Table", percentage: 75, color: "#04d415" },
     { name: "PHP", percentage: 60, color: "#71d16e" },
     { name: "Python", percentage: 70, color: "#dbce11" },
-    { name: "QGIS", percentage: 80, color: "#e98007" },
+    { name: "QGIS", percentage: 85, color: "#e98007" },
     { name: "SNAP Desktop", percentage: 70, color: "#e91a13" },
-    { name: "TerrSet 2020", percentage: 55, color: "#04d415" },
+    { name: "TerrSet 2020", percentage: 55, color: "#dbce11" },
     { name: "Theodolite", percentage: 70, color: "#71d16e" },
     { name: "Total Station", percentage: 75, color: "#dbce11" },
+    { name: "Vite Press", percentage: 90, color: "#04d415" },
+    { name: "WebGIS", percentage: 65, color: "#e98007" }
+
   ];
 
   const skillsBox = document.getElementById("skills-box");
