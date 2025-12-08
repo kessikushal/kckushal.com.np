@@ -46,8 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
       institution: "Arunodaya English Secondary School",
       location: "Panauti, Kavrepalanchok, Nepal",
       degree: "Secondary Education Examination (SEE) | Aggregate Grade: 3.85"
-    }
+    },
   ];
+
+  educationData.sort((a, b) => {
+    const endA = new Date(a.year.split("–")[1].trim());
+    const endB = new Date(b.year.split("–")[1].trim());
+    return endB - endA; // latest first
+  });
 
   const education = document.getElementById("education");
   if (education) {
@@ -95,9 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
       role: "GIS Analyst",
       description: "Collaborative projects with Changunarayan Municipality and NDRRMA.",
       link: "https://naxa.com.np/"
-    }
-  ];
+    },
 
+  ];
+  experiencesdata.sort((a, b) => {
+    const endA = new Date(a.date.split("–")[1].trim());
+    const endB = new Date(b.date.split("–")[1].trim());
+    return endB - endA; // latest first
+  });
   const experience = document.getElementById("experience");
   if (experience) {
     experiencesdata.forEach(exp => {
@@ -184,6 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
+  projects.sort((a, b) => {
+    const endA = new Date(a.duration.split("–")[1].trim());
+    const endB = new Date(b.duration.split("–")[1].trim());
+    return endB - endA || a.title.localeCompare(b.title);
+  });
+
   const projectContainer = document.getElementById("projects-container");
   const modalContainer = document.getElementById("modals-container");
 
@@ -245,27 +262,27 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "ArcGIS / ArcGIS Pro", percentage: 90, color: "#04d415" },
     { name: "AutoCAD", percentage: 45, color: "#71d16e" },
     { name: "Differential GPS", percentage: 65, color: "#dbce11" },
+    { name: "WebGIS", percentage: 65, color: "#e98007" },
     { name: "Django", percentage: 50, color: "#e98007" },
     { name: "ENVI", percentage: 35, color: "#e91a13" },
     { name: "ERDAS Imagine", percentage: 40, color: "#04d415" },
-    { name: "Leaflet", percentage: 70, color: "#71d16e" },
-    { name: "Google Earth Engine", percentage: 90, color: "#71d16e" },
-    { name: "HEC-HMS / HEC-RAS", percentage: 65, color: "#dbce11" },
-    { name: "HTML/CSS/JS", percentage: 80, color: "#e98007" },
-    { name: "Microsoft 365", percentage: 80, color: "#e91a13" },
-    { name: "Plane Table", percentage: 75, color: "#04d415" },
     { name: "PHP", percentage: 60, color: "#71d16e" },
     { name: "Python", percentage: 70, color: "#dbce11" },
     { name: "QGIS", percentage: 85, color: "#e98007" },
     { name: "SNAP Desktop", percentage: 70, color: "#e91a13" },
+    { name: "Leaflet", percentage: 70, color: "#71d16e" },
+    { name: "Google Earth Engine", percentage: 90, color: "#71d16e" },
+    { name: "Microsoft 365", percentage: 80, color: "#e91a13" },
+    { name: "Plane Table", percentage: 75, color: "#04d415" },
     { name: "TerrSet 2020", percentage: 55, color: "#dbce11" },
     { name: "Theodolite", percentage: 70, color: "#71d16e" },
+    { name: "HEC-HMS / HEC-RAS", percentage: 65, color: "#dbce11" },
+    { name: "HTML/CSS/JS", percentage: 80, color: "#e98007" },
     { name: "Total Station", percentage: 75, color: "#dbce11" },
     { name: "Vite Press", percentage: 90, color: "#04d415" },
-    { name: "WebGIS", percentage: 65, color: "#e98007" }
 
   ];
-
+  skillsData.sort((a, b) => a.name.localeCompare(b.name));
   const skillsBox = document.getElementById("skills-box");
   if (skillsBox) {
     skillsData.forEach(skill => {
@@ -309,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/nyc2024.jpg", title: "NYC Conference 2024", dates: "June 2024" },
     // { src: "../image/gallery/mhm.jpg", title: "Training" },
   ];
-
+  galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
   if (galleryRow) {
     galleryData.forEach(item => {
@@ -373,19 +390,20 @@ const honoursData = [
     organizer: "NASA and UNVIE",
     description: "\"<strong>The Honorable Mention</strong>\" in DrivenData's Pale Blue Dot: Visualization Challenge, for submission of LULC classification and damage assessment of the 2008 Sapta Koshi Flood using multi-temporal Landsat data",
     link: "https://drivendata-public-assets.s3.amazonaws.com/nasa-open-science-gallery/nayan.bakhadyo/visual.png",
-    date: "March, 2024"
+    date: "March-14, 2024"
   },
   {
     image: "image/Map_Design_Competition.png",
     title: "Map Design Competition",
     organizer: "Geomatics Engineering Students' Association of Nepal",
     description: "Secured the <strong>1<sup>st</sup> position</strong> in the Map Design Competition for the submission on the Fire Susceptibility Map of Kathmandu Metropolitan City",
-    link: "https://www.facebook.com/photo?fbid=988478053281843&set=pcb.988479963281652",
-    date: "June 2024"
+    link: "https://www.facebook.com/gesan2014/posts/pfbid0caDmbQWuUj4EXBAw53xPiBRvfcak6912kULtaV587jv3hWRTGavZjE9MXTQL88srl",
+    date: "June-27, 2024"
   }
   // Add more awards here
 ];
 
+honoursData.sort((a, b) => new Date(b.date) - new Date(a.date));
 const honoursContainer = document.getElementById("honours-container");
 
 honoursData.forEach(award => {
