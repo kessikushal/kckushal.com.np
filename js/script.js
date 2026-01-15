@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "Antarikchya Pratisthan Nepal",
       description: "Leveraged satellite data and GIS mapping for flood damage assessment in Sapta Koshi, KMC Flood 2024 1D Simulation, environmental monitoring in Chure region, earthquake and forest fire visualization and dynamic population density mapping.",
       tools: "ArcGIS Pro, QGIS, HEC-HMS, Google Earth Engine, WebGIS, PHP",
-      link: "https://antarikchya.org.np/visualization.php",
+      link: "https://antarikchya.org.np/visualization",
       image: "image/sdap.png"
     },
     {
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "Kathmandu Metropolitan City (KMC)",
       description: "Collaborated with KMC departments for land use classification and GIS mapping to support urban development and disaster risk management.",
       tools: "ArcGIS Pro, QGIS, AutoCAD, Google Earth Engine, Python",
-      link: "https://www.antarikchya.org.np/susn.php | https://www.kmc.antarikchya.org.np/",
+      link: "https://www.antarikchya.org.np/data/space-enabled-urban-solutions | https://www.kmc.antarikchya.org.np/",
       image: "image/susn.png"
     },
     {
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "AIT",
       description: "Utilized Google Earth Engine for LULC mapping and TerrSet 2020 for predicting future LULC changes.",
       tools: "ArcGIS Pro, Google Earth Engine, TerrSet 2020",
-      // link: "https://antarikchya.org.np/visualization.php",
+      // link: "https://antarikchya.org.np/visualization",
       image: "image/lulc.png"
     },
     {
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "Asian Institute of Technology",
       description: "Participated in topographical and cadastral surveying in Jiri, Nepal. Utilized DGPS to establish control points and employed total stations and prisms for various surveying tasks, including projects related to hydropower, routes, transmission lines, bridges, and canals. Processed the collected data and visualized itusing ArcGIS.",
       tools: "ArcGIS, Total Station (TS), Differential Global Positioning Systems (DGPSs), Prism, Measuring Tape",
-      // link: "https://antarikchya.org.np/visualization.php",
+      // link: "https://antarikchya.org.np/visualization",
       image: "image/ts.jpg"
     },
     {
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "Asian Institute of Technology",
       description: "This is the final year project for my Diploma degree, I utilized UNAVCO to gather control point data, which was then processed. The processed data was visualized using ArcGIS. The project focused on investigating the impact of the Gorkha Earthquake in 2015 on COR Station, specifically identifying the shift of control points caused by the Gorkha Earthquake 2015.",
       tools: "ArcGIS, UNAVCO",
-      // link: "https://antarikchya.org.np/visualization.php",
+      // link: "https://antarikchya.org.np/visualization",
       image: "image/cors.jpg"
     }
   ];
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <h5 class="fw-bold">${p.title}</h5>
             <p class="text-muted small mb-0">${p.duration}</p>
             <p class="fw-bold small mb-2">${p.organization}</p>
-            <p>${p.description.substring(0, 140)}...</p>
+            <p class="clamp-3">${p.description}</p>
             <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-resetfw-semibold ieee-link  text-decoration-underline">See More ...</a>
           </div>
         </div>
@@ -241,14 +241,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Description:</strong> ${p.description}</p>
                 <p><strong>Tools:</strong> ${p.tools || "Not specified"}</p>
                 <p><strong>Links:</strong>
-                  ${p.link ? p.link.split("|").map(l => {
+                ${p.link ? p.link.split("|").map(l => {
         const url = l.trim();
-        const domain = url.includes('://') ? new URL(url).hostname.replace(/^www\./, '') : url;
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="d-block mb-1 text-primary">
-                              ${domain}
-                            </a>`;
+        const u = new URL(url);
+        const displayText = (u.hostname + u.pathname).replace(/^www\./, '');
+        return `
+                    <a href="${url}" target="_blank" rel="noopener noreferrer"
+                      class="d-block mb-1 text-primary">
+                      ${displayText}
+                    </a>`;
       }).join("") : "<em>No link available</em>"}
-                </p>
+              </p>
               </div>
             </div>
           </div>
@@ -297,10 +300,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong>Publisher:</strong> 
         <a href="https://www.ieee.org/" target="_blank" class="text-decoration-none">
           ${pub.publisher}
-        </a>
-      </p>
+        </a></p>
         <p class="small mb-2"><strong>Published on:</strong> ${pub.date}</p>
-          <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read paper on IEEE ...</a>
+        <p class="small mb-2">
+          <strong>Link :</strong>
+          <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link text-decoration-underline">${pub.link.replace(/^https?:\/\//, "")}</a>
+        </p>
+
+          <!-- <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link text-decoration-underline">Read paper on IEEE ...</a>--!>
       </div>
     `;
 
@@ -516,7 +523,13 @@ honoursData.forEach(award => {
             </div>
           <h5>Organizer: ${award.organizer}</h5>
           <p>${award.description}</p>
-          ${award.link ? `<p class = "mb-0 pb-0"><a href="${award.link}" target="_blank" >${new URL(award.link).hostname}</a></p>` : ""}       
+          ${award.link ? `
+          <p class="mb-0 pb-0">
+            <a href="${award.link}" target="_blank">
+              ${award.link.replace(/^https?:\/\/(www\.)?/, "")}
+            </a>
+          </p>
+        ` : ""}
           </div>
       </div>
     </div>
