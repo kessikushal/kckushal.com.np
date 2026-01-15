@@ -355,12 +355,13 @@ h6 {
 
 /* Scroll reveal effect for entire main sections */
 .reveal {
-    opacity: 0;
-    transform: translateY(40px); /* start slightly down */
-    transition: all 0.8s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.4s ease-out;
 }
 
+/* When visible */
 .reveal.active {
-    opacity: 1;
-    transform: translateY(0); /* move to normal position */
+  opacity: 1;
+  transform: translateY(0);
 }

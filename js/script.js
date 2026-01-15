@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="text-muted small mb-0">${p.duration}</p>
             <p class="fw-bold small mb-2">${p.organization}</p>
             <p>${p.description.substring(0, 140)}...</p>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read More ..</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-resetfw-semibold ieee-link  text-decoration-underline">See More ...</a>
           </div>
         </div>
       `;
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </a>
       </p>
         <p class="small mb-2"><strong>Published on:</strong> ${pub.date}</p>
-        <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read paper on IEEE ..</a>
+          <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read paper on IEEE ...</a>
       </div>
     `;
 
@@ -333,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "HTML/CSS/JS", percentage: 80, color: "#e98007" },
     { name: "Total Station", percentage: 75, color: "#dbce11" },
     { name: "Vite Press", percentage: 90, color: "#04d415" },
+    { name: "C", percentage: 30, color: "#e91a13" },
 
   ];
   skillsData.sort((a, b) => a.name.localeCompare(b.name));
@@ -366,8 +367,43 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }, { threshold: 0.3 });
 
+    // Observe the skills container once
+    observer.observe(skillsBox);
+
+    // Add draggable/touch support for each skill
+    skillsBox.querySelectorAll('.skill').forEach((skillDiv, index) => {
+      const bar = skillDiv.querySelector('.progress-bar div');
+      const circle = bar.querySelector('span');
+      const container = skillDiv.querySelector('.progress-bar');
+      let dragging = false;
+
+      // Mouse events
+      circle.addEventListener("mousedown", e => { dragging = true; e.preventDefault(); });
+      document.addEventListener("mouseup", () => dragging = false);
+      document.addEventListener("mousemove", e => {
+        if (!dragging) return;
+        const rect = container.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        x = Math.max(0, Math.min(rect.width, x));
+        bar.style.width = (x / rect.width * 100) + "%";
+      });
+
+      // Touch events for mobile
+      circle.addEventListener("touchstart", e => { dragging = true; e.preventDefault(); });
+      document.addEventListener("touchend", () => dragging = false);
+      document.addEventListener("touchmove", e => {
+        if (!dragging) return;
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        let x = touch.clientX - rect.left;
+        x = Math.max(0, Math.min(rect.width, x));
+        bar.style.width = (x / rect.width * 100) + "%";
+      }, { passive: false });
+    });
+
     observer.observe(skillsBox);
   }
+
 
   // ---------------- Gallery Section ----------------
   const galleryData = [
@@ -488,16 +524,23 @@ honoursData.forEach(award => {
   honoursContainer.appendChild(item);
 });
 
-// Scroll Reveal for Main Sections 
-// Scroll reveal for all main sections
-const reveals = document.querySelectorAll('main.reveal');
+// ---------------- Reveal Section ----------------
+// Add 'reveal' class to all divs inside <main>
+document.querySelectorAll('main div').forEach(div => div.classList.add('reveal'));
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
+// Select all elements with class 'reveal'
+const reveals = document.querySelectorAll('.reveal');
+
+// Intersection Observer for scroll
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('active');
+      entry.target.classList.add('active');  // show when visible
+    } else {
+      entry.target.classList.remove('active'); // hide when not visible
     }
   });
 }, { threshold: 0.2 });
 
-reveals.forEach(reveal => observer.observe(reveal));
+// Observe all reveal elements
+reveals.forEach(el => revealObserver.observe(el));
