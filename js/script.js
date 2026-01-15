@@ -552,7 +552,7 @@ const revealObserver = new IntersectionObserver((entries) => {
       entry.target.classList.remove('active'); // hide when not visible
     }
   });
-}, { threshold: 0.2 });
+}, { threshold: 0.13 });
 
 // Observe all reveal elements
 reveals.forEach(el => revealObserver.observe(el));
