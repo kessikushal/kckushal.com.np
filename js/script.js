@@ -493,10 +493,9 @@ const honoursData = [
     title: "Map Design Competition",
     organizer: "Geomatics Engineering Students' Association of Nepal",
     description: "Secured the <strong>1<sup>st</sup> position</strong> in the Map Design Competition for the submission on the Fire Susceptibility Map of Kathmandu Metropolitan City",
-    link: "https://www.facebook.com/gesan2014/posts/pfbid0caDmbQWuUj4EXBAw53xPiBRvfcak6912kULtaV587jv3hWRTGavZjE9MXTQL88srl",
+    link: "https://www.facebook.com/share/p/1GKWoL6aWL",
     date: "June-27, 2024"
-  }
-  // Add more awards here
+  },
 ];
 
 honoursData.sort((a, b) => new Date(b.date) - new Date(a.date));
