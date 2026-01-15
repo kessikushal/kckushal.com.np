@@ -310,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
     publicationsBox.appendChild(row);
   }
 
-
   // ---------------- Skills Section ----------------
   const skillsData = [
     { name: "ArcGIS / ArcGIS Pro", percentage: 90, color: "#04d415" },
