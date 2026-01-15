@@ -338,3 +338,29 @@ h6 {
   object-fit: cover;
   border-radius: 12px;
 }
+
+ /* Publication link hover effect */
+.ieee-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.ieee-link:hover {
+  color: #026ffe;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Scroll reveal effect for entire main sections */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px); /* start slightly down */
+    transition: all 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0); /* move to normal position */
+}

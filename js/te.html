@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animated Skills Row with Scroll Effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #222;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .skills-row {
+            display: flex;
+            column-gap: 50px; /* horizontal gap only */
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
+        }
+
+        .skill {
+            width: 150px;
+        }
+
+        .skill h2 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: #555;
+            border-radius: 5px;
+            height: 15px;
+            width: 100%;
+            position: relative;
+        }
+
+        .progress-bar div {
+            height: 15px;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+            position: relative;
+        }
+
+        .progress-bar div span {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #00000052;
+            border: 2px solid #fff; /* border color */
+            display: block;
+            position: absolute;
+            right: -10px;
+            top: -2px;
+        }
+
+        /* Skill colors */
+        .html { background: #f44336; }
+        .css { background: #2196F3; }
+        .js { background: #FFEB3B; }
+        .python { background: #4CAF50; }
+        .react { background: #61DBFB; }
+        .py { background: #9C27B0; }
+
+        /* Scroll reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="skills-row">
+        <div class="skill reveal">
+            <h2>HTML</h2>
+            <div class="progress-bar"><div class="html"><span></span></div></div>
+        </div>
+        <div class="skill reveal">
+            <h2>CSS</h2>
+            <div class="progress-bar"><div class="css"><span></span></div></div>
+        </div>
+        <div class="skill reveal">
+            <h2>JavaScript</h2>
+            <div class="progress-bar"><div class="js"><span></span></div></div>
+        </div>
+        <div class="skill reveal">
+            <h2>Python</h2>
+            <div class="progress-bar"><div class="python"><span></span></div></div>
+        </div>
+        <div class="skill reveal">
+            <h2>React</h2>
+            <div class="progress-bar"><div class="react"><span></span></div></div>
+        </div>
+        <div class="skill reveal">
+            <h2>Django</h2>
+            <div class="progress-bar"><div class="py"><span></span></div></div>
+        </div>
+    </div>
+
+    <script>
+        // Animate progress bars with fixed percentages
+        const skills = document.querySelectorAll('.progress-bar div');
+        const percentages = [50, 70, 80, 60, 40, 50];
+
+        skills.forEach((skill, index) => {
+            setTimeout(() => {
+                skill.style.width = percentages[index] + '%';
+            }, 200);
+        });
+
+        // Scroll reveal effect
+        const reveals = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        reveals.forEach(reveal => observer.observe(reveal));
+    </script>
+
+</body>
+</html>

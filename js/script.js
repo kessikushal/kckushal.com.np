@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p class="text-muted small mb-0">${p.duration}</p>
             <p class="fw-bold small mb-2">${p.organization}</p>
             <p>${p.description.substring(0, 140)}...</p>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-reset">Read More</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#${p.id}Modal" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read More ..</a>
           </div>
         </div>
       `;
@@ -256,6 +256,60 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     });
   }
+
+  // ---------------- Publications Section  ----------------
+  // Publications Data
+  const publicationsData = [
+    {
+      title: "Satellite-Integrated Multi-Hazard Risk Mapping of Kathmandu Valley, Nepal Using Remote Sensing",
+      publisher: "IEEE",
+      date: "25 November 2025",
+      link: "https://ieeexplore.ieee.org/document/11242632"
+    },
+    {
+      title: "Urban Flood and Fire Susceptibility Assessment Using GIS and Earth Observation Data",
+      publisher: "IEEE",
+      date: "25 November 2025",
+      link: "https://ieeexplore.ieee.org/document/11314016"
+    }
+  ];
+
+  // Target container
+  const publicationsBox = document.getElementById("Publications-box");
+
+  // Clear default text
+  if (publicationsBox) {
+    publicationsBox.innerHTML = "";
+
+    const row = document.createElement("div");
+    row.className = "row g-4";
+
+    publicationsData.forEach(pub => {
+      const col = document.createElement("div");
+
+      // 3 per row on desktop, 1 per row on mobile
+      col.className = "col-12 col-md-4";
+
+      col.innerHTML = `
+      <div class="project-card h-100 p-3 shadow-sm border rounded-4">
+        <h5 class="fw-bold">${pub.title}</h5>
+        <p class="text-muted small mb-1">
+        <strong>Publisher:</strong> 
+        <a href="https://www.ieee.org/" target="_blank" class="text-decoration-none">
+          ${pub.publisher}
+        </a>
+      </p>
+        <p class="small mb-2"><strong>Published on:</strong> ${pub.date}</p>
+        <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link  text-decoration-underline">Read paper on IEEE ..</a>
+      </div>
+    `;
+
+      row.appendChild(col);
+    });
+
+    publicationsBox.appendChild(row);
+  }
+
 
   // ---------------- Skills Section ----------------
   const skillsData = [
@@ -434,3 +488,17 @@ honoursData.forEach(award => {
   `;
   honoursContainer.appendChild(item);
 });
+
+// Scroll Reveal for Main Sections 
+// Scroll reveal for all main sections
+const reveals = document.querySelectorAll('main.reveal');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, { threshold: 0.2 });
+
+reveals.forEach(reveal => observer.observe(reveal));
