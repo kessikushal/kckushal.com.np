@@ -80,19 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---------------- Experience Timeline ----------------
   const experiencesdata = [
     {
+      date: "March 2024 – Present",
+      organization: "Freelancer | Remote",
+      location: "Remote",
+      role: "Remote Sensing & GIS Specialist",
+    },
+    {
       date: "August 2023 – September 2025",
       organization: "Antarikchya Pratisthan Nepal",
       location: "Lazimpath, Kathmandu, Nepal",
-      role: "Satellite Data Analyst | GIS Mapping",
+      role: "Satellite Data Analyst | GIS Specialist",
       description: "Collaborative projects with Kathmandu Metropolitan City (KMC).",
       link: "https://antarikchya.org.np/"
-    },
-    {
-      date: "March 2024 – August 2024",
-      organization: "Asian Institute of Technology (AIT)",
-      location: "Thailand (Remote)",
-      role: "Remote Sensing Analyst | GIS Mapping",
-      description: "Collaborative projects with Dr. Ranadheer Mandadi."
     },
     {
       date: "June 2023 – July 2023",
@@ -123,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${exp.organization}</h3>
           <h4>${exp.location}</h4>
           <p class="fw-bold">${exp.role}</p>
-          <p class="fst-italic">${exp.description}</p>
+          ${exp.description ? `<p class="fst-italic">${exp.description}</p>` : ""}
           ${exp.link ? `<p><a href="${exp.link}" target="_blank">${new URL(exp.link).hostname}</a></p>` : ""}
         </div>
       `;
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project1",
       title: "Satellite Data Analytics Project (SDAP)",
       duration: "August 2023 – September 2025",
-      organization: "Antarikchya Pratisthan Nepal",
+      organization: "Antarikchya Pratisthan Nepal (APN)",
       description: "Leveraged satellite data and GIS mapping for flood damage assessment in Sapta Koshi, KMC Flood 2024 1D Simulation, environmental monitoring in Chure region, earthquake and forest fire visualization and dynamic population density mapping.",
       tools: "ArcGIS Pro, QGIS, HEC-HMS, Google Earth Engine, WebGIS, PHP",
       link: "https://antarikchya.org.np/visualization",
@@ -157,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project3",
       title: "Land Use/Land Cover Classification and Future Prediction",
       duration: "March 2024 – August 2024",
-      organization: "AIT",
+      organization: "Dr. Ranadheer Mandadi (AIT)",
       description: "Utilized Google Earth Engine for LULC mapping and TerrSet 2020 for predicting future LULC changes.",
       tools: "ArcGIS Pro, Google Earth Engine, TerrSet 2020",
       // link: "https://antarikchya.org.np/visualization",
@@ -177,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project5",
       title: "Topographical and Cadastral Surveying | Jiri, Nepal",
       duration: "November 2022 – March 2023",
-      organization: "NBPI",
+      organization: "Nepal Banepa Polytechnic Institute (NBPI)",
       description: "Participated in topographical and cadastral surveying in Jiri, Nepal. Utilized DGPS to establish control points and employed total stations and prisms for various surveying tasks, including projects related to hydropower, routes, transmission lines, bridges, and canals. Processed the collected data and visualized itusing ArcGIS.",
       tools: "ArcGIS, Total Station (TS), Differential Global Positioning Systems (DGPSs), Prism, Measuring Tape",
       // link: "https://antarikchya.org.np/visualization",
@@ -187,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project6",
       title: "Impact on COR Station due to Gorkha Earthquake 2015",
       duration: "November 2022 – March 2023",
-      organization: "NBPI",
+      organization: "Nepal Banepa Polytechnic Institute (NBPI)",
       description: "This is the final year project for my Diploma degree, I utilized UNAVCO to gather control point data, which was then processed. The processed data was visualized using ArcGIS. The project focused on investigating the impact of the Gorkha Earthquake in 2015 on COR Station, specifically identifying the shift of control points caused by the Gorkha Earthquake 2015.",
       tools: "ArcGIS, UNAVCO",
       // link: "https://antarikchya.org.np/visualization",
@@ -420,7 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/pkr.jpg", title: "E Cube Training, Pokhara", dates: "January 2024" },
     { src: "../image/gallery/mhm.jpg", title: "Multi Hazard Mapping Training", dates: "November 2024" },
     { src: "../image/gallery/nyc2024.jpg", title: "NYC Conference 2024", dates: "June 2024" },
-    // { src: "../image/gallery/mhm.jpg", title: "Training" },
+    { src: "../image/gallery/marsyangdi_survey.jpeg", title: "Lower Marsyangdi Hydropower Survey", dates: "February 2026" },
   ];
   galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
