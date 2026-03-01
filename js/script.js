@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project5",
       title: "Topographical and Cadastral Surveying | Jiri, Nepal",
       duration: "November 2022 – March 2023",
-      organization: "Asian Institute of Technology",
+      organization: "NBPI",
       description: "Participated in topographical and cadastral surveying in Jiri, Nepal. Utilized DGPS to establish control points and employed total stations and prisms for various surveying tasks, including projects related to hydropower, routes, transmission lines, bridges, and canals. Processed the collected data and visualized itusing ArcGIS.",
       tools: "ArcGIS, Total Station (TS), Differential Global Positioning Systems (DGPSs), Prism, Measuring Tape",
       // link: "https://antarikchya.org.np/visualization",
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
       id: "project6",
       title: "Impact on COR Station due to Gorkha Earthquake 2015",
       duration: "November 2022 – March 2023",
-      organization: "Asian Institute of Technology",
+      organization: "NBPI",
       description: "This is the final year project for my Diploma degree, I utilized UNAVCO to gather control point data, which was then processed. The processed data was visualized using ArcGIS. The project focused on investigating the impact of the Gorkha Earthquake in 2015 on COR Station, specifically identifying the shift of control points caused by the Gorkha Earthquake 2015.",
       tools: "ArcGIS, UNAVCO",
       // link: "https://antarikchya.org.np/visualization",
@@ -264,13 +264,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Publications Data
   const publicationsData = [
     {
-      title: "Satellite-Integrated Multi-Hazard Risk Mapping of Kathmandu Valley, Nepal Using Remote Sensing",
+      title: "Leveraging Remote Sensing for Lineament Extraction from Landsat-8, Sentinel-2 and Sentinel-1 at Bagmati Province of Nepal",
       publisher: "IEEE",
       date: "25 November 2025",
       link: "https://ieeexplore.ieee.org/document/11242632"
     },
     {
-      title: "Urban Flood and Fire Susceptibility Assessment Using GIS and Earth Observation Data",
+      title: "The Cubesat Case Study: Resource- Efficient Deep Learning for Space Application",
       publisher: "IEEE",
       date: "25 November 2025",
       link: "https://ieeexplore.ieee.org/document/11314016"
