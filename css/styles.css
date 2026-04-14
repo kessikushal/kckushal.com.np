@@ -159,7 +159,7 @@ button:hover {
 
 /* index css*/
 .hero-section {
-  background: url('../../image/spacecon2026.JPG') center center no-repeat;
+  background: url('../../image/spacecon2026.jpg') center center no-repeat;
   background-size: contain;
   height: 90vh;
   display: flex;

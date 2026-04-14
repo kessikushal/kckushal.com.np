@@ -420,7 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/mhm.jpg", title: "Multi Hazard Mapping Training", dates: "November 2024" },
     { src: "../image/gallery/nyc2024.jpg", title: "NYC Conference 2024", dates: "June 2024" },
     { src: "../image/gallery/marsyangdi_survey.jpeg", title: "Lower Marsyangdi Hydropower Survey", dates: "February 2026" },
-    { src: "../image/gallery/spacecon2026.JPG", title: "SpaceCon 2026", dates: "April 2026" },
+    { src: "../image/gallery/spacecon2026.jpg", title: "SpaceCon 2026", dates: "April 2026" },
   ];
   galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
