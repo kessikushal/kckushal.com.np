@@ -46,7 +46,7 @@ h2 {
 }
 
 h2:hover {
-  color: #f50808 !important;
+  color: #088af5 !important;
   text-decoration: underline;
   transform: translateY(-5px);
   cursor: pointer;
@@ -159,7 +159,7 @@ button:hover {
 
 /* index css*/
 .hero-section {
-  background: url('../../image/spacecon.JPG') center center no-repeat;
+  background: url('../../image/spacecon2026.JPG') center center no-repeat;
   background-size: contain;
   height: 90vh;
   display: flex;
@@ -312,6 +312,10 @@ h6 {
   border-radius: 5px;
 }
 
+.gallery-img:hover{
+    transform:scale(1.05);
+}
+
 .gallery-title {
   text-align: center;
   margin-top: 5px;
@@ -348,6 +352,35 @@ h6 {
   height: auto;
   object-fit: cover;
   border-radius: 12px;
+}
+
+
+/* Lightbox */
+.lightbox{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.695);
+    text-align:center;
+    padding-top:60px;
+}
+
+.lightbox-content{
+    max-width:90%;
+    max-height:85%;
+}
+
+.lightbox-close{
+    position:absolute;
+    top:20px;
+    right:35px;
+    color:rgb(200, 31, 31);
+    font-size:45px;
+    cursor:pointer;
 }
 
  /* Publication link hover effect */

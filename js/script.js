@@ -339,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "HTML/CSS/JS", percentage: 80, color: "#e98007" },
     { name: "Total Station", percentage: 75, color: "#dbce11" },
     { name: "Vite Press", percentage: 90, color: "#04d415" },
-    { name: "C", percentage: 30, color: "#e91a13" },
+    { name: "C", percentage: 40, color: "#e91a13" },
 
   ];
   skillsData.sort((a, b) => a.name.localeCompare(b.name));
@@ -416,10 +416,11 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/spacecon2024.JPG", title: "SpaceCon 2024", dates: "April 2024" },
     { src: "../image/gallery/spacecon2025.JPG", title: "SpaceCon 2025", dates: "April 2025" },
     { src: "../image/gallery/mitrakunj2024.jpg", title: "6th Asia Meet and International Conference", dates: "May 2024" },
-    { src: "../image/gallery/pkr.jpg", title: "E Cube Training, Pokhara", dates: "January 2024" },
+    { src: "../image/gallery/sos.jpg", title: "E-Cube Training, Pokhara", dates: "January 2025" },
     { src: "../image/gallery/mhm.jpg", title: "Multi Hazard Mapping Training", dates: "November 2024" },
     { src: "../image/gallery/nyc2024.jpg", title: "NYC Conference 2024", dates: "June 2024" },
     { src: "../image/gallery/marsyangdi_survey.jpeg", title: "Lower Marsyangdi Hydropower Survey", dates: "February 2026" },
+    { src: "../image/gallery/spacecon2026.JPG", title: "SpaceCon 2026", dates: "April 2026" },
   ];
   galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
@@ -430,14 +431,46 @@ document.addEventListener("DOMContentLoaded", () => {
       colDiv.innerHTML = `
         <img src="${item.src}" alt="${item.title}" class="gallery-img">
         <div class="gallery-title">${item.title}</div>
-        <div class="gallery-dates">Date: ${item.dates}</div>
+        <div class="gallery-dates">${item.dates}</div>
       `;
       galleryRow.appendChild(colDiv);
     });
   }
 
-});
 
+
+  // Lightbox functionality
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const closeBtn = document.querySelector(".lightbox-close");
+
+  // Open image
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("gallery-img")) {
+      lightbox.style.display = "block";
+      lightboxImg.src = e.target.src;
+    }
+  });
+
+  // Close button
+  closeBtn.onclick = function () {
+    lightbox.style.display = "none";
+  }
+
+  // Close if clicking outside
+  lightbox.onclick = function (e) {
+    if (e.target === lightbox) {
+      lightbox.style.display = "none";
+    }
+  }
+
+  // Close with ESC
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      lightbox.style.display = "none";
+    }
+  });
+});
 
 
 //  contact form submission
