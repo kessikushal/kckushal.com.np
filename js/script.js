@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       location: "Dhulikhel, Kavrepalanchok, Nepal",
       degree: "Bachelor of Engineering in Geomatics Engineering (B.E.)",
       link: "https://geom.ku.edu.np/",
-      note: "Key Modules: Programming (C)"
+      note: "Key Modules: Programming (C, C++), SketchUp, AutoCad"
     },
     {
       year: "2019 – 2023",
@@ -340,6 +340,8 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Total Station", percentage: 75, color: "#dbce11" },
     { name: "Vite Press", percentage: 90, color: "#04d415" },
     { name: "C", percentage: 40, color: "#e91a13" },
+    { name: "C++", percentage: 40, color: "#e91a13" },
+    { name: "SketchUp", percentage: 40, color: "#e91a13" },
 
   ];
   skillsData.sort((a, b) => a.name.localeCompare(b.name));
@@ -588,3 +590,4 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 // Observe all reveal elements
 reveals.forEach(el => revealObserver.observe(el));
+
