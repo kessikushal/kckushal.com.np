@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
       organization: "Nepal Banepa Polytechnic Institute (NBPI)",
       description: "This is the final year project for my Diploma degree, I utilized UNAVCO to gather control point data, which was then processed. The processed data was visualized using ArcGIS. The project focused on investigating the impact of the Gorkha Earthquake in 2015 on COR Station, specifically identifying the shift of control points caused by the Gorkha Earthquake 2015.",
       tools: "ArcGIS, UNAVCO",
-      // link: "https://antarikchya.org.np/visualization",
+      link: "file/Impacts_on_CORS_of_Nepal_Due_to_Earthquake_2015.pdf",
       image: "image/cors.jpg"
     }
   ];
@@ -239,18 +239,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Duration:</strong> ${p.duration}</p>
                 <p><strong>Description:</strong> ${p.description}</p>
                 <p><strong>Tools:</strong> ${p.tools || "Not specified"}</p>
-                <p><strong>Links:</strong>
-                ${p.link ? p.link.split("|").map(l => {
+                <p><strong>Links:</strong><br>
+                  ${p.link ? p.link.split("|").map(l => {
         const url = l.trim();
-        const u = new URL(url);
-        const displayText = (u.hostname + u.pathname).replace(/^www\./, '');
+
+        let displayText;
+
+        if (url.toLowerCase().endsWith(".pdf")) {
+          const fileName = url.split('/').pop().replace('.pdf', '');
+          displayText = fileName.replace(/_/g, ' ');
+        } else {
+          try { 
+            const u = new URL(url);
+            displayText = u.hostname.replace(/^www\./, '');
+          } catch {
+            displayText = "🔗 Visit Website";
+          }
+        }
+
         return `
-                    <a href="${url}" target="_blank" rel="noopener noreferrer"
-                      class="d-block mb-1 text-primary">
-                      ${displayText}
-                    </a>`;
+                      <a href="${url}" target="_blank" rel="noopener noreferrer"
+                        class="d-block mb-1 text-primary">
+                        ${displayText}
+                      </a>`;
       }).join("") : "<em>No link available</em>"}
-              </p>
+                  </p>             
               </div>
             </div>
           </div>
@@ -423,6 +436,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/nyc2024.jpg", title: "NYC Conference 2024", dates: "June 2024" },
     { src: "../image/gallery/marsyangdi_survey.jpeg", title: "Lower Marsyangdi Hydropower Survey", dates: "February 2026" },
     { src: "../image/gallery/spacecon2026.jpg", title: "SpaceCon 2026", dates: "April 2026" },
+    { src: "../image/gallery/nepgeom2026.jpg", title: "NepGeom 2026", dates: "June 2026" },
   ];
   galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
