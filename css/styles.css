@@ -10,7 +10,7 @@ html {
 }
 
 /* Navbar styling */
-.navbar-brand {
+/* .navbar-brand {
   color: #1a1b1b !important;
 }
 
@@ -24,15 +24,168 @@ html {
   color: #f50808 !important;
   text-decoration: underline;
   font-weight: bold;
+} */
+
+/* Navbar container */
+.navbar {
+  background-color: rgba(227, 242, 253, 0.85) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 10px 0;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Slightly stronger shadow once page is scrolled (add via JS below) */
+.navbar.scrolled {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Brand */
+.navbar-brand {
+  color: #1a1b1b !important;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+}
+
+.navbar-brand img {
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+/* Nav links */
+.nav-link {
+  position: relative;
+  color: #423c3c !important;
+  margin: 0 18px;
+  font-weight: 500;
+  padding: 6px 2px !important;
+}
+
+/* Animated underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #d8262f;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: #d8262f !important;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Active page indicator (no underline hack, just color) */
+.nav-link.active {
+  color: #d8262f !important;
+  font-weight: 600;
+}
+
+/* Resume link styled as a subtle button */
+.nav-item:last-child .nav-link {
+  border: 1.5px solid #d8262f;
+  border-radius: 20px;
+  padding: 6px 18px !important;
+  margin-left: 6px;
+  color: #d8262f !important;
+}
+
+.nav-item:last-child .nav-link:hover {
+  background-color: #d8262f;
+  color: #fff !important;
+}
+
+.nav-item:last-child .nav-link::after {
+  display: none;
 }
 
 /* Footer styling */
-.footer {
+/* .footer {
   position: relative;
   bottom: 0;
   width: 100%;
   font-size: 1rem;
+} */
+
+
+.footer {
+  position: relative;
+  width: 100%;
+  background-color: #e3f2fd;
+  color: #000;
+  padding: 2.5rem 1rem 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.95rem;
 }
+
+.footer-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.footer p {
+  color: #423c3c;
+}
+
+.footer .fw-bold {
+  color: #1a1b1b;
+  letter-spacing: 0.2px;
+}
+
+/* Social icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #423c3c !important;
+  transition: all 0.25s ease;
+}
+
+.social-icons a:hover {
+  background-color: #d8262f;
+  color: #fff !important;
+  transform: translateY(-3px);
+}
+
+/* Divider before the fine print */
+.footer-divider {
+  width: 60px;
+  height: 2px;
+  background-color: #d8262f;
+  margin: 18px auto;
+  border: none;
+  opacity: 0.6;
+}
+
+.footer .update-note {
+  font-size: 0.85rem;
+  color: #6b6b6b;
+}
+
 
 h1 {
   font-weight: 600;
@@ -158,7 +311,7 @@ button:hover {
 
 
 /* index css*/
-.hero-section {
+/* .hero-section {
   background: url('../../image/spacecon2026.jpg') center center no-repeat;
   background-size: contain;
   height: 90vh;
@@ -168,10 +321,10 @@ button:hover {
   align-items: center;
   text-align: center;
   color: white;
-}
+} */
 
 /* On smaller screens, remove extra space from top/bottom */
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   .hero-section {
     width: 100%;
     height: 85vh;
@@ -190,6 +343,80 @@ button:hover {
 
 .hero-section h1 {
   margin-top: 160px;
+} */
+
+.hero-section {
+  position: relative;
+  background: url('../../image/spacecon2026.jpg') center 20% / cover no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+/* Gradient overlay so text is readable regardless of what's behind it */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 20, 0.55) 0%,
+    rgba(0, 0, 20, 0.25) 40%,
+    rgba(0, 0, 20, 0.75) 100%
+  );
+  z-index: 1;
+}
+
+/* Push actual content above the overlay */
+.hero-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-section h1 {
+  margin-top: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  letter-spacing: -0.5px;
+}
+
+.typing {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  border-right: 2px solid #fff;
+  padding-right: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.hero-section h2:last-of-type {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-size: clamp(0.9rem, 2vw, 1.15rem);
+  margin-top: 20px;
+}
+
+.hero-cta {
+  margin-top: 30px;
+  padding: 12px 32px;
+  border: 2px solid white;
+  border-radius: 50px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.hero-cta:hover {
+  background: white;
+  color: #0a0a2a;
 }
 
 /* skill css */

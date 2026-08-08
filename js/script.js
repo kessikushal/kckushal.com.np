@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       location: "Dhulikhel, Kavrepalanchok, Nepal",
       degree: "Bachelor of Engineering in Geomatics Engineering (B.E.)",
       link: "https://geom.ku.edu.np/",
-      note: "Key Modules: Programming (C, C++), SketchUp, AutoCad"
+      note: "Key Modules: Programming (C, C++), SketchUp, AutoCad, GIS"
     },
     {
       year: "2019 – 2023",
@@ -191,6 +191,16 @@ document.addEventListener("DOMContentLoaded", () => {
       tools: "ArcGIS, UNAVCO",
       link: "file/Impacts_on_CORS_of_Nepal_Due_to_Earthquake_2015.pdf",
       image: "image/cors.jpg"
+    },
+    {
+      id: "project7",
+      title: "KU CAFE 3D Model",
+      duration: "June 2026 – July 2026",
+      organization: "Kathmandu University (KU)",
+      description: "This is the first year, second semester project for my Bachelor's degree. Working with a team, I helped document the architectural features of KU Cafe through field measurements and site observation, then translated those measurements into scaled drawings in AutoCAD and a detailed 3D model in SketchUp, with ArcGIS Pro used to map the site's spatial context. The digital model guided the fabrication of a presentation-ready physical scale prototype, complete with the surrounding pathways, roads and seating spaces.",
+      tools: "ArcGIS Pro, AutoCAD, SketchUP",
+      link: "file/KU_Cafe_Report.pdf",
+      image: "image/cafe_3D_model.jpg"
     }
   ];
 
@@ -437,6 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { src: "../image/gallery/marsyangdi_survey.jpeg", title: "Lower Marsyangdi Hydropower Survey", dates: "February 2026" },
     { src: "../image/gallery/spacecon2026.jpg", title: "SpaceCon 2026", dates: "April 2026" },
     { src: "../image/gallery/nepgeom2026.jpg", title: "NepGeom 2026", dates: "June 2026" },
+    { src: "../image/gallery/3dmodeldefence.jpg", title: "3D model Defense", dates: "August 2026" },
   ];
   galleryData.sort((a, b) => new Date(b.dates) - new Date(a.dates));
   const galleryRow = document.getElementById("gallery-row");
