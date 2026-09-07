@@ -201,6 +201,16 @@ document.addEventListener("DOMContentLoaded", () => {
       tools: "ArcGIS Pro, AutoCAD, SketchUP",
       link: "file/KU_Cafe_Report.pdf",
       image: "image/cafe_3D_model.jpg"
+    }, 
+    {
+      id: "project8",
+      title: "Geospatial Analysis using GEE",
+      duration: "June 2024 – Present",
+      organization: "Independent Geospatial & Remote Sensing Project",
+      description: "Developed a personal Google Earth Engine application to build practical skills in satellite remote sensing and geospatial analysis. The application integrates landsat, Sentinel-2 and Sentinel-5P datasets for NDVI, LULC, air quality and environmental analysis, with interactive date and dataset selection, split-panel comparison, layer controls, and map-based visualization. This project strengthened my skills in GEE JavaScript, satellite image processing, remote sensing indices, classification and interactive geospatial application development.",
+      tools: "Google Earth Engine",
+      link: "https://kessikushal.users.earthengine.app/",
+      image: "image/GEE_App.jpg"
     }
   ];
 
