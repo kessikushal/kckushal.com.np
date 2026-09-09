@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
       link: "https://antarikchya.org.np/"
     },
     {
-      date: "June 2023 – July 2023",
+      date: "May 2023 – June 2023",
       organization: "NAXA",
       location: "Shantinagar, Kathmandu, Nepal",
       role: "GIS Analyst",
