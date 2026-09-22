@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mapping Water Resources and Irrigation Projects</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-measure/dist/leaflet-measure.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-measure/dist/leaflet-measure.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ================= SIDE PANEL STYLING ================= */
+        #side-panel {
+            width: 320px;
+            height: 100vh;
+            background: #f8f9fa;
+            border-right: 2px solid #ddd;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            position: relative;
+        }
+
+        #side-panel.collapsed {
+            margin-left: -320px;
+        }
+
+        #toggle-btn {
+            position: absolute;
+            top: 20px;
+            left: 275px;
+            z-index: 1002;
+            background: #004085;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 0 5px 5px 0;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #side-panel.collapsed+#toggle-btn {
+            left: 0;
+        }
+
+        .panel-header {
+            padding: 10px;
+            background: #fff;
+            border-bottom: 3px solid #004085;
+        }
+
+        .panel-header h2 {
+            color: #004085;
+            font-size: 1.05rem;
+            margin: 0;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .filter-section {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .filter-section h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .filter-section p {
+            font-size: 0.8rem;
+            margin-bottom: 3px;
+            color: #333;
+        }
+
+        .checkbox-group {
+            max-height: 180px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ced4da;
+            padding: 8x;
+            border-radius: 4px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+
+        .btn-container {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        .btn-apply {
+            background: #004085;
+        }
+
+        .btn-clear {
+            background: #6c757d;
+        }
+
+        button.action-btn:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        button.btn-apply.active {
+            background: #28a745 !important;
+        }
+
+        button.btn-clear.active {
+            background: #dc3545 !important;
+        }
+
+        /* ================= LEGEND STYLING ================= */
+        .legend-section {
+            padding: 15px;
+            background: #fff;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+
+        .legend-icon {
+            width: 14px;
+            height: 14px;
+            margin-right: 10px;
+            display: inline-block;
+            border: 1px solid #333;
+        }
+
+        /* Circle Icons */
+        .circle {
+            border-radius: 50%;
+        }
+
+        /* Star Icons (matches your map style) */
+        .star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            border: none;
+        }
+
+        /* Line Icons */
+        .line {
+            height: 3px;
+            border: none;
+        }
+
+        /* ================= ATTRIBUTE TABLE STYLING ================= */
+        #attribute-container {
+            position: absolute;
+            top: 20px;
+            left: 55%;
+            /* Adjusted for side panel offset */
+            transform: translateX(-50%);
+            width: 400px;
+            max-height: 250px;
+            background: white;
+            z-index: 2000;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            /* Hidden by default */
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+
+        .attr-header {
+            background: #004085;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .attr-close {
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .attr-body {
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .attr-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+        }
+
+        .attr-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .attr-table td {
+            padding: 6px;
+            vertical-align: top;
+        }
+
+        .attr-key {
+            font-weight: bold;
+            color: #555;
+            width: 40%;
+        }
+
+        /* ================= MAP STYLING ================= */
+        #map {
+            flex-grow: 1;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .leaflet-right .leaflet-control {
+            margin-right: 10px;
+        }
+
+        .custom-cluster-icon {
+            background: none !important;
+            border: none !important;
+        }
+
+        .cluster-inner {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+            border: 2px solid white;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .cluster-circle {
+            border-radius: 50%;
+        }
+
+        .cluster-star,
+        .individual-star-icon {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .cluster-inner span {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0px 4px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .individual-star-icon {
+            width: 17px !important;
+            height: 17px !important;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="side-panel">
+        <div class="panel-header">
+            <h2>Mapping Water Resources and Irrigation Projects</h2>
+        </div>
+        <div class="filter-section">
+            <h3>Blocking Issues</h3>
+            <p>Issue Type</p>
+            <div class="checkbox-group" id="blocking-filters">
+                <label class="checkbox-item"><input type="checkbox" value="Utility"> Utility</label>
+                <label class="checkbox-item"><input type="checkbox" value="Other"> Other</label>
+                <label class="checkbox-item"><input type="checkbox" value="Land acquisition"> Land acquisition</label>
+                <label class="checkbox-item"><input type="checkbox" value="Forest"> Forest</label>
+                <label class="checkbox-item"><input type="checkbox" value="Contractor issue"> Contractor issue</label>
+                <label class="checkbox-item"><input type="checkbox" value="Conservation area"> Conservation area</label>
+                <label class="checkbox-item"><input type="checkbox" value="Community dispute"> Community dispute</label>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h3>Rehabilitaon & Maintenance</h3>
+            <p>Defect Type</p>
+            <div class="checkbox-group" id="rehab-filters">
+                <label class="checkbox-item"><input type="checkbox" value="Blockage"> Blockage</label>
+                <label class="checkbox-item"><input type="checkbox" value="Crack"> Crack</label>
+                <label class="checkbox-item"><input type="checkbox" value="Leakage"> Leakage</label>
+                <label class="checkbox-item"><input type="checkbox" value="Other"> Other</label>
+                <label class="checkbox-item"><input type="checkbox" value="Settlement"> Settlement</label>
+            </div>
+            <div class="btn-container">
+                <button class="action-btn btn-apply" onclick="applyFilters()">OK</button>
+                <button class="action-btn btn-clear" onclick="clearFilters()">Remove Query</button>
+            </div>
+        </div>
+        <div class="filter-section legend-section">
+            <h3>Map Legend</h3>
+
+            <p><strong>Blocking Issues (Severity)</strong></p>
+            <div class="legend-item"><span class="legend-icon circle" style="background: #f01f16;"></span> High</div>
+            <div class="legend-item"><span class="legend-icon circle" style="background: #e8f30d;"></span> Medium</div>
+            <div class="legend-item"><span class="legend-icon circle" style="background: #12f520;"></span> Low</div>
+
+            <hr>
+
+            <p><strong>Rehab Projects (Defects)</strong></p>
+            <div class="legend-item"><span class="legend-icon star" style="background: #f01f16;"></span> Severe</div>
+            <div class="legend-item"><span class="legend-icon star" style="background: #e8f30d;"></span> Medium</div>
+
+            <hr>
+
+            <p><strong>Infrastructure & Boundaries</strong></p>
+            <div class="legend-item"><span class="legend-icon circle" style="background: #becf50;"></span> Headworks
+            </div>
+            <div class="legend-item"><span class="legend-icon line" style="background: #d5b43c;"></span> Canal</div>
+            <div class="legend-item"><span class="legend-icon"
+                    style="background: rgba(140, 90, 153, 0.6); border: 1px solid black;"></span> Command Area</div>
+
+            <p><strong>Contract Status</strong></p>
+            <div class="legend-item"><span class="legend-icon line" style="background: #68f40a;"></span> Active</div>
+            <div class="legend-item"><span class="legend-icon line" style="background: #ebe518;"></span> Delayed</div>
+            <div class="legend-item"><span class="legend-icon line" style="background: #fc380b;"></span> Stressed</div>
+        </div>
+    </div>
+
+
+    <button id="toggle-btn" onclick="togglePanel()">&#9776;</button>
+
+    <div id="attribute-container">
+        <div class="attr-header">
+            <span>Feature Data <small style="font-weight:normal; opacity:0.8;">(Esc to exit)</small></span>
+            <span class="attr-close" onclick="closeAttributes()">&times;</span>
+        </div>
+        <div class="attr-body" id="attr-content">
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+        function togglePanel() {
+            document.getElementById('side-panel').classList.toggle('collapsed');
+            setTimeout(function () {
+                map.invalidateSize();
+            }, 300);
+        }
+
+        // Initialize Map
+        var map = L.map('map', {
+            zoomControl: false
+        }).setView([28.3949, 84.1240], 7);
+
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        var esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+        }).addTo(map);
+
+        var satellite = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        });
+
+        var rawData = { blocking: null, rehab: null };
+
+        // ================= ATTRIBUTE LOGIC =================
+        function showAttributes(e) {
+            // e.target is the individual feature. e.target.feature.properties has the data.
+            var props = e.target.feature.properties;
+            var content = '<table class="attr-table">';
+            for (var key in props) {
+                if (props.hasOwnProperty(key)) {
+                    content += `<tr><td class="attr-key">${key}</td><td>${props[key]}</td></tr>`;
+                }
+            }
+            content += '</table>';
+
+            document.getElementById('attr-content').innerHTML = content;
+            document.getElementById('attribute-container').style.display = 'flex';
+            document.addEventListener('keydown', function (event) {
+                if (event.key === "Escape") {
+                    closeAttributes();
+                }
+            });
+        }
+
+        function closeAttributes() {
+            document.getElementById('attribute-container').style.display = 'none';
+        }
+
+        // ================= CLUSTER LOGIC =================
+        function createPieCluster(cluster, shapeClass, isRehab = false) {
+            var markers = cluster.getAllChildMarkers();
+            var n = markers.length;
+            var counts = { high: 0, med: 0, low: 0 };
+            markers.forEach(m => {
+                var props = m.feature.properties;
+                var sev = props.Severity || props.defect_sev || 'Medium';
+                if (sev === 'High' || sev === 'Severe') counts.high++;
+                else if (sev === 'Medium' || sev === 'Delayed') counts.med++;
+                else counts.low++;
+            });
+            var gradient;
+            if (isRehab) {
+                var redPercent = (counts.high / n) * 100;
+                gradient = `background: conic-gradient(#f01f16 0% ${redPercent}%, #e8f30d ${redPercent}% 100%);`;
+            } else {
+                var s1 = (counts.high / n) * 100;
+                var s2 = ((counts.high + counts.med) / n) * 100;
+                gradient = `background: conic-gradient(#f01f16 0% ${s1}%, #e8f30d ${s1}% ${s2}%, #12f520 ${s2}% 100%);`;
+            }
+            return L.divIcon({
+                html: `<div class="cluster-inner ${shapeClass}" style="${gradient}"><span>${n}</span></div>`,
+                className: 'custom-cluster-icon', iconSize: L.point(32, 32)
+            });
+        }
+
+        var clusterOptions = { disableClusteringAtZoom: 16, spiderfyOnMaxZoom: true, zoomToBoundsOnClick: true };
+        var blockingClusters = L.markerClusterGroup({ ...clusterOptions, iconCreateFunction: c => createPieCluster(c, 'cluster-circle', false) });
+        var rehabClusters = L.markerClusterGroup({ ...clusterOptions, iconCreateFunction: c => createPieCluster(c, 'cluster-star', true) });
+        var headworksClusters = L.markerClusterGroup(clusterOptions);
+        var nepalBoundary = L.layerGroup().addTo(map);
+
+        function styleBlocking(f, l) {
+            var layer = L.circleMarker(l, {
+                radius: 6,
+                fillColor: f.properties.Severity === 'High' ? '#f01f16' : f.properties.Severity === 'Medium' ? '#e8f30d' : '#12f520',
+                color: 'black', weight: 1, fillOpacity: 1
+            });
+            layer.on('click', showAttributes); // ATTACH CLICK
+            return layer;
+        }
+
+        function styleRehab(f, l) {
+            var color = f.properties.defect_sev === 'Severe' ? '#f01f16' : '#e8f30d';
+            var layer = L.marker(l, {
+                icon: L.divIcon({
+                    className: 'individual-star-icon',
+                    html: `<div style="width:100%; height:100%; background-color:${color};"></div>`,
+                    iconSize: [17, 17], iconAnchor: [8, 8]
+                })
+            });
+            layer.on('click', showAttributes); // ATTACH CLICK
+            return layer;
+        }
+
+        function applyFilters() {
+            var blockCheckboxes = document.querySelectorAll('#blocking-filters input:checked');
+            var rehabCheckboxes = document.querySelectorAll('#rehab-filters input:checked');
+            var blockSelected = Array.from(blockCheckboxes).map(i => i.value);
+            var rehabSelected = Array.from(rehabCheckboxes).map(i => i.value);
+
+            var applyBtns = document.querySelectorAll('.btn-apply');
+            var clearBtns = document.querySelectorAll('.btn-clear');
+
+            if (blockSelected.length > 0 || rehabSelected.length > 0) {
+                applyBtns.forEach(btn => btn.classList.add('active'));
+                clearBtns.forEach(btn => btn.classList.add('active'));
+            } else {
+                applyBtns.forEach(btn => btn.classList.remove('active'));
+                clearBtns.forEach(btn => btn.classList.remove('active'));
+            }
+
+            if (rawData.blocking) {
+                blockingClusters.clearLayers();
+                blockingClusters.addLayer(L.geoJSON(rawData.blocking, {
+                    filter: f => blockSelected.length === 0 || blockSelected.includes(f.properties.Issue_type),
+                    pointToLayer: styleBlocking
+                }));
+            }
+            if (rawData.rehab) {
+                rehabClusters.clearLayers();
+                rehabClusters.addLayer(L.geoJSON(rawData.rehab, {
+                    filter: f => rehabSelected.length === 0 || rehabSelected.includes(f.properties.defect_typ),
+                    pointToLayer: styleRehab
+                }));
+            }
+        }
+
+        function clearFilters() {
+            // 1. Select all checkboxes within any element containing '-filters'
+            var allCheckboxes = document.querySelectorAll('[id$="-filters"] input');
+
+            allCheckboxes.forEach(i => {
+                i.checked = false;
+            });
+
+            // 2. Close the attribute table to clean up the UI
+            closeAttributes();
+
+            // 3. Refresh the map and reset button colors (Active -> Default)
+            applyFilters();
+        }
+
+        // ================= DATA LOADING =================
+        fetch('./data/nepal.geojson').then(res => res.json()).then(data => {
+            var geo = L.geoJSON(data, { style: { fillColor: 'transparent', color: '#232323', weight: 1.2 } });
+            nepalBoundary.addLayer(geo);
+        });
+        fetch('./data/blocking_issues.geojson').then(res => res.json()).then(data => {
+            rawData.blocking = data;
+            blockingClusters.addLayer(L.geoJSON(data, { pointToLayer: styleBlocking }));
+        });
+        fetch('./data/rehab_projects.geojson').then(res => res.json()).then(data => {
+            rawData.rehab = data;
+            rehabClusters.addLayer(L.geoJSON(data, { pointToLayer: styleRehab }));
+        });
+        fetch('./data/headworks.geojson').then(res => res.json()).then(data => {
+            headworksClusters.addLayer(L.geoJSON(data, {
+                pointToLayer: (f, l) => {
+                    var m = L.circleMarker(l, { radius: 5, fillColor: '#becf50', color: 'black', weight: 1, fillOpacity: 1 });
+                    m.on('click', showAttributes);
+                    return m;
+                }
+            }));
+        });
+
+        var contract = L.geoJSON(null, {
+            style: f => ({ color: f.properties.status === 'Delayed' ? '#ebe518' : f.properties.status === 'Stressed' ? '#fc380b' : '#68f40a', weight: 4, opacity: 1 }),
+            onEachFeature: (f, l) => l.on('click', showAttributes)
+        });
+        fetch('./data/contract_segments.geojson').then(res => res.json()).then(data => contract.addData(data));
+
+        var canal = L.geoJSON(null, {
+            style: { color: '#d5b43c', weight: 1.6, opacity: 1 },
+            onEachFeature: (f, l) => l.on('click', showAttributes)
+        });
+        fetch('./data/canal.geojson').then(res => res.json()).then(data => canal.addData(data));
+
+        var command = L.geoJSON(null, {
+            style: { color: 'black', fillColor: '#8c5a99', weight: 0.5, fillOpacity: 0.8 },
+            onEachFeature: (f, l) => l.on('click', showAttributes)
+        });
+        fetch('./data/command_area.geojson').then(res => res.json()).then(data => command.addData(data));
+
+        L.control.layers(
+            {
+                "Topo": esriTopo,
+                "Satellite": satellite
+            },
+            {
+                "Blocking Issues": blockingClusters,
+                "Rehab Projects": rehabClusters,
+                "Headworks": headworksClusters,
+                "Contract Segments": contract,
+                "Canal": canal,
+                "Command Area": command,
+                "Nepal Boundary": nepalBoundary,
+            }
+        ).addTo(map);
+
+        L.Control.geocoder().addTo(map);
+        // L.control.measure({ primaryLengthUnit: 'kilometers', primaryAreaUnit: 'hectares' }).addTo(map);
+    </script>
+</body>
+
+</html>
