@@ -9,29 +9,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Navbar styling */
-/* .navbar-brand {
-  color: #1a1b1b !important;
-}
-
-.nav-link {
-  color: #423c3c !important;
-  margin: 0 30px;
-  transition: color 0.3s ease;
-}
-
-.nav-link:hover {
-  color: #f50808 !important;
-  text-decoration: underline;
-  font-weight: bold;
-} */
 
 /* Navbar container */
 .navbar {
   background-color: rgba(227, 242, 253, 0.85) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);  
   -webkit-backdrop-filter: blur(10px);
-  padding: 10px 0;
+  padding: 7px 0;
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
@@ -44,7 +28,7 @@ html {
 .navbar-brand {
   color: #1a1b1b !important;
   font-size: 1.1rem;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.8px;
 }
 
 .navbar-brand img {
@@ -53,16 +37,16 @@ html {
 }
 
 .navbar-brand:hover img {
-  transform: scale(1.08) rotate(-4deg);
+  transform: scale(1.15) rotate(10deg);
 }
 
 /* Nav links */
 .nav-link {
   position: relative;
   color: #423c3c !important;
-  margin: 0 18px;
+  margin: 0 40px;
   font-weight: 500;
-  padding: 6px 2px !important;
+  padding: 4px 2px !important;
 }
 
 /* Animated underline */
@@ -98,8 +82,8 @@ html {
 .nav-item:last-child .nav-link {
   border: 1.5px solid #d8262f;
   border-radius: 20px;
-  padding: 6px 18px !important;
-  margin-left: 6px;
+  padding: 2px 11px !important;
+  /* margin-left:   10px; */
   color: #d8262f !important;
 }
 
@@ -301,8 +285,9 @@ button:hover {
 
 .clamp-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;  
   line-height: 1.5;
