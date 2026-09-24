@@ -380,10 +380,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <!-- <a href="${pub.link}" target="_blank" class="text-resetfw-semibold ieee-link text-decoration-underline">Read paper on IEEE ...</a>--!>
       </div>
     `;
-
       row.appendChild(col);
     });
-
     publicationsBox.appendChild(row);
   }
 
