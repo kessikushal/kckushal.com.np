@@ -121,7 +121,7 @@
     .sidebar-section {
       margin-bottom: 10px;
       padding: 5px;
-      background: #f8f9fa;  
+      background: #f8f9fa;
       border-radius: 8px;
     }
 
@@ -338,10 +338,10 @@
   <button id="sidebar-toggle" class="hidden" title="Toggle Menu">☰</button>
   <div id="sidebar" class="open">
     <div id="sidebar-header">
-    <div id="sidebar-title">
-  <img src="./image/APN.png" alt="APN" style="width: 25px; height: 25px; object-fit: contain;">
-  BhoteKoshi Flood Analysis
-</div>
+      <div id="sidebar-title">
+        <img src="./image/APN.png" alt="APN" style="width: 25px; height: 25px; object-fit: contain;">
+        BhoteKoshi Flood Analysis
+      </div>
       <button id="sidebar-close">✕</button>
     </div>
 
@@ -366,14 +366,14 @@
     </div>
 
     <div class="sidebar-section" id="layer-section">
-      <h4>Vector Layers</h4>
+      <h4>📚 Vector Layers</h4>
       <label>
         <input type="checkbox" id="all-vectors-checkbox" checked />
         <strong>Turn ON/OFF all Layers</strong>
       </label>
       <label>
-        <input type="checkbox" id="flood-area-checkbox"   checked />
-        <span class="color-box" style="background-color: #1e47ea;"></span>
+        <input type="checkbox" id="flood-area-checkbox" checked />
+        <span class="color-box" style="background-color: #3c5bd978;"></span>
         Flood Extent
       </label>
       <label>
@@ -405,7 +405,16 @@
         <span class="color-box" style="background-color: #e26a4f;"></span>
         Affected Local Levels / Wards
       </label>
-        
+
+      <!-- Damaged Roads -->
+      <label class="layer-item">
+        <input type="checkbox" id="road_damage-checkbox" checked>
+        <span style="  display:inline-flex;   width:16px;  height:14px;  margin-right:6px; align-items:center;  justify-content:center; ">
+          <span style=" display:inline-block; width:15px; height:3px; background:#ff0000; border-radius:2px; ">
+          </span>
+        </span>
+        Damaged Roads
+      </label>
       <label>
         <input type="checkbox" id="bridges-checkbox" unchecked />
         <span
@@ -418,8 +427,21 @@
         </span>
         Bridges
       </label>
+
       <label>
-        <input type="checkbox" id="holding-centers-checkbox" unchecked />
+        <input type="checkbox" id="bridges_damage-checkbox" checked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="12" viewBox="0 0 20 14" aria-hidden="true">
+            <path d="M3 8h14" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
+            <path d="M5 8c1.4-2.2 3-3.2 5-3.2S13.6 5.8 15 8" fill="none" stroke="#ff0000" stroke-width="1.6"
+              stroke-linecap="round" />
+          </svg>
+        </span>
+        Damaged Bridges
+      </label>
+      <label>
+        <input type="checkbox" id="holding-centers-checkbox" checked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -430,7 +452,7 @@
         Holding Centers
       </label>
       <label>
-        <input type="checkbox" id="hydropower-checkbox" checked />
+        <input type="checkbox" id="hydropower-checkbox" unchecked />
         <span class="color-box" style="background-color: #9b51e0;"></span>
         Hydropowers
       </label>
@@ -440,7 +462,7 @@
         Affected Buildings
       </label>
       <label>
-        <input type="checkbox" id="ntc-towers-checkbox" unchecked />
+        <input type="checkbox" id="ntc-towers-checkbox" checked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -455,7 +477,7 @@
         NTC Towers
       </label>
       <label>
-        <input type="checkbox" id="ncell-towers-checkbox" unchecked />
+        <input type="checkbox" id="ncell-towers-checkbox" checked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -510,7 +532,7 @@
         Banks
       </label>
       <label>
-        <input type="checkbox" id="medical-checkbox" checked />
+        <input type="checkbox" id="medical-checkbox" unchecked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -586,9 +608,11 @@
       <h4>Data Source</h4>
       <p style="margin: 0; font-size: 13px; line-height: 1.7;">
         Admistrative Boundary: National Geoportal<br />
-        Building, Bridges, Tower, Bank, Petrol pump, Hydropower, Medicals: OSM<br />
-        Flooded Extend: ..<br />
-        Population:Meta, WorldPop<br />
+        Buildings = OSM, Google, Microsoft<br /> 
+        Flooded Extend = UNOSAT<br />
+        Towers = From Itself<br />
+        Population = Meta, WorldPop<br />
+        Banks, Bridge, Hydropower, Medical, Petrol Pump = Self From Google Maps<br />
       </p>
     </div>
 
@@ -710,6 +734,8 @@
       lake3: "vector/lake3_sen_sep08.geojson",
       affectedWards: "vector/affected_GaPaNaPa.geojson",
       bridges: "vector/bridge_fhsmo_apn.geojson",
+      bridges_damage: "vector/bridges_damage.geojson",
+      road_damage: "vector/Road_Damage.geojson",
       holdingCenters: "vector/HC.geojson",
       hydropower: "vector/Hydropower_Status.geojson",
       buildings: "vector/affected_buildings_Gheight.geojson",
@@ -762,6 +788,8 @@
       "holding-centers-layer",
       "bridges-point-layer",
       "bridges-layer",
+      "bridges_damage-point-layer",
+      "road_damage-layer",
       "hydropower-point-layer",
       "hydropower-line-layer",
       "hydropower-fill-layer",
@@ -774,6 +802,8 @@
       "lake3-checkbox",
       "affected-wards-checkbox",
       "bridges-checkbox",
+      "bridges_damage-checkbox",
+      "road_damage-checkbox",
       "holding-centers-checkbox",
       "hydropower-checkbox",
       "buildings-checkbox",
@@ -799,6 +829,14 @@
         <path d="M7 11v2M10 11v2M13 11v2" stroke="#000000" stroke-width="1.2" stroke-linecap="round" />
       </svg>
     `.trim();
+
+    const damagedBridgePointIconSvg = ` 
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+        <path d="M3 11h14" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
+        <path d="M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2" fill="none" stroke="#ff0000" stroke-width="1.7" stroke-linecap="round" />
+        <path d="M7 11v2M10 11v2M13 11v2" stroke="#ff0000" stroke-width="1.2" stroke-linecap="round" />
+      </svg>
+      `.trim();
 
     const ntcTowerTriangleSvg = `
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
@@ -1528,6 +1566,91 @@
         });
       }
 
+      // DAMAGED BRIDGES
+
+      if (!map.getSource("bridges_damage")) {
+        map.addSource("bridges_damage", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+
+      await loadGeoJSONSafe(
+        "bridges_damage",
+        vectorFiles.bridges_damage
+      );
+
+
+      // ------------------------------
+      // Damaged bridge POINT layer
+      // ------------------------------
+
+      if (!map.getLayer("bridges_damage-point-layer")) {
+
+        await ensureSvgIcon(
+          "damaged-bridge-point-icon",
+          damagedBridgePointIconSvg
+        );
+
+        map.addLayer({
+          id: "bridges_damage-point-layer",
+          type: "symbol",
+          source: "bridges_damage",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["Point", "MultiPoint"]]
+          ],
+
+          layout: {
+            "icon-image": "damaged-bridge-point-icon",
+            "icon-size": 0.9,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none"
+          }
+        });
+      }
+
+      // DAMAGED ROADS
+
+      if (!map.getSource("road_damage")) {
+        map.addSource("road_damage", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+      await loadGeoJSONSafe(
+        "road_damage",
+        vectorFiles.road_damage
+      );
+      // Damaged road LINE layer
+      if (!map.getLayer("road_damage-layer")) {
+
+        map.addLayer({
+          id: "road_damage-layer",
+          type: "line",
+          source: "road_damage",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["LineString", "MultiLineString"]]
+          ],
+
+          paint: {
+            "line-color": "#ff0000",
+            "line-width": 2,
+            "line-opacity": 1
+          },
+
+          layout: {
+            visibility: "none"
+          }
+        });
+      }
+
       if (!map.getSource("bridges")) {
         map.addSource("bridges", {
           type: "geojson",
@@ -2007,6 +2130,8 @@
       const floodVisible = document.getElementById("flood-area-checkbox").checked ? "visible" : "none";
       const affectedWardsVisible = document.getElementById("affected-wards-checkbox").checked ? "visible" : "none";
       const bridgesVisible = document.getElementById("bridges-checkbox").checked ? "visible" : "none";
+      const damagedBridgesVisible = document.getElementById("bridges_damage-checkbox").checked ? "visible" : "none";
+      const damagedRoadsVisible = document.getElementById("road_damage-checkbox").checked ? "visible" : "none";
       const holdingCentersVisible = document.getElementById("holding-centers-checkbox").checked ? "visible" : "none";
       const hydropowerVisible = document.getElementById("hydropower-checkbox").checked ? "visible" : "none";
       const buildingsVisible = document.getElementById("buildings-checkbox").checked ? "visible" : "none";
@@ -2042,6 +2167,22 @@
       }
       if (map.getLayer("bridges-point-layer")) {
         map.setLayoutProperty("bridges-point-layer", "visibility", bridgesVisible);
+      }
+      // Damaged bridges
+      if (map.getLayer("bridges_damage-point-layer")) {
+        map.setLayoutProperty(
+          "bridges_damage-point-layer",
+          "visibility",
+          damagedBridgesVisible
+        );
+      }
+      // Damaged roads
+      if (map.getLayer("road_damage-layer")) {
+        map.setLayoutProperty(
+          "road_damage-layer",
+          "visibility",
+          damagedRoadsVisible
+        );
       }
       if (map.getLayer("holding-centers-layer")) {
         map.setLayoutProperty("holding-centers-layer", "visibility", holdingCentersVisible);
@@ -2339,6 +2480,15 @@
       bindAffectedWardsHover();
       bindLayerPopup("bridges-layer", "Bridge");
       bindLayerPopup("bridges-point-layer", "Bridge");
+      bindLayerPopup(
+        "bridges_damage-point-layer",
+        "Damaged Bridge"
+      );
+
+      bindLayerPopup(
+        "road_damage-layer",
+        "Damaged Road"
+      );
       bindLayerPopup("holding-centers-layer", "Holding Center");
       bindLayerPopup("ntc-towers-layer", "NTC Tower");
       bindLayerPopup("ncell-towers-layer", "Ncell Tower");
@@ -2427,9 +2577,7 @@
         }
       });
     });
-
     // for cluster
-    
   </script>
 </body>
 
