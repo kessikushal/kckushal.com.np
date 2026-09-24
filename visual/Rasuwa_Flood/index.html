@@ -89,7 +89,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       padding-bottom: 3px;
       border-bottom: 2px solid #eee;
     }
@@ -119,7 +119,7 @@
     }
 
     .sidebar-section {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       padding: 5px;
       background: #f8f9fa;
       border-radius: 8px;
@@ -130,13 +130,13 @@
       color: #2c3e50;
       font-size: 15px;
       border-bottom: 1px solid #dee2e6;
-      padding-bottom: 8px;
+      padding-bottom: 3px;
     }
 
     .sidebar-section label {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
       cursor: pointer;
       font-size: 14px;
       color: #333;
@@ -409,7 +409,8 @@
       <!-- Damaged Roads -->
       <label class="layer-item">
         <input type="checkbox" id="road_damage-checkbox" checked>
-        <span style="  display:inline-flex;   width:16px;  height:14px;  margin-right:6px; align-items:center;  justify-content:center; ">
+        <span
+          style="  display:inline-flex;   width:16px;  height:14px;  margin-right:6px; align-items:center;  justify-content:center; ">
           <span style=" display:inline-block; width:15px; height:3px; background:#ff0000; border-radius:2px; ">
           </span>
         </span>
@@ -587,44 +588,45 @@
 
     <div class="sidebar-section" id="description-section">
       <h4>Event Description</h4>
-      <p style="margin: 0; font-size: 13px; line-height: 1.6;">
-        This map presents preliminary flood extent information for Rasuwa, Nepal occured on 26 August 2026.
-        The flood extent layer and additional impact layers is being actively updated as new information becomes
-        available for rapid information flow.
-      </p>
+      <p style="margin: 0; font-size: 13px; line-height: 1.6; text-align: justify;">
+        This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major
+        ice–rock, debris flow and flood event of 26 August 2026. It visualizes the affected flood extent, damaged roads
+        and bridges, hydropower infrastructure, settlements and other critical facilities along the Bhote Koshi–Trishuli
+        corridor. The map is being actively updated as new satellite observations, field information and damage
+        assessments become available.</p>
     </div>
 
     <div class="sidebar-section" id="impact-summary-section">
       <h4>Estimated Affected</h4>
-      <p style="margin: 0; font-size: 13px; line-height: 1.7;">
-        Buildings affected: 7210<br />
-        Pop affected: 28840 (building based)<br />
-        Population affected: 1917 (Meta)<br />
-        Population affected: 2613 (WorldPop)
-      </p>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Buildings affected: 7,210</li>
+        <li>Population affected: 28,840 (building based)</li>
+        <li>Population affected: 1,917 (Meta)</li>
+        <li>Population affected: 2,613 (WorldPop)</li>
+      </ul>
     </div>
+
 
     <div class="sidebar-section" id="source-section">
       <h4>Data Source</h4>
-      <p style="margin: 0; font-size: 13px; line-height: 1.7;">
-        Admistrative Boundary: National Geoportal<br />
-        Buildings = OSM, Google, Microsoft<br /> 
-        Flooded Extend = UNOSAT<br />
-        Towers = From Itself<br />
-        Population = Meta, WorldPop<br />
-        Banks, Bridge, Hydropower, Medical, Petrol Pump = Self From Google Maps<br />
-      </p>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Administrative Boundary: National Geoportal</li>
+        <li>Buildings: OSM, Google, Microsoft</li>
+        <li>Flood Extent: UNOSAT</li>
+        <li>Towers: Self-collected</li>
+        <li>Population: Meta, WorldPop</li>
+        <li>Banks, Bridges, Hydropower, Medical, Petrol Pumps: Self-collected from Google Maps</li>
+      </ul>
     </div>
 
     <div class="sidebar-section" id="prepard-section">
       <h4>Team Member</h4>
-      <p style="margin: 0; font-size: 13px; line-height: 1.7;">
-        Kushal KC<br />
-        Alison Shilpakar<br />
-        Sujan Tyata<br />
-        Risav Shrestha<br />
-        <br />
-      </p>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Kushal KC</li>
+        <li>Alison Shilpakar</li>
+        <li>Sujan Tyata</li>
+        <li>Risav Shrestha</li>
+      </ul>
     </div>
   </div>
 
