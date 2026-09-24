@@ -1,0 +1,33 @@
+{
+"type": "FeatureCollection",
+"name": "petrol_pump",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "lat": 27.98941108, "long": 85.18309867000001, "name": "Betrawati Oil Store" }, "geometry": { "type": "Point", "coordinates": [ 85.18309867, 27.98941108 ] } },
+{ "type": "Feature", "properties": { "lat": 27.96940355, "long": 85.18238957, "name": "Uttargaya Oil Traders Pvt.Ltd" }, "geometry": { "type": "Point", "coordinates": [ 85.18238957, 27.96940355 ] } },
+{ "type": "Feature", "properties": { "lat": 27.92042679, "long": 85.14653229, "name": "Shree Bhandevi Oil store" }, "geometry": { "type": "Point", "coordinates": [ 85.14653229, 27.92042679 ] } },
+{ "type": "Feature", "properties": { "lat": 27.91824348, "long": 85.14393986, "name": null }, "geometry": { "type": "Point", "coordinates": [ 85.14393986, 27.91824348 ] } },
+{ "type": "Feature", "properties": { "lat": 27.90143227, "long": 85.14632343, "name": "Bhairabi Petrol Pump" }, "geometry": { "type": "Point", "coordinates": [ 85.14632343, 27.90143227 ] } },
+{ "type": "Feature", "properties": { "lat": 27.90118261, "long": 85.14624074, "name": "Jagadamba Oil Store" }, "geometry": { "type": "Point", "coordinates": [ 85.14624074, 27.90118261 ] } },
+{ "type": "Feature", "properties": { "lat": 27.87247647, "long": 85.13397241, "name": "Jalapadevi Petrol pump" }, "geometry": { "type": "Point", "coordinates": [ 85.13397241, 27.87247647 ] } },
+{ "type": "Feature", "properties": { "lat": 27.8560847, "long": 85.05991085, "name": "Trisuli oil store" }, "geometry": { "type": "Point", "coordinates": [ 85.05991085, 27.8560847 ] } },
+{ "type": "Feature", "properties": { "lat": 27.80130223, "long": 84.98541217, "name": "Dhading Oil Trade & Distribution" }, "geometry": { "type": "Point", "coordinates": [ 84.98541217, 27.80130223 ] } },
+{ "type": "Feature", "properties": { "lat": 27.79548105, "long": 84.99982531000001, "name": "Nepal oil pump" }, "geometry": { "type": "Point", "coordinates": [ 84.99982531, 27.79548105 ] } },
+{ "type": "Feature", "properties": { "lat": 27.79534106, "long": 84.99976362, "name": "baireni oil store" }, "geometry": { "type": "Point", "coordinates": [ 84.99976362, 27.79534106 ] } },
+{ "type": "Feature", "properties": { "lat": 27.79527366, "long": 84.99894265, "name": "Highway Toilet, Petrol Pump, Galchi" }, "geometry": { "type": "Point", "coordinates": [ 84.99894265, 27.79527366 ] } },
+{ "type": "Feature", "properties": { "lat": 27.80290739, "long": 84.93716292000001, "name": "Highway Toilet, Petrol Pump, Baireni" }, "geometry": { "type": "Point", "coordinates": [ 84.93716292, 27.80290739 ] } },
+{ "type": "Feature", "properties": { "lat": 27.806684, "long": 84.89465175, "name": "Bhimsen Oil Centre भिमसेन आयल सेन्टर" }, "geometry": { "type": "Point", "coordinates": [ 84.89465175, 27.806684 ] } },
+{ "type": "Feature", "properties": { "lat": 27.80772141, "long": 84.85147888, "name": "Highway Toilet, Petrol Pump, Gajuri" }, "geometry": { "type": "Point", "coordinates": [ 84.85147888, 27.80772141 ] } },
+{ "type": "Feature", "properties": { "lat": 27.80768345, "long": 84.85053474, "name": "Bihani Petrol Pump" }, "geometry": { "type": "Point", "coordinates": [ 84.85053474, 27.80768345 ] } },
+{ "type": "Feature", "properties": { "lat": 27.81446823, "long": 84.82811404, "name": "Ambe Oils" }, "geometry": { "type": "Point", "coordinates": [ 84.82811404, 27.81446823 ] } },
+{ "type": "Feature", "properties": { "lat": 27.8120035, "long": 84.81551705, "name": "Ganga Sagar Oil Store" }, "geometry": { "type": "Point", "coordinates": [ 84.81551705, 27.8120035 ] } },
+{ "type": "Feature", "properties": { "lat": 27.81222199, "long": 84.76550651, "name": "bishaltar petrol pump" }, "geometry": { "type": "Point", "coordinates": [ 84.76550651, 27.81222199 ] } },
+{ "type": "Feature", "properties": { "lat": 27.8044616, "long": 84.70718764, "name": "Highway Toilet, Petrol Pump, Jogimari" }, "geometry": { "type": "Point", "coordinates": [ 84.70718764, 27.8044616 ] } },
+{ "type": "Feature", "properties": { "lat": 27.85969271, "long": 84.64429054, "name": "Highway Toilet, Petrol Pump, Chupling" }, "geometry": { "type": "Point", "coordinates": [ 84.64429054, 27.85969271 ] } },
+{ "type": "Feature", "properties": { "lat": 27.8727767, "long": 84.6209247, "name": "Gopyeshwor Oil store" }, "geometry": { "type": "Point", "coordinates": [ 84.6209247, 27.8727767 ] } },
+{ "type": "Feature", "properties": { "lat": 27.86984045, "long": 84.60885371000001, "name": "BABA DHAM TRADERS" }, "geometry": { "type": "Point", "coordinates": [ 84.60885371, 27.86984045 ] } },
+{ "type": "Feature", "properties": { "lat": 27.87287505, "long": 84.60211523, "name": "Prakash Oil Distributers" }, "geometry": { "type": "Point", "coordinates": [ 84.60211523, 27.87287505 ] } },
+{ "type": "Feature", "properties": { "lat": 27.85805814, "long": 84.5632349, "name": "Neel Kamal Oil Store" }, "geometry": { "type": "Point", "coordinates": [ 84.5632349, 27.85805814 ] } },
+{ "type": "Feature", "properties": { "lat": 27.85600926, "long": 84.56001625, "name": "Shanti Sangam Oil Stores" }, "geometry": { "type": "Point", "coordinates": [ 84.56001625, 27.85600926 ] } }
+]
+}

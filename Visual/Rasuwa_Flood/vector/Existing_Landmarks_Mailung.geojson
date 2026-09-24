@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "Existing_Landmarks",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Description": "mathilo Mailun Quarters", "Longitude": 85.202, "latitude": 28.115, "Group": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.202225806000129, 28.115375539196055 ] } },
+{ "type": "Feature", "properties": { "Description": "Mathilo Mailun Headworks", "Longitude": 85.2, "latitude": 28.119, "Group": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.200476926379437, 28.119316676369433 ] } },
+{ "type": "Feature", "properties": { "Description": "Mailung Dovan", "Longitude": 85.208, "latitude": 28.072, "Group": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.208093142876749, 28.071569949076519 ] } },
+{ "type": "Feature", "properties": { "Description": "School", "Longitude": 85.191, "latitude": 28.087, "Group": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.190791376508329, 28.087257988674793 ] } },
+{ "type": "Feature", "properties": { "Description": "Mathilo mailun Powerhouse", "Longitude": 85.196, "latitude": 28.1, "Group": 0 }, "geometry": { "type": "Point", "coordinates": [ 85.195910749482522, 28.099813179050269 ] } }
+]
+}

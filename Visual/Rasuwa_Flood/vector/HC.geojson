@@ -1,0 +1,33 @@
+{
+"type": "FeatureCollection",
+"name": "HC",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Bhairum Secondary School", "Lat": 27.92335055, "Long": 85.13962823, "Name in Map": "Shree Bhairum Higher Secondary School" }, "geometry": { "type": "Point", "coordinates": [ 85.13962823, 27.92335055 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Neelakantha Secondary School", "Lat": 27.9950146, "Long": 85.2246328, "Name in Map": "Nilkantha Namuna Secondary School" }, "geometry": { "type": "Point", "coordinates": [ 85.2246328, 27.9950146 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Himalayan Campus (Kalikastan)", "Lat": 27.99770345, "Long": 85.20430146, "Name in Map": "Shree Kalika Himalaya Campus" }, "geometry": { "type": "Point", "coordinates": [ 85.20430146, 27.99770345 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Ayurveda Alternative Hospital", "Lat": 27.87799719, "Long": 85.12137732, "Name in Map": "Ayurveda and Alternative Hospital, Nuwakot" }, "geometry": { "type": "Point", "coordinates": [ 85.12137732, 27.87799719 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Chandrajyoti Secondary School", "Lat": 27.86842392, "Long": 85.12149741, "Name in Map": "Chandra Jyoti Secondary School" }, "geometry": { "type": "Point", "coordinates": [ 85.12149741, 27.86842392 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Indrayani Basic School", "Lat": 27.94474889, "Long": 85.15795578, "Name in Map": "Shree Indrayani basic school" }, "geometry": { "type": "Point", "coordinates": [ 85.15795578, 27.94474889 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Tribhuvan Secondary School", "Lat": 28.01800572, "Long": 85.17848731, "Name in Map": "Tribhuvan Mabi" }, "geometry": { "type": "Point", "coordinates": [ 85.17848731, 28.01800572 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Khamjing", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Indoor Hall", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Tamang Plaza, Bidur-4, Battar", "Lat": 27.90522216, "Long": 85.14475322, "Name in Map": "Tamang Plaza Agro Resort" }, "geometry": { "type": "Point", "coordinates": [ 85.14475322, 27.90522216 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Sundari Kyaurini Secondary School", "Lat": 27.93833118, "Long": 85.16124856, "Name in Map": "Shree sundari H.S.S" }, "geometry": { "type": "Point", "coordinates": [ 85.16124856, 27.93833118 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Sulakshana Secondary School", "Lat": 27.94774888, "Long": 85.15847327, "Name in Map": "Shree Sulakshana Secondary School" }, "geometry": { "type": "Point", "coordinates": [ 85.15847327, 27.94774888 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Health Post, Bidur-2, Nuwakot Durbar Area", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Trishuli Basic School", "Lat": 27.94604833, "Long": 85.15020699, "Name in Map": "Trishuli primary school" }, "geometry": { "type": "Point", "coordinates": [ 85.15020699, 27.94604833 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Mahadev Secondary School", "Lat": 27.85309627, "Long": 85.06083057, "Name in Map": "?????? ???????? ????????" }, "geometry": { "type": "Point", "coordinates": [ 85.060466424534098, 27.852296493090595 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Karki Manakamana Basic School, Karkigaun", "Lat": 27.98426766, "Long": 85.19300135, "Name in Map": "Shree Karki Manakamana Lower Secondary School Chap Dada" }, "geometry": { "type": "Point", "coordinates": [ 85.19300135, 27.98426766 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Ranabhubaneswari Secondary School / Ward Office", "Lat": 27.86237305, "Long": 85.10781352, "Name in Map": "Ranabhubaneswori Secondary School(RBSS), Bidur -3, Devighat , Nuwakot" }, "geometry": { "type": "Point", "coordinates": [ 85.10781352, 27.86237305 ] } },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Haku", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Dhunche (City Hall Center)", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Ramche (Ramche School)", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Syabrubesi (Syafru School)", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Dadagaun (Nearby School)", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Khaidi Gaun", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Ronga", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Mailung (Hydro Area)", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null },
+{ "type": "Feature", "properties": { "Camp / Facility Name": "Kriya Putri Bhawan", "Lat": null, "Long": null, "Name in Map": null }, "geometry": null }
+]
+}

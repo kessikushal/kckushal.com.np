@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "Substation(Alternatives_based on slope)",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Description": "Trishuli 3B Hub substation", "Longitude": 85.183, "latitude": 28.012, "Group": 2 }, "geometry": { "type": "Point", "coordinates": [ 85.182731497802123, 28.011575810266518 ] } },
+{ "type": "Feature", "properties": { "Description": "Probable Site for Sub Station", "Longitude": 85.184, "latitude": 27.983, "Group": 2 }, "geometry": { "type": "Point", "coordinates": [ 85.183912860535514, 27.982793221472992 ] } },
+{ "type": "Feature", "properties": { "Description": "Probable Site for Sub Station", "Longitude": 85.184, "latitude": 28.017, "Group": 2 }, "geometry": { "type": "Point", "coordinates": [ 85.183685800991512, 28.017459435383472 ] } }
+]
+}

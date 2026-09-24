@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tools: "ArcGIS Pro, AutoCAD, SketchUP",
       link: "file/KU_Cafe_Report.pdf",
       image: "image/cafe_3D_model.jpg"
-    }, 
+    },
     {
       id: "project8",
       title: "Geospatial Analysis using GEE",
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const fileName = url.split('/').pop().replace('.pdf', '');
           displayText = fileName.replace(/_/g, ' ');
         } else {
-          try { 
+          try {
             const u = new URL(url);
             displayText = u.hostname.replace(/^www\./, '');
           } catch {
@@ -289,6 +289,44 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
+    });
+  }
+
+  // ---------------- Visual Section ----------------
+  const visual = [
+    {
+      id: "visual1",
+      event: "Rasuwa Flood",
+      Date: "26-August, 2026",
+      description:
+        "GLOF",
+      link: "./visual/Rasuwa_Flood/index.html",
+      image: "./image/sdap.png" 
+    }
+  ];
+
+  const visualContainer = document.getElementById("visual-container");
+  if (visualContainer) {
+    visual.forEach(p => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+
+      const imgTag = p.image
+        ? `<img src="${p.image}" alt="${p.event}" class="project-img mb-2">`
+        : "";
+
+      col.innerHTML = `
+      <div class="project-card h-100 p-0 shadow-sm border rounded-4">
+        ${imgTag}
+        <div class="p-3">
+          <h5 class="fw-bold">${p.event}</h5>
+          <p class="text-muted small mb-0">${p.Date}</p>
+          <p class="clamp-3">${p.description}</p>
+          <a href="${p.link}"target="_blank"class="text-resetfw-semibold ieee-link  text-decoration-underline">Map</a>
+        </div>  
+      </div>
+    `;
+      visualContainer.appendChild(col);
     });
   }
 
