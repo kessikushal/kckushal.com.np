@@ -299,9 +299,9 @@ document.addEventListener("DOMContentLoaded", () => {
       event: "Rasuwa Flood",
       Date: "26-August, 2026",
       description:
-        "GLOF",
+        "This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major debris flow and flood event of 26 August 2026.",
       link: "./visual/Rasuwa_Flood/index.html",
-      image: "./image/sdap.png" 
+      image: "./image/rasuwa_flood.jpg" 
     }
   ];
 
@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <h5 class="fw-bold">${p.event}</h5>
           <p class="text-muted small mb-0">${p.Date}</p>
           <p class="clamp-3">${p.description}</p>
-          <a href="${p.link}"target="_blank"class="text-resetfw-semibold ieee-link  text-decoration-underline">Map</a>
+          <a href="${p.link}"target="_blank"class="text-resetfw-semibold ieee-link  text-decoration-underline">View Map</a>
         </div>  
       </div>
     `;
