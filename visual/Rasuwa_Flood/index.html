@@ -588,7 +588,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="ntc-towers-checkbox" checked />
+        <input type="checkbox" id="ntc-towers-checkbox" unchecked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -613,7 +613,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="ncell-towers-checkbox" checked />
+        <input type="checkbox" id="ncell-towers-checkbox" unchecked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
@@ -786,7 +786,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="mailung-substation-checkbox" />
+        <input type="checkbox" id="mailung-substation-checkbox" unchecked/>
         <span class="color-point" style="background-color: #1ca2bd;"></span>
         Substation Alternatives
         <button type="button" class="zoom-to-layer-btn" data-source="mailung-substation" title="Zoom to layer"
@@ -801,7 +801,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="mailung-heli-checkbox" />
+        <input type="checkbox" id="mailung-heli-checkbox" checked/>
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <img src="image/helicopter.png" alt="" width="18" height="18" style="object-fit:contain;" />
@@ -2218,7 +2218,7 @@
           id: "ntc-towers-layer",
           type: "symbol",
           source: "ntc-towers",
-          minzoom: 10,
+          minzoom: 9,
           layout: {
             "icon-image": "ntc-tower-triangle",
             "icon-size": 0.8,
@@ -2242,7 +2242,7 @@
         map.addLayer({
           id: "ncell-towers-layer",
           type: "symbol",
-          minzoom: 10,
+          minzoom: 9,
           source: "ncell-towers",
           layout: {
             "icon-image": "ncell-tower-triangle",
