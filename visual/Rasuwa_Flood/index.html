@@ -786,7 +786,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="mailung-substation-checkbox" unchecked/>
+        <input type="checkbox" id="mailung-substation-checkbox" unchecked />
         <span class="color-point" style="background-color: #1ca2bd;"></span>
         Substation Alternatives
         <button type="button" class="zoom-to-layer-btn" data-source="mailung-substation" title="Zoom to layer"
@@ -801,7 +801,7 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="mailung-heli-checkbox" checked/>
+        <input type="checkbox" id="mailung-heli-checkbox" checked />
         <span
           style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
           <img src="image/helicopter.png" alt="" width="18" height="18" style="object-fit:contain;" />
@@ -1314,10 +1314,13 @@
         console.warn("Zoom to layer: could not compute bounds for", sourceId);
         return;
       }
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
       map.fitBounds(bounds, {
-        padding: { top: 10, bottom: 70, left: 380, right: 5 },
-        maxZoom: 20,
+        padding: isMobile
+          ? { top: 20, bottom: 20, left: 20, right: 20 }   // equal on mobile
+          : { top: 10, bottom: 70, left: 380, right: 5 },  // desktop (sidebar offset)
+        maxZoom: isMobile ? 18 : 20,
         duration: 1000,
       });
     }
