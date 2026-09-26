@@ -300,8 +300,8 @@ document.addEventListener("DOMContentLoaded", () => {
       Date: "26-August, 2026",
       description:
         "This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major debris flow and flood event of 26 August 2026.",
-      link: "./visual/Rasuwa_Flood/index.html",
-      image: "./image/rasuwa_flood.jpg" 
+      link: "./visual/bhoteKoshi_flood/index.html",
+      image: "./image/bhoteKoshi_flood.jpg" 
     }
   ];
 
