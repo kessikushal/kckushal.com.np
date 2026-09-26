@@ -296,12 +296,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const visual = [
     {
       id: "visual1",
-      event: "Rasuwa Flood",
+      event: "Rasuwa BhoteKoshi Flood",
       Date: "26-August, 2026",
       description:
         "This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major debris flow and flood event of 26 August 2026.",
-      link: "./visual/bhoteKoshi_flood/index.html",
-      image: "./image/bhoteKoshi_flood.jpg" 
+      link: "./visual/bhotekoshi_flood/index.html",
+      image: "./image/bhotekoshi_flood.jpg" 
     }
   ];
 
