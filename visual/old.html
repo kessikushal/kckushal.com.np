@@ -1,831 +1,1102 @@
-  <!DOCTYPE html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BhoteKoshi Flood Analysis Rasuwa Nepal</title>
-    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
-    <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
-    <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/maptilersdk.umd.js"></script>
-    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/style.css" rel="stylesheet" />
-    <link href='https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.css' rel='stylesheet' />
-    <script src="https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
-    <link rel="icon" href="./image/APN.png" type="image/png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BhoteKoshi Flood Analysis Rasuwa Nepal</title>
+  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
+  <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/maptilersdk.umd.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/style.css" rel="stylesheet" />
+  <link href='https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.css' rel='stylesheet' />
+  <script src="https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+  <link rel="icon" href="./image/APN.png" type="image/png" />
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-        overflow: hidden;
-      }
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
 
-      #map {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100vh;
-      }
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100vh;
+    }
 
-      #map .maplibregl-ctrl-logo,
-      #map .maptiler-logo {
-        display: none !important;
-      }
+    #map .maplibregl-ctrl-logo,
+    #map .maptiler-logo {
+      display: none !important;
+    }
 
-      #sidebar-toggle {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 44px;
-        height: 44px;
-        border-radius: 8px;
-        background: white;
-        border: none;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-        font-size: 24px;
-        cursor: pointer;
-        z-index: 1002;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        opacity: 1;
-        pointer-events: auto;
-      }
+    #sidebar-toggle {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: white;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-      #sidebar-toggle:hover {
-        background: #f0f0f0;
-        transform: scale(1.05);
-      }
+    #sidebar-toggle:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
 
-      #sidebar-toggle.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
+    #sidebar-toggle.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
 
+    #sidebar {
+      position: absolute;
+      top: 0;
+      left: -380px;
+      width: 340px;
+      height: 100vh;
+      background: white;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+      overflow-y: auto;
+      transition: left 0.3s ease;
+      padding: 20px;
+    }
+
+    #sidebar.open {
+      left: 0;
+    }
+
+    #sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      padding-bottom: 3px;
+      border-bottom: 2px solid #eee;
+    }
+
+    #sidebar-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    #sidebar-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+    }
+
+    #sidebar-close:hover {
+      color: #000;
+    }
+
+    .sidebar-section {
+      margin-bottom: 5px;
+      padding: 5px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .sidebar-section h4 {
+      margin: 0 0 12px 0;
+      color: #2c3e50;
+      font-size: 15px;
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 3px;
+    }
+
+    .sidebar-section label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      gap: 2px;
+    }
+
+    .sidebar-section input[type="checkbox"],
+    .sidebar-section input[type="radio"] {
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .zoom-to-layer-btn {
+      margin-left: auto;
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      border: none;
+      border-radius: 4px;
+      background: transparent;
+      color: #5a6a7a;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.55;
+      transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+
+    .zoom-to-layer-btn:hover {
+      opacity: 1;
+      background: #e8eef4;
+      color: #1a73e8;
+    }
+
+    .zoom-to-layer-btn:active {
+      background: #d0e0f0;
+    }
+
+    .zoom-to-layer-btn svg {
+      width: 14px;
+      height: 14px;
+      pointer-events: none;
+    }
+
+    .color-box {
+      width: 14px;
+      height: 12px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+      border-radius: 2px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .color-point {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      /* border: 2px solid rgb(249, 247, 247); */
+      border-radius: 50%;
+      margin-left: 2px;
+      margin-right: 10px;
+    }
+
+    .color-line {
+      width: 15px;
+      height: 2px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    .ward-hover-popup .maplibregl-popup-content {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+      padding: 6px 10px;
+    }
+
+    .ward-hover-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+      border-bottom-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .ward-hover-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+      border-top-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .ward-hover-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+      border-right-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .ward-hover-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+      border-left-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .maplibregl-ctrl-terrain .maplibregl-ctrl-icon,
+    .maplibregl-ctrl-terrain-enabled .maplibregl-ctrl-icon {
+      background-image: none !important;
+    }
+
+    .maplibregl-ctrl-terrain,
+    .maplibregl-ctrl-terrain-enabled {
+      position: relative;
+    }
+
+    .maplibregl-ctrl-terrain::after,
+    .maplibregl-ctrl-terrain-enabled::after {
+      content: "3D";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #2c3e50;
+      font-size: 12px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .maplibregl-ctrl-terrain-enabled::after {
+      color: #16d800;
+    }
+
+    .photo-hover-popup .maplibregl-popup-content {
+      padding: 7px 10px;
+      background: rgba(255, 255, 255, 0.92);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    #photo-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(10, 17, 20, 0.78);
+    }
+
+    #photo-modal.open {
+      display: flex;
+    }
+
+    #photo-modal-content {
+      position: relative;
+      width: fit-content;
+      max-width: 94vw;
+      max-height: 92vh;
+      overflow: auto;
+      background: transparent;
+      border-radius: 8px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    #photo-modal-image {
+      display: none;
+      width: auto;
+      max-width: 94vw;
+      height: auto;
+      max-height: 76vh;
+      margin: 0 auto;
+      background: transparent;
+    }
+
+    #photo-modal-image.loaded {
+      display: block;
+    }
+
+    #photo-modal-caption {
+      padding: 12px 16px 14px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(1px);
+      color: #ffffffdf;
+    }
+
+    #photo-modal-title {
+      margin: 0 38px 4px 0;
+      font-size: 17px;
+    }
+
+    #photo-modal-meta {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13px;
+    }
+
+    #photo-modal-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 1;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      color: #1d2529;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
       #sidebar {
-        position: absolute;
-        top: 0;
-        left: -380px;
-        width: 340px;
-        height: 100vh;
-        background: white;
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
-        z-index: 1001;
-        overflow-y: auto;
-        transition: left 0.3s ease;
-        padding: 20px;
+        width: 85vw;
+        max-width: 300px;
+        left: -100vw;
+        padding: 15px;
       }
 
       #sidebar.open {
         left: 0;
       }
 
-      #sidebar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-        padding-bottom: 3px;
-        border-bottom: 2px solid #eee;
-      }
-
-      #sidebar-title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #2c3e50;
-      }
-
-      #sidebar-close {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #666;
-        padding: 0;
-        width: 30px;
-        height: 30px;
-      }
-
-      #sidebar-close:hover {
-        color: #000;
-      }
-
       .sidebar-section {
-        margin-bottom: 5px;
-        padding: 5px;
-        background: #f8f9fa;
-        border-radius: 8px;
+        padding: 10px;
       }
 
       .sidebar-section h4 {
-        margin: 0 0 12px 0;
-        color: #2c3e50;
-        font-size: 15px;
-        border-bottom: 1px solid #dee2e6;
-        padding-bottom: 3px;
+        font-size: 14px;
       }
 
       .sidebar-section label {
-        display: flex;
-        align-items: center;
-        margin-bottom: 4px;
-        cursor: pointer;
-        font-size: 14px;
-        color: #333;
-      }
-
-      .sidebar-section input[type="checkbox"],
-      .sidebar-section input[type="radio"] {
-        margin-right: 8px;
-      }
-
-      .color-box {
-        width: 14px;
-        height: 12px;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 6px;
-        border-radius: 2px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-
-      .color-point {
-        display: inline-block;
-        width: 9px;
-        height: 9px;
-        /* border: 2px solid rgb(249, 247, 247); */
-        border-radius: 50%;
-        margin-left: 2px;
-        margin-right: 10px;
-      }
-
-      .color-line {
-        width: 15px;
-        height: 2px;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 6px;
-      }
-
-      .ward-hover-popup .maplibregl-popup-content {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(2px);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-        padding: 6px 10px;
-      }
-
-      .ward-hover-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip {
-        border-bottom-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .ward-hover-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
-        border-top-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .ward-hover-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
-        border-right-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .ward-hover-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
-        border-left-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .maplibregl-ctrl-terrain .maplibregl-ctrl-icon,
-      .maplibregl-ctrl-terrain-enabled .maplibregl-ctrl-icon {
-        background-image: none !important;
-      }
-
-      .maplibregl-ctrl-terrain,
-      .maplibregl-ctrl-terrain-enabled {
-        position: relative;
-      }
-
-      .maplibregl-ctrl-terrain::after,
-      .maplibregl-ctrl-terrain-enabled::after {
-        content: "3D";
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #2c3e50;
-        font-size: 12px;
-        font-weight: 700;
-        pointer-events: none;
-      }
-
-      .maplibregl-ctrl-terrain-enabled::after {
-        color: #16d800;
-      }
-
-      .photo-hover-popup .maplibregl-popup-content {
-        padding: 7px 10px;
-        background: rgba(255, 255, 255, 0.92);
-        font-size: 12px;
-        line-height: 1.4;
-      }
-
-      #photo-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 2000;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: rgba(10, 17, 20, 0.78);
-      }
-
-      #photo-modal.open {
-        display: flex;
-      }
-
-      #photo-modal-content {
-        position: relative;
-        width: fit-content;
-        max-width: 94vw;
-        max-height: 92vh;
-        overflow: auto;
-        background: transparent;
-        border-radius: 8px;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.4);
-      }
-
-      #photo-modal-image {
-        display: none;
-        width: auto;
-        max-width: 94vw;
-        height: auto;
-        max-height: 76vh;
-        margin: 0 auto;
-        background: transparent;
-      }
-
-      #photo-modal-image.loaded {
-        display: block;
-      }
-
-      #photo-modal-caption {
-        padding: 12px 16px 14px;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(1px);
-        color: #ffffffdf;
-      }
-
-      #photo-modal-title {
-        margin: 0 38px 4px 0;
-        font-size: 17px;
-      }
-
-      #photo-modal-meta {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.82);
         font-size: 13px;
       }
 
-      #photo-modal-close {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        z-index: 1;
-        width: 34px;
-        height: 34px;
-        border: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.92);
-        color: #1d2529;
-        font-size: 24px;
-        line-height: 1;
-        cursor: pointer;
+      #sidebar-title {
+        font-size: 16px;
       }
 
-      @media screen and (max-width: 768px) {
-        #sidebar {
-          width: 85vw;
-          max-width: 300px;
-          left: -100vw;
-          padding: 15px;
-        }
-
-        #sidebar.open {
-          left: 0;
-        }
-
-        .sidebar-section {
-          padding: 10px;
-        }
-
-        .sidebar-section h4 {
-          font-size: 14px;
-        }
-
-        .sidebar-section label {
-          font-size: 13px;
-        }
-
-        #sidebar-title {
-          font-size: 16px;
-        }
-
-        #sidebar-toggle {
-          width: 40px;
-          height: 40px;
-          font-size: 20px;
-        }
+      #sidebar-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
       }
-    </style>
-  </head>
+    }
+  </style>
+</head>
 
-  <body>
-    <button id="sidebar-toggle" class="hidden" title="Toggle Menu">☰</button>
-    <div id="sidebar" class="open">
-      <div id="sidebar-header">
-        <div id="sidebar-title">
-          <img src="./image/APN.png" alt="APN" style="width: 25px; height: 25px; object-fit: contain;">
-          BhoteKoshi Flood Analysis
-        </div>
-        <button id="sidebar-close">✕</button>
+<body>
+  <button id="sidebar-toggle" class="hidden" title="Toggle Menu">☰</button>
+  <div id="sidebar" class="open">
+    <div id="sidebar-header">
+      <div id="sidebar-title">
+        <img src="./image/APN.png" alt="APN" style="width: 25px; height: 25px; object-fit: contain;">
+        BhoteKoshi Flood Analysis
       </div>
-
-      <div class="sidebar-section">
-        <h4>🗺️ Basemap Layer</h4>
-        <label>
-          <input type="radio" name="basemap" value="OUTDOOR" checked />
-          Outdoor
-        </label>
-        <label>
-          <input type="radio" name="basemap" value="STREETS" />
-          Streets
-        </label>
-        <label>
-          <input type="radio" name="basemap" value="TOPO" />
-          Topo
-        </label>
-        <label>
-          <input type="radio" name="basemap" value="GOOGLE_HYBRID" />
-          Satellite Hybrid
-        </label>
-      </div>
-
-      <div class="sidebar-section" id="layer-section">
-        <h4>📚 Vector Layers</h4>
-        <label>
-          <input type="checkbox" id="all-vectors-checkbox" checked />
-          <strong>Turn ON/OFF all Layers</strong>
-        </label>
-        <label>
-          <input type="checkbox" id="flood-area-checkbox" checked />
-          <span class="color-box" style="background-color: #2f81ed75;"></span>
-          Flood Extent
-        </label>
-        <label class="layer-item">
-          <input type="checkbox" id="road_damage-checkbox" checked>
-          <span class="color-line" style="background-color: #ff0000;"></span>
-          Damaged Roads
-        </label>
-        <label>
-          <input type="checkbox" id="bridges_damage-checkbox" checked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="12" viewBox="0 0 20 14" aria-hidden="true">
-              <path d="M3 8h14" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
-              <path d="M5 8c1.4-2.2 3-3.2 5-3.2S13.6 5.8 15 8" fill="none" stroke="#ff0000" stroke-width="1.6"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          Damaged Bridges
-        </label>
-        <label>
-          <input type="checkbox" id="buildings-checkbox" checked />
-          <span class="color-box" style="background-color: #d44242d6;"></span>
-          Affected Buildings
-        </label>
-        <label>
-          <input type="checkbox" id="affected-wards-checkbox" checked />
-          <span class="color-box" style="background-color: #b75d4966;"></span>
-          Affected Local Levels / Wards
-        </label>
-        <label>
-          <input type="checkbox" id="open-spaces-probable-checkbox" unchecked />
-          <span class="color-point" style="background-color: #f4a261;"></span>
-          Probable Open Spaces
-        </label>
-        <label>
-          <input type="checkbox" id="bridges-checkbox" unchecked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="12" viewBox="0 0 20 14" aria-hidden="true">
-              <path d="M3 8h14" stroke="#000000" stroke-width="2" stroke-linecap="round" />
-              <path d="M5 8c1.4-2.2 3-3.2 5-3.2S13.6 5.8 15 8" fill="none" stroke="#000000" stroke-width="1.6"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          Bridges
-        </label>
-        <label class="layer-item">
-          <input type="checkbox" id="highway-checkbox" unchecked>
-          <span class="color-line" style="background-color: #150101;"></span>
-          Main Highway (River Corridor)
-        </label>
-        <label>
-          <input type="checkbox" id="hydropower-checkbox" unchecked />
-          <span class="color-point" style="background-color: #9b51e0;"></span>
-          Hydropowers
-        </label>
-        <label>
-          <input type="checkbox" id="holding-centers-checkbox" checked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 2L17 16H3L10 2Z" fill="#2ecc71" />
-              <path d="M10 5L13.5 13H6.5L10 5Z" fill="#ffffff" opacity="0.9" />
-            </svg>
-          </span>
-          Holding Centers
-        </label>
-        <label>
-          <input type="checkbox" id="ntc-towers-checkbox" checked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#1e5fb8" />
-              <rect x="6" y="16" width="8" height="1.5" fill="#1e5fb8" />
-              <circle cx="6.6" cy="5.6" r="1.1" fill="#1e5fb8" />
-              <circle cx="13.4" cy="5.6" r="1.1" fill="#1e5fb8" />
-              <circle cx="5.1" cy="8.2" r="0.9" fill="#1e5fb8" />
-              <circle cx="14.9" cy="8.2" r="0.9" fill="#1e5fb8" />
-            </svg>
-          </span>
-          NTC Towers
-        </label>
-        <label>
-          <input type="checkbox" id="ncell-towers-checkbox" checked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#8e44ad" />
-              <rect x="6" y="16" width="8" height="1.5" fill="#8e44ad" />
-              <circle cx="6.6" cy="5.6" r="1.1" fill="#8e44ad" />
-              <circle cx="13.4" cy="5.6" r="1.1" fill="#8e44ad" />
-              <circle cx="5.1" cy="8.2" r="0.9" fill="#8e44ad" />
-              <circle cx="14.9" cy="8.2" r="0.9" fill="#8e44ad" />
-            </svg>
-          </span>
-          Ncell Towers
-        </label>
-        <label>
-          <input type="checkbox" id="petrol-pump-checkbox" unchecked />
-          <span
-            style="display:inline-flex; width:16px; height:16px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="20" viewBox="0 0 20 20" aria-hidden="true">
-              <rect x="6" y="5" width="8" height="11" rx="1" fill="#f4a261" />
-              <rect x="8" y="8" width="4" height="5" fill="#fff2df" />
-            </svg>
-          </span>
-          Petrol Pump
-        </label>
-        <label>
-          <input type="checkbox" id="banks-checkbox" unchecked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="12" height="17" viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 3L17 7v2H3V7L10 3Z" fill="#1f4e79" />
-              <rect x="5" y="9" width="2" height="6" fill="#1f4e79" />
-              <rect x="9" y="9" width="2" height="6" fill="#1f4e79" />
-              <rect x="13" y="9" width="2" height="6" fill="#1f4e79" />
-              <rect x="3" y="15" width="14" height="2" fill="#1f4e79" />
-            </svg>
-          </span>
-          Banks
-        </label>
-        <label>
-          <input type="checkbox" id="medical-checkbox" unchecked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-              <circle cx="10" cy="10" r="7" fill="#e74c3c" />
-              <rect x="9.1" y="5.2" width="1.8" height="9.6" rx="0.6" fill="#ffffff" />
-              <rect x="5.2" y="9.1" width="9.6" height="1.8" rx="0.6" fill="#ffffff" />
-            </svg>
-          </span>
-          Medical Facilities
-        </label>
-        <label>
-          <input type="checkbox" id="open-spaces-osm-checkbox" unchecked />
-          <span class="color-box" style="background-color: #3cb371;"></span>
-          Open Spaces (OSM)
-        </label>
-        <label>
-          <input type="checkbox" id="lake1-checkbox" unchecked />
-          <span class="color-box"
-            style="background-color: #56ccf2; border: 1px dashed #000000; box-sizing: border-box;  margin-right:8px;"></span>
-          Lake 1 - 2026-08-28 (Drained)
-        </label>
-        <label>
-          <input type="checkbox" id="lake2-checkbox" unchecked />
-          <span class="color-box"
-            style=" background-color: #56ccf2; border: 1px dashed #000000; box-sizing: border-box; margin-right:8px;"></span>
-          Lake 2 - 2026-08-28 (Drained)
-        </label>
-        <label>
-          <input type="checkbox" id="lake3-checkbox" unchecked />
-          <span class="color-box" style="background-color: #56ccf2;"></span>
-          Lake 3 - 2026-09-08
-        </label>
-      </div>
-
-      <div class="sidebar-section" id="mailung-layer-section">
-        <h4>Mailung Layers</h4>
-        <label>
-          <input type="checkbox" id="mailung-landmarks-checkbox" />
-          <span class="color-point" style="background-color: #17b248;"></span>
-          Existing Landmarks
-        </label>
-        <label>
-          <input type="checkbox" id="mailung-substation-checkbox" />
-          <span class="color-point" style="background-color: #1ca2bd;"></span>
-          Substation Alternatives
-        </label>
-        <label>
-          <input type="checkbox" id="mailung-heli-checkbox" />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <img src="image/helicopter.png" alt="" width="18" height="18" style="object-fit:contain;" />
-          </span>
-          Heli Sites
-        </label>
-      </div>
-
-      <div class="sidebar-section" id="photo-layer-section">
-        <h4>Damage Photos</h4>
-        <label>
-          <input type="checkbox" id="damage-photos-checkbox" checked />
-          <span
-            style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
-            <svg width="16" height="16" viewBox="0 0 28 28" aria-hidden="true">
-              <circle cx="14" cy="14" r="13" fill="#990303" />
-              <path
-                d="M7 10.5h3l1.4-2h5.2l1.4 2h3a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 21 20.5H7A1.5 1.5 0 0 1 5.5 19v-7A1.5 1.5 0 0 1 7 10.5Z"
-                fill="#ffffff" />
-              <circle cx="14" cy="15.2" r="3.4" fill="#990303" />
-            </svg>
-          </span>
-          Satellite Images
-        </label>
-      </div>
-
-      <div class="sidebar-section" id="description-section">
-        <h4>Event Description</h4>
-        <p style="margin: 0; font-size: 13px; line-height: 1.6; text-align: justify;">
-          This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major
-          ice–rock, debris flow and flood event of 26 August 2026. It visualizes the affected flood extent, damaged roads
-          and bridges, hydropower infrastructure, settlements and other critical facilities along the Bhote Koshi–Trishuli
-          corridor. The map is being actively updated as new satellite observations, field information and damage
-          assessments become available.</p>
-      </div>
-
-      <div class="sidebar-section" id="impact-summary-section">
-        <h4>Estimated Affected</h4>
-        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-          <li>Buildings affected: 7,210</li>
-          <li>Population affected: 28,840 (building based)</li>
-          <li>Population affected: 1,917 (Meta)</li>
-          <li>Population affected: 2,613 (WorldPop)</li>
-        </ul>
-      </div>
-
-
-      <div class="sidebar-section" id="source-section">
-        <h4>Data Source</h4>
-        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-          <li>Administrative Boundary: National Geoportal</li>
-          <li>Buildings: OSM, Google, Microsoft</li>
-          <li>Flood Extent: UNOSAT</li>
-          <li>Population: Meta, WorldPop</li>
-          <li>Satllite Imagery: Sentinel-2</li>
-          <li>Towers: Self-collected</li>
-          <li>Banks, Bridges, Hydropower, Medical, Petrol Pumps, Road: Self-collected from Google Maps</li>
-        </ul>
-      </div>
-
-      <div class="sidebar-section" id="prepard-section">
-        <h4>Team Member</h4>
-        <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-          <li>Kushal KC</li>
-          <li>Alison Shilpakar</li>
-          <li>Sujan Tyata</li>
-          <li>Risav Shrestha</li>
-          <br>
-        </ul>
-      </div>
+      <button id="sidebar-close">✕</button>
     </div>
 
-    <div id="map"></div>
-
-    <div id="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-modal-title">
-      <div id="photo-modal-content">
-        <button id="photo-modal-close" type="button" aria-label="Close image viewer">&times;</button>
-        <img id="photo-modal-image" alt="" />
-        <div id="photo-modal-caption">
-          <h3 id="photo-modal-title"></h3>
-          <p id="photo-modal-meta"></p>
-        </div>
-      </div>
+    <div class="sidebar-section">
+      <h4>🗺️ Basemap Layer</h4>
+      <label>
+        <input type="radio" name="basemap" value="OUTDOOR" checked />
+        Outdoor
+      </label>
+      <label>
+        <input type="radio" name="basemap" value="STREETS" />
+        Streets
+      </label>
+      <label>
+        <input type="radio" name="basemap" value="TOPO" />
+        Topo
+      </label>
+      <label>
+        <input type="radio" name="basemap" value="GOOGLE_HYBRID" />
+        Satellite Hybrid
+      </label>
     </div>
 
-    <script>
-      maptilersdk.config.apiKey = "beLTXJmGL8weKgdDngiU";
+    <div class="sidebar-section" id="layer-section">
+      <h4>📚 Vector Layers</h4>
+      <label>
+        <input type="checkbox" id="all-vectors-checkbox" checked />
+        <strong>Turn ON/OFF all Layers</strong>
+      </label>
+      <label>
+        <input type="checkbox" id="flood-area-checkbox" checked />
+        <span class="color-box" style="background-color: #2f81ed75;"></span>
+        Flood Extent
+        <button type="button" class="zoom-to-layer-btn" data-source="flood-area" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label class="layer-item">
+        <input type="checkbox" id="road_damage-checkbox" checked>
+        <span class="color-line" style="background-color: #ff0000;"></span>
+        Damaged Roads
+        <button type="button" class="zoom-to-layer-btn" data-source="road_damage" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="bridges_damage-checkbox" checked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="12" viewBox="0 0 20 14" aria-hidden="true">
+            <path d="M3 8h14" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
+            <path d="M5 8c1.4-2.2 3-3.2 5-3.2S13.6 5.8 15 8" fill="none" stroke="#ff0000" stroke-width="1.6"
+              stroke-linecap="round" />
+          </svg>
+        </span>
+        Damaged Bridges
+        <button type="button" class="zoom-to-layer-btn" data-source="bridges_damage" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="buildings-checkbox" checked />
+        <span class="color-box" style="background-color: #d44242d6;"></span>
+        Affected Buildings
+        <button type="button" class="zoom-to-layer-btn" data-source="buildings" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="affected-wards-checkbox" checked />
+        <span class="color-box" style="background-color: #b75d4966;"></span>
+        Affected Local Levels / Wards
+        <button type="button" class="zoom-to-layer-btn" data-source="affected-wards" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="open-spaces-probable-checkbox" unchecked />
+        <span class="color-point" style="background-color: #f4a261;"></span>
+        Probable Open Spaces
+        <button type="button" class="zoom-to-layer-btn" data-source="probable-open-spaces" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="bridges-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="12" viewBox="0 0 20 14" aria-hidden="true">
+            <path d="M3 8h14" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+            <path d="M5 8c1.4-2.2 3-3.2 5-3.2S13.6 5.8 15 8" fill="none" stroke="#000000" stroke-width="1.6"
+              stroke-linecap="round" />
+          </svg>
+        </span>
+        Bridges
+        <button type="button" class="zoom-to-layer-btn" data-source="bridges" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label class="layer-item">
+        <input type="checkbox" id="highway-checkbox" unchecked>
+        <span class="color-line" style="background-color: #150101;"></span>
+        Main Highway (River Corridor)
+        <button type="button" class="zoom-to-layer-btn" data-source="highway" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="hydropower-checkbox" unchecked />
+        <span class="color-point" style="background-color: #9b51e0;"></span>
+        Hydropowers
+        <button type="button" class="zoom-to-layer-btn" data-source="hydropower" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="holding-centers-checkbox" checked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 2L17 16H3L10 2Z" fill="#2ecc71" />
+            <path d="M10 5L13.5 13H6.5L10 5Z" fill="#ffffff" opacity="0.9" />
+          </svg>
+        </span>
+        Holding Centers
+        <button type="button" class="zoom-to-layer-btn" data-source="holding-centers" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="ntc-towers-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#1e5fb8" />
+            <rect x="6" y="16" width="8" height="1.5" fill="#1e5fb8" />
+            <circle cx="6.6" cy="5.6" r="1.1" fill="#1e5fb8" />
+            <circle cx="13.4" cy="5.6" r="1.1" fill="#1e5fb8" />
+            <circle cx="5.1" cy="8.2" r="0.9" fill="#1e5fb8" />
+            <circle cx="14.9" cy="8.2" r="0.9" fill="#1e5fb8" />
+          </svg>
+        </span>
+        NTC Towers
+        <button type="button" class="zoom-to-layer-btn" data-source="ntc-towers" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="ncell-towers-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#8e44ad" />
+            <rect x="6" y="16" width="8" height="1.5" fill="#8e44ad" />
+            <circle cx="6.6" cy="5.6" r="1.1" fill="#8e44ad" />
+            <circle cx="13.4" cy="5.6" r="1.1" fill="#8e44ad" />
+            <circle cx="5.1" cy="8.2" r="0.9" fill="#8e44ad" />
+            <circle cx="14.9" cy="8.2" r="0.9" fill="#8e44ad" />
+          </svg>
+        </span>
+        Ncell Towers
+        <button type="button" class="zoom-to-layer-btn" data-source="ncell-towers" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="petrol-pump-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:16px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="20" viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="6" y="5" width="8" height="11" rx="1" fill="#f4a261" />
+            <rect x="8" y="8" width="4" height="5" fill="#fff2df" />
+          </svg>
+        </span>
+        Petrol Pump
+        <button type="button" class="zoom-to-layer-btn" data-source="petrol-pump" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="banks-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="12" height="17" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10 3L17 7v2H3V7L10 3Z" fill="#1f4e79" />
+            <rect x="5" y="9" width="2" height="6" fill="#1f4e79" />
+            <rect x="9" y="9" width="2" height="6" fill="#1f4e79" />
+            <rect x="13" y="9" width="2" height="6" fill="#1f4e79" />
+            <rect x="3" y="15" width="14" height="2" fill="#1f4e79" />
+          </svg>
+        </span>
+        Banks
+        <button type="button" class="zoom-to-layer-btn" data-source="banks" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="medical-checkbox" unchecked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="10" cy="10" r="7" fill="#e74c3c" />
+            <rect x="9.1" y="5.2" width="1.8" height="9.6" rx="0.6" fill="#ffffff" />
+            <rect x="5.2" y="9.1" width="9.6" height="1.8" rx="0.6" fill="#ffffff" />
+          </svg>
+        </span>
+        Medical Facilities
+        <button type="button" class="zoom-to-layer-btn" data-source="medical" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="open-spaces-osm-checkbox" unchecked />
+        <span class="color-box" style="background-color: #3cb371;"></span>
+        Open Spaces (OSM)
+        <button type="button" class="zoom-to-layer-btn" data-source="open-spaces-osm" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="lake1-checkbox" unchecked />
+        <span class="color-box"
+          style="background-color: #56ccf2; border: 1px dashed #000000; box-sizing: border-box;  margin-right:8px;"></span>
+        Lake 1 - 2026-08-28 (Drained)
+        <button type="button" class="zoom-to-layer-btn" data-source="lake1" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="lake2-checkbox" unchecked />
+        <span class="color-box"
+          style=" background-color: #56ccf2; border: 1px dashed #000000; box-sizing: border-box; margin-right:8px;"></span>
+        Lake 2 - 2026-08-28 (Drained)
+        <button type="button" class="zoom-to-layer-btn" data-source="lake2" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="lake3-checkbox" unchecked />
+        <span class="color-box" style="background-color: #56ccf2;"></span>
+        Lake 3 - 2026-09-08
+        <button type="button" class="zoom-to-layer-btn" data-source="lake3" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+    </div>
 
-      const styleMap = {
-        OUTDOOR: maptilersdk.MapStyle.OUTDOOR,
-        STREETS: maptilersdk.MapStyle.STREETS,
-        GOOGLE_HYBRID: maptilersdk.MapStyle.HYBRID,
-        TOPO: maptilersdk.MapStyle.TOPO,
-      };
+    <div class="sidebar-section" id="mailung-layer-section">
+      <h4>Mailung Layers</h4>
+      <label>
+        <input type="checkbox" id="mailung-landmarks-checkbox" />
+        <span class="color-point" style="background-color: #17b248;"></span>
+        Existing Landmarks
+        <button type="button" class="zoom-to-layer-btn" data-source="mailung-landmarks" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="mailung-substation-checkbox" unchecked />
+        <span class="color-point" style="background-color: #1ca2bd;"></span>
+        Substation Alternatives
+        <button type="button" class="zoom-to-layer-btn" data-source="mailung-substation" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="mailung-heli-checkbox" checked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <img src="image/helicopter.png" alt="" width="18" height="18" style="object-fit:contain;" />
+        </span>
+        Heli Sites
+        <button type="button" class="zoom-to-layer-btn" data-source="mailung-heli" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+    </div>
 
-      const emptyGeoJSON = {
-        type: "FeatureCollection",
-        features: [],
-      };
+    <div class="sidebar-section" id="photo-layer-section">
+      <h4>Damage Photos</h4>
+      <label>
+        <input type="checkbox" id="damage-photos-checkbox" checked />
+        <span
+          style="display:inline-flex; width:16px; height:14px; margin-right:6px; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="13" fill="#990303" />
+            <path
+              d="M7 10.5h3l1.4-2h5.2l1.4 2h3a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 21 20.5H7A1.5 1.5 0 0 1 5.5 19v-7A1.5 1.5 0 0 1 7 10.5Z"
+              fill="#ffffff" />
+            <circle cx="14" cy="15.2" r="3.4" fill="#990303" />
+          </svg>
+        </span>
+        Satellite Images
+        <button type="button" class="zoom-to-layer-btn" data-source="damage-photos" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+    </div>
 
-      const damagePhotoLocations = {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            properties: {
-              title: "Rasuwagadhi",
-              imageType: "After satellite image",
-              date: "2026-08-28",
-              image: "image/Screenshot 2026-09-14 134146.png",
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [85.3775507359763, 28.27918966400605],
-            },
+    <div class="sidebar-section" id="description-section">
+      <h4>Event Description</h4>
+      <p style="margin: 0; font-size: 13px; line-height: 1.6; text-align: justify;">
+        This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major
+        ice–rock, debris flow and flood event of 26 August 2026. It visualizes the affected flood extent, damaged roads
+        and bridges, hydropower infrastructure, settlements and other critical facilities along the Bhote Koshi–Trishuli
+        corridor. The map is being actively updated as new satellite observations, field information and damage
+        assessments become available.</p>
+    </div>
+
+    <div class="sidebar-section" id="impact-summary-section">
+      <h4>Estimated Affected</h4>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Buildings affected: 7,210</li>
+        <li>Population affected: 28,840 (building based)</li>
+        <li>Population affected: 1,917 (Meta)</li>
+        <li>Population affected: 2,613 (WorldPop)</li>
+      </ul>
+    </div>
+
+
+    <div class="sidebar-section" id="source-section">
+      <h4>Data Source</h4>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Administrative Boundary: National Geoportal</li>
+        <li>Buildings: OSM, Google, Microsoft</li>
+        <li>Flood Extent: UNOSAT</li>
+        <li>Population: Meta, WorldPop</li>
+        <li>Satellite Imagery: ....</li>
+        <li>Towers: Ncell | NTC</li>
+        <li>Banks, Bridges, Hydropower, Medical, Petrol Pumps: Self-collected from Google Maps</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section" id="prepard-section">
+      <h4>Team Member</h4>
+      <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
+        <li>Kushal KC</li>
+        <li>Alison Shilpakar</li>
+        <li>Sujan Tyata</li>
+        <li>Risav Shrestha</li>
+        <br>
+      </ul>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photo-modal-title">
+    <div id="photo-modal-content">
+      <button id="photo-modal-close" type="button" aria-label="Close image viewer">&times;</button>
+      <img id="photo-modal-image" alt="" />
+      <div id="photo-modal-caption">
+        <h3 id="photo-modal-title"></h3>
+        <p id="photo-modal-meta"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    maptilersdk.config.apiKey = "beLTXJmGL8weKgdDngiU";
+
+    const styleMap = {
+      OUTDOOR: maptilersdk.MapStyle.OUTDOOR,
+      STREETS: maptilersdk.MapStyle.STREETS,
+      GOOGLE_HYBRID: maptilersdk.MapStyle.HYBRID,
+      TOPO: maptilersdk.MapStyle.TOPO,
+    };
+
+    const emptyGeoJSON = {
+      type: "FeatureCollection",
+      features: [],
+    };
+
+    /** Cache of loaded GeoJSON per source id — used by Zoom-to-layer */
+    const layerGeoJSONCache = {};
+
+    const damagePhotoLocations = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: {
+            title: "Rasuwagadhi",
+            imageType: "After satellite image",
+            date: "2026-08-28",
+            image: "image/Screenshot 2026-09-14 134146.png",
           },
-          {
-            type: "Feature",
-            properties: {
-              title: "Trishuli Bazar",
-              imageType: "After satellite image",
-              date: "2026-09-08",
-              image: "image/Screenshot 2026-09-14 141759.png"
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [85.14983555182846, 27.924676246746778],
-            },
+          geometry: {
+            type: "Point",
+            coordinates: [85.3775507359763, 28.27918966400605],
           },
-          {
-            type: "Feature",
-            properties: {
-              title: "Devighat",
-              imageType: "After satellite image",
-              date: "2026-09-07",
-              image: "image/Screenshot 2026-09-07 140511.png",
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [85.1092064392529, 27.85981279441123],
-            },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Trishuli Bazar",
+            imageType: "After satellite image",
+            date: "2026-09-08",
+            image: "image/Screenshot 2026-09-14 141759.png"
           },
-          {
-            type: "Feature",
-            properties: {
-              title: "Timure",
-              imageType: "After satellite image",
-              date: "2026-09-07",
-              image: "image/Screenshot 2026-08-27 160227.png",
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [85.36650, 28.25411],
-            },
+          geometry: {
+            type: "Point",
+            coordinates: [85.14983555182846, 27.924676246746778],
           },
-          {
-            type: "Feature",
-            properties: {
-              title: "Syafrubesi",
-              imageType: "After satellite image",
-              date: "2026-09-08",
-              image: "image/Screenshot 2026-09-08 163330.png",
-            },
-            geometry: {
-              type: "Point",
-              coordinates: [85.34140, 28.16460]
-            },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Devighat",
+            imageType: "After satellite image",
+            date: "2026-09-07",
+            image: "image/Screenshot 2026-09-07 140511.png",
           },
-        ],
-      };
+          geometry: {
+            type: "Point",
+            coordinates: [85.1092064392529, 27.85981279441123],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Timure",
+            imageType: "After satellite image",
+            date: "2026-09-07",
+            image: "image/Screenshot 2026-08-27 160227.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.36650, 28.25411],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Syafrubesi",
+            imageType: "After satellite image",
+            date: "2026-09-08",
+            image: "image/Screenshot 2026-09-08 163330.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.34140, 28.16460]
+          },
+        },
+      ],
+    };
 
-      const vectorFiles = {
-        flood: "vector/UNOSAT_flood_extent.geojson",
-        lake1: "vector/lake1_28_wgs84.geojson",
-        lake2: "vector/lake2_28_wgs84.geojson",
-        lake3: "vector/lake3_sen_sep08.geojson",
-        affectedWards: "vector/affected_GaPaNaPa.geojson",
-        bridges: "vector/bridge_fhsmo_apn.geojson",
-        bridges_damage: "vector/bridges_damage.geojson",
-        highway: "vector/highway.geojson",
-        road_damage: "vector/Road_Damage.geojson",
-        holdingCenters: "vector/HC.geojson",
-        hydropower: "vector/Hydropower_Status.geojson",
-        buildings: "vector/affected_buildings_Gheight.geojson",
-        ntcTowers: "vector/NTC_Towers.geojson",
-        ncellTowers: "vector/Ncell_tower.geojson",
-        openSpacesOsm: "vector/open_spaces_osm.geojson",
-        probableOpenSpaces: "vector/probable_open_spaces.geojson",
-        petrolPump: "vector/petrol_pump.geojson",
-        banks: "vector/banks_v3.geojson",
-        medical: "vector/medical.geojson",
-        mailungLandmarks: "vector/Existing_Landmarks_Mailung.geojson",
-        mailungSubstation: "vector/Substation(Alternatives_based_on_slope)_Mailung.geojson",
-        mailungHeli: "vector/Heli_sites_Mailung.geojson",
-      };
+    layerGeoJSONCache["damage-photos"] = damagePhotoLocations;
 
-      const map = new maptilersdk.Map({
-        container: "map",
-        style: maptilersdk.MapStyle.OUTDOOR,
-        center: [85.35, 28.15],
-        zoom: 6,
-        terrain: false,
-        pitch: 45,
-        // bearing: 20,
-        terrainControl: true,
-        fullscreenControl: "bottom-right",
-        geolocateControl: true,
-      });
+    const vectorFiles = {
+      flood: "vector/UNOSAT_flood_extent.geojson",
+      lake1: "vector/lake1_28_wgs84.geojson",
+      lake2: "vector/lake2_28_wgs84.geojson",
+      lake3: "vector/lake3_sen_sep08.geojson",
+      affectedWards: "vector/affected_GaPaNaPa.geojson",
+      bridges: "vector/bridge_fhsmo_apn.geojson",
+      bridges_damage: "vector/bridges_damage.geojson",
+      highway: "vector/highway.geojson",
+      road_damage: "vector/Road_Damage.geojson",
+      holdingCenters: "vector/HC.geojson",
+      hydropower: "vector/Hydropower_Status.geojson",
+      buildings: "vector/affected_buildings_Gheight.geojson",
+      ntcTowers: "vector/NTC_Towers.geojson",
+      ncellTowers: "vector/Ncell_tower.geojson",
+      openSpacesOsm: "vector/open_spaces_osm.geojson",
+      probableOpenSpaces: "vector/probable_open_spaces.geojson",
+      petrolPump: "vector/petrol_pump.geojson",
+      banks: "vector/banks_v3.geojson",
+      medical: "vector/medical.geojson",
+      mailungLandmarks: "vector/Existing_Landmarks_Mailung.geojson",
+      mailungSubstation: "vector/Substation(Alternatives_based_on_slope)_Mailung.geojson",
+      mailungHeli: "vector/Heli_sites_Mailung.geojson",
+    };
 
-      let hasFittedToFloodExtent = false;
-      let hydropowerPopupBound = false;
-      let affectedWardsHoverBound = false;
-      let affectedWardsPopup = null;
-      let affectedWardsPopupTimer = null;
-      let hoveredWardId = null;
-      let activeDescriptionPopup = null;
-      let damagePhotoEventsBound = false;
-      let damagePhotoHoverPopup = null;
-      let damagePhotoLoadRequest = 0;
-      let coordinateJumpMarker = null;
+    const map = new maptilersdk.Map({
+      container: "map",
+      style: maptilersdk.MapStyle.OUTDOOR,
+      center: [85.35, 28.15],
+      zoom: 6,
+      terrain: false,
+      pitch: 45,
+      // bearing: 20,
+      terrainControl: true,
+      fullscreenControl: "bottom-right",
+      geolocateControl: true,
+    });
 
-      const interactiveClickLayerIds = [
-        "damage-photos-layer",
-        "mailung-heli-layer",
-        "mailung-substation-layer",
-        "mailung-landmarks-layer",
-        "banks-layer",
-        "medical-layer",
-        "ncell-towers-layer",
-        "ntc-towers-layer",
-        "holding-centers-layer",
-        "bridges-point-layer",
-        "bridges-layer",
-        "bridges_damage-point-layer",
-        "road_damage-layer",
-        "highway-layer",
-        "hydropower-point-layer",
-        "hydropower-line-layer",
-        "hydropower-fill-layer",
-      ];
+    let hasFittedToFloodExtent = false;
+    let hydropowerPopupBound = false;
+    let affectedWardsHoverBound = false;
+    let affectedWardsPopup = null;
+    let affectedWardsPopupTimer = null;
+    let hoveredWardId = null;
+    let activeDescriptionPopup = null;
+    let damagePhotoEventsBound = false;
+    let damagePhotoHoverPopup = null;
+    let damagePhotoLoadRequest = 0;
+    let coordinateJumpMarker = null;
 
-      const vectorLayerCheckboxIds = [
-        "flood-area-checkbox",
-        "lake1-checkbox",
-        "lake2-checkbox",
-        "lake3-checkbox",
-        "affected-wards-checkbox",
-        "bridges-checkbox",
-        "bridges_damage-checkbox",
-        "road_damage-checkbox",
-        "highway-checkbox",
-        "holding-centers-checkbox",
-        "hydropower-checkbox",
-        "buildings-checkbox",
-        "ntc-towers-checkbox",
-        "ncell-towers-checkbox",
-        "open-spaces-osm-checkbox",
-        "open-spaces-probable-checkbox",
-        "petrol-pump-checkbox",
-        "banks-checkbox",
-        "medical-checkbox",
-        "mailung-landmarks-checkbox",
-        "mailung-substation-checkbox",
-        "mailung-heli-checkbox",
-        "damage-photos-checkbox",
-      ];
+    const interactiveClickLayerIds = [
+      "damage-photos-layer",
+      "mailung-heli-layer",
+      "mailung-substation-layer",
+      "mailung-landmarks-layer",
+      "banks-layer",
+      "medical-layer",
+      "ncell-towers-layer",
+      "ntc-towers-layer",
+      "holding-centers-layer",
+      "bridges-point-layer",
+      "bridges-layer",
+      "bridges_damage-point-layer",
+      "road_damage-layer",
+      "highway-layer",
+      "hydropower-point-layer",
+      "hydropower-line-layer",
+      "hydropower-fill-layer",
+    ];
 
-      let isBulkVectorToggleUpdate = false;
+    const vectorLayerCheckboxIds = [
+      "flood-area-checkbox",
+      "lake1-checkbox",
+      "lake2-checkbox",
+      "lake3-checkbox",
+      "affected-wards-checkbox",
+      "bridges-checkbox",
+      "bridges_damage-checkbox",
+      "road_damage-checkbox",
+      "highway-checkbox",
+      "holding-centers-checkbox",
+      "hydropower-checkbox",
+      "buildings-checkbox",
+      "ntc-towers-checkbox",
+      "ncell-towers-checkbox",
+      "open-spaces-osm-checkbox",
+      "open-spaces-probable-checkbox",
+      "petrol-pump-checkbox",
+      "banks-checkbox",
+      "medical-checkbox",
+      "mailung-landmarks-checkbox",
+      "mailung-substation-checkbox",
+      "mailung-heli-checkbox",
+      "damage-photos-checkbox",
+    ];
 
-      const bridgePointIconSvg = `
+    let isBulkVectorToggleUpdate = false;
+
+    const bridgePointIconSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <path d="M3 11h14" stroke="#000000" stroke-width="2" stroke-linecap="round" />
           <path d="M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2" fill="none" stroke="#000000" stroke-width="1.7" stroke-linecap="round" />
@@ -833,7 +1104,7 @@
         </svg>
       `.trim();
 
-      const damagedBridgePointIconSvg = ` 
+    const damagedBridgePointIconSvg = ` 
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
           <path d="M3 11h14" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
           <path d="M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2" fill="none" stroke="#ff0000" stroke-width="1.7" stroke-linecap="round" />
@@ -841,7 +1112,7 @@
         </svg>
         `.trim();
 
-      const ntcTowerTriangleSvg = `
+    const ntcTowerTriangleSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#1e5fb8" />
           <rect x="6" y="16" width="8" height="1.5" fill="#1e5fb8" />
@@ -852,7 +1123,7 @@
         </svg>
       `.trim();
 
-      const ncellTowerTriangleSvg = `
+    const ncellTowerTriangleSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <path d="M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z" fill="#8e44ad" />
           <rect x="6" y="16" width="8" height="1.5" fill="#8e44ad" />
@@ -863,7 +1134,7 @@
         </svg>
       `.trim();
 
-      const medicalHSvg = `
+    const medicalHSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <circle cx="10" cy="10" r="7" fill="#e74c3c" />
           <rect x="9.1" y="5.2" width="1.8" height="9.6" rx="0.6" fill="#ffffff" />
@@ -871,7 +1142,7 @@
         </svg>
       `.trim();
 
-      const petrolPumpSvg = `
+    const petrolPumpSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <rect x="6" y="4" width="8" height="12" rx="1.2" fill="#f4a261" />
           <rect x="8" y="8" width="4" height="3" fill="#fff2df" />
@@ -879,7 +1150,7 @@
         </svg>
       `.trim();
 
-      const bankSvg = `
+    const bankSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <path d="M10 3L17 7v2H3V7L10 3Z" fill="#1f4e79" />
           <rect x="5" y="9" width="2" height="6" fill="#1f4e79" />
@@ -889,14 +1160,14 @@
         </svg>
       `.trim();
 
-      const holdingCenterTriangleSvg = `
+    const holdingCenterTriangleSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
           <path d="M10 2L17 16H3L10 2Z" fill="#2ecc71" />
           <path d="M10 5L13.5 13H6.5L10 5Z" fill="#ffffff" opacity="0.9" />
         </svg>
       `.trim();
 
-      const damagePhotoCameraSvg = `
+    const damagePhotoCameraSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
           <circle cx="14" cy="14" r="13" fill="#990303" stroke="#ffffff" stroke-width="2" />
           <path d="M7 10.5h3l1.4-2h5.2l1.4 2h3a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 21 20.5H7A1.5 1.5 0 0 1 5.5 19v-7A1.5 1.5 0 0 1 7 10.5Z" fill="#ffffff" />
@@ -904,182 +1175,205 @@
         </svg>
       `.trim();
 
-      const iconLoadPromises = {};
+    const iconLoadPromises = {};
 
-      function ensureSvgIcon(iconId, svgMarkup) {
-        if (map.hasImage && map.hasImage(iconId)) {
-          return Promise.resolve();
-        }
+    function ensureSvgIcon(iconId, svgMarkup) {
+      if (map.hasImage && map.hasImage(iconId)) {
+        return Promise.resolve();
+      }
 
-        if (iconLoadPromises[iconId]) {
-          return iconLoadPromises[iconId];
-        }
-
-        iconLoadPromises[iconId] = new Promise((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => {
-            try {
-              if (!map.hasImage || !map.hasImage(iconId)) {
-                map.addImage(iconId, image);
-              }
-              resolve();
-            } catch (error) {
-              reject(error);
-            } finally {
-              delete iconLoadPromises[iconId];
-            }
-          };
-          image.onerror = () => {
-            delete iconLoadPromises[iconId];
-            reject(new Error(`Could not load SVG icon: ${iconId}`));
-          };
-          image.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
-        });
-
+      if (iconLoadPromises[iconId]) {
         return iconLoadPromises[iconId];
       }
 
-      function ensureImageIcon(iconId, url) {
-        if (map.hasImage && map.hasImage(iconId)) {
-          return Promise.resolve();
-        }
-
-        if (iconLoadPromises[iconId]) {
-          return iconLoadPromises[iconId];
-        }
-
-        iconLoadPromises[iconId] = new Promise((resolve, reject) => {
-          const image = new Image();
-          image.onload = () => {
-            try {
-              if (!map.hasImage || !map.hasImage(iconId)) {
-                map.addImage(iconId, image);
-              }
-              resolve();
-            } catch (error) {
-              reject(error);
-            } finally {
-              delete iconLoadPromises[iconId];
+      iconLoadPromises[iconId] = new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          try {
+            if (!map.hasImage || !map.hasImage(iconId)) {
+              map.addImage(iconId, image);
             }
-          };
-          image.onerror = () => {
+            resolve();
+          } catch (error) {
+            reject(error);
+          } finally {
             delete iconLoadPromises[iconId];
-            reject(new Error(`Could not load image icon: ${url}`));
-          };
-          image.src = url;
-        });
+          }
+        };
+        image.onerror = () => {
+          delete iconLoadPromises[iconId];
+          reject(new Error(`Could not load SVG icon: ${iconId}`));
+        };
+        image.src = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svgMarkup)}`;
+      });
 
+      return iconLoadPromises[iconId];
+    }
+
+    function ensureImageIcon(iconId, url) {
+      if (map.hasImage && map.hasImage(iconId)) {
+        return Promise.resolve();
+      }
+
+      if (iconLoadPromises[iconId]) {
         return iconLoadPromises[iconId];
       }
 
-      async function loadGeoJSONSafe(sourceId, url) {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) {
-            return null;
+      iconLoadPromises[iconId] = new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          try {
+            if (!map.hasImage || !map.hasImage(iconId)) {
+              map.addImage(iconId, image);
+            }
+            resolve();
+          } catch (error) {
+            reject(error);
+          } finally {
+            delete iconLoadPromises[iconId];
           }
-          const data = await response.json();
-          if (map.getSource(sourceId)) {
-            map.getSource(sourceId).setData(data);
-          }
-          return data;
-        } catch (error) {
-          console.warn("Could not load", url, error);
+        };
+        image.onerror = () => {
+          delete iconLoadPromises[iconId];
+          reject(new Error(`Could not load image icon: ${url}`));
+        };
+        image.src = url;
+      });
+
+      return iconLoadPromises[iconId];
+    }
+
+    async function loadGeoJSONSafe(sourceId, url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
           return null;
         }
+        const data = await response.json();
+        layerGeoJSONCache[sourceId] = data;
+        if (map.getSource(sourceId)) {
+          map.getSource(sourceId).setData(data);
+        }
+        return data;
+      } catch (error) {
+        console.warn("Could not load", url, error);
+        return null;
+      }
+    }
+
+    function getGeoJSONBounds(geojson) {
+      if (!geojson || !Array.isArray(geojson.features) || geojson.features.length === 0) {
+        return null;
       }
 
-      function getGeoJSONBounds(geojson) {
-        if (!geojson || !Array.isArray(geojson.features) || geojson.features.length === 0) {
-          return null;
+      let minLng = Infinity;
+      let minLat = Infinity;
+      let maxLng = -Infinity;
+      let maxLat = -Infinity;
+
+      function visitCoordinates(coords) {
+        if (!Array.isArray(coords)) {
+          return;
         }
 
-        let minLng = Infinity;
-        let minLat = Infinity;
-        let maxLng = -Infinity;
-        let maxLat = -Infinity;
-
-        function visitCoordinates(coords) {
-          if (!Array.isArray(coords)) {
-            return;
-          }
-
-          if (typeof coords[0] === "number" && typeof coords[1] === "number") {
-            const lng = coords[0];
-            const lat = coords[1];
-            minLng = Math.min(minLng, lng);
-            minLat = Math.min(minLat, lat);
-            maxLng = Math.max(maxLng, lng);
-            maxLat = Math.max(maxLat, lat);
-            return;
-          }
-
-          coords.forEach(visitCoordinates);
+        if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+          const lng = coords[0];
+          const lat = coords[1];
+          minLng = Math.min(minLng, lng);
+          minLat = Math.min(minLat, lat);
+          maxLng = Math.max(maxLng, lng);
+          maxLat = Math.max(maxLat, lat);
+          return;
         }
+        coords.forEach(visitCoordinates);
+      }
 
-        geojson.features.forEach((feature) => {
-          if (feature && feature.geometry && feature.geometry.coordinates) {
-            visitCoordinates(feature.geometry.coordinates);
-          }
-        });
-
-        if (!Number.isFinite(minLng) || !Number.isFinite(minLat) || !Number.isFinite(maxLng) || !Number.isFinite(maxLat)) {
-          return null;
+      geojson.features.forEach((feature) => {
+        if (feature && feature.geometry && feature.geometry.coordinates) {
+          visitCoordinates(feature.geometry.coordinates);
         }
+      });
 
-        return [[minLng, minLat], [maxLng, maxLat]];
+      if (!Number.isFinite(minLng) || !Number.isFinite(minLat) || !Number.isFinite(maxLng) || !Number.isFinite(maxLat)) {
+        return null;
       }
 
-      function escapeHtml(value) {
-        return String(value)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/\"/g, "&quot;")
-          .replace(/'/g, "&#39;");
+      return [[minLng, minLat], [maxLng, maxLat]];
+    }
+
+    function zoomToSource(sourceId) {
+      const data = layerGeoJSONCache[sourceId];
+      if (!data || !Array.isArray(data.features) || data.features.length === 0) {
+        console.warn("Zoom to layer: no data available for", sourceId);
+        return;
       }
 
-      function buildHydropowerPopupHtml(feature) {
-        const properties = feature && feature.properties ? feature.properties : {};
-        const entries = Object.entries(properties).filter(([, value]) => value !== null && value !== undefined && value !== "");
+      const bounds = getGeoJSONBounds(data);
+      if (!bounds) {
+        console.warn("Zoom to layer: could not compute bounds for", sourceId);
+        return;
+      }
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-        if (entries.length === 0) {
-          return "<div style=\"font-size:12px;\"><strong>Hydropower</strong><br/>No attributes available.</div>";
-        }
+      map.fitBounds(bounds, {
+        padding: isMobile
+          ? { top: 20, bottom: 20, left: 20, right: 20 }   // equal on mobile
+          : { top: 10, bottom: 70, left: 380, right: 5 },  // desktop (sidebar offset)
+        maxZoom: isMobile ? 18 : 20,
+        duration: 1000,
+      });
+    }
 
-        const rows = entries
-          .map(([key, value]) => `<div style=\"margin-bottom:4px;\"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(value)}</div>`)
-          .join("");
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
 
-        return `<div style=\"font-size:12px; line-height:1.4; max-width:300px;\"><div style=\"font-size:13px; font-weight:700; margin-bottom:6px;\">Hydropower</div>${rows}</div>`;
+    function buildHydropowerPopupHtml(feature) {
+      const properties = feature && feature.properties ? feature.properties : {};
+      const entries = Object.entries(properties).filter(([, value]) => value !== null && value !== undefined && value !== "");
+
+      if (entries.length === 0) {
+        return "<div style=\"font-size:12px;\"><strong>Hydropower</strong><br/>No attributes available.</div>";
       }
 
-      function buildFeaturePopupHtml(title, feature) {
-        const properties = feature && feature.properties ? feature.properties : {};
-        const entries = Object.entries(properties).filter(([, value]) => value !== null && value !== undefined && value !== "");
+      const rows = entries
+        .map(([key, value]) => `<div style=\"margin-bottom:4px;\"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(value)}</div>`)
+        .join("");
 
-        if (entries.length === 0) {
-          return `<div style=\"font-size:12px;\"><strong>${escapeHtml(title)}</strong><br/>No attributes available.</div>`;
-        }
+      return `<div style=\"font-size:12px; line-height:1.4; max-width:300px;\"><div style=\"font-size:13px; font-weight:700; margin-bottom:6px;\">Hydropower</div>${rows}</div>`;
+    }
 
-        const rows = entries
-          .map(([key, value]) => `<div style=\"margin-bottom:4px;\"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(value)}</div>`)
-          .join("");
+    function buildFeaturePopupHtml(title, feature) {
+      const properties = feature && feature.properties ? feature.properties : {};
+      const entries = Object.entries(properties).filter(([, value]) => value !== null && value !== undefined && value !== "");
 
-        return `<div style=\"font-size:12px; line-height:1.4; max-width:300px;\"><div style=\"font-size:13px; font-weight:700; margin-bottom:6px;\">${escapeHtml(title)}</div>${rows}</div>`;
+      if (entries.length === 0) {
+        return `<div style=\"font-size:12px;\"><strong>${escapeHtml(title)}</strong><br/>No attributes available.</div>`;
       }
 
-      function formatImpactValue(value) {
-        const number = Number(value);
-        return Number.isFinite(number) ? number.toLocaleString() : "0";
-      }
+      const rows = entries
+        .map(([key, value]) => `<div style=\"margin-bottom:4px;\"><strong>${escapeHtml(key)}:</strong> ${escapeHtml(value)}</div>`)
+        .join("");
 
-      function buildAffectedWardPopupHtml(feature) {
-        const properties = feature && feature.properties ? feature.properties : {};
-        const localLevel = properties.GaPa_NaPa || "Unknown local level";
-        const localLevelType = properties.Type_GN ? ` (${properties.Type_GN})` : "";
+      return `<div style=\"font-size:12px; line-height:1.4; max-width:300px;\"><div style=\"font-size:13px; font-weight:700; margin-bottom:6px;\">${escapeHtml(title)}</div>${rows}</div>`;
+    }
 
-        return `
+    function formatImpactValue(value) {
+      const number = Number(value);
+      return Number.isFinite(number) ? number.toLocaleString() : "0";
+    }
+
+    function buildAffectedWardPopupHtml(feature) {
+      const properties = feature && feature.properties ? feature.properties : {};
+      const localLevel = properties.GaPa_NaPa || "Unknown local level";
+      const localLevelType = properties.Type_GN ? ` (${properties.Type_GN})` : "";
+
+      return `
           <div style="font-size:12px; line-height:1.5; min-width:190px;">
             <div style="font-size:16px; font-weight:700; margin-bottom:3px;">${escapeHtml(localLevel)}${escapeHtml(localLevelType)}</div>
             <div style="font-size:14px;"><strong>District:</strong> ${escapeHtml(properties.DISTRICT || "Not available")}</div>
@@ -1087,143 +1381,119 @@
             <div><strong>Affected population:</strong> ${formatImpactValue(properties.Affected_pop)}</div>
             <div><strong>Affected buildings:</strong> ${formatImpactValue(properties.geohash_count)}</div>
           </div>`;
+    }
+
+    function showDescriptionPopup(lngLat, html) {
+      clearTimeout(affectedWardsPopupTimer);
+      if (affectedWardsPopup) {
+        affectedWardsPopup.remove();
+      }
+      clearHoveredWard();
+      if (activeDescriptionPopup) {
+        activeDescriptionPopup.remove();
       }
 
-      function showDescriptionPopup(lngLat, html) {
+      const popup = new maptilersdk.Popup({ closeButton: true, closeOnClick: true })
+        .setLngLat(lngLat)
+        .setHTML(html)
+        .addTo(map);
+
+      activeDescriptionPopup = popup;
+      popup.on("close", () => {
+        if (activeDescriptionPopup === popup) {
+          activeDescriptionPopup = null;
+        }
+      });
+    }
+
+    function isTopmostInteractiveLayer(event, layerId) {
+      const availableLayerIds = interactiveClickLayerIds.filter((id) => map.getLayer(id));
+      const topFeature = map.queryRenderedFeatures(event.point, {
+        layers: availableLayerIds,
+      })[0];
+
+      return Boolean(topFeature && topFeature.layer && topFeature.layer.id === layerId);
+    }
+
+    function clearHoveredWard() {
+      if (hoveredWardId === null || !map.getSource("affected-wards")) {
+        return;
+      }
+
+      map.setFeatureState(
+        { source: "affected-wards", id: hoveredWardId },
+        { hover: false }
+      );
+      hoveredWardId = null;
+    }
+
+    function bindAffectedWardsHover() {
+      if (affectedWardsHoverBound) {
+        return;
+      }
+
+      affectedWardsHoverBound = true;
+      affectedWardsPopup = new maptilersdk.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        className: "ward-hover-popup",
+        offset: 12,
+      });
+
+      map.on("mousemove", "affected-wards-fill-layer", (event) => {
         clearTimeout(affectedWardsPopupTimer);
-        if (affectedWardsPopup) {
-          affectedWardsPopup.remove();
-        }
-        clearHoveredWard();
-        if (activeDescriptionPopup) {
-          activeDescriptionPopup.remove();
-        }
+        affectedWardsPopup.remove();
 
-        const popup = new maptilersdk.Popup({ closeButton: true, closeOnClick: true })
-          .setLngLat(lngLat)
-          .setHTML(html)
-          .addTo(map);
-
-        activeDescriptionPopup = popup;
-        popup.on("close", () => {
-          if (activeDescriptionPopup === popup) {
-            activeDescriptionPopup = null;
-          }
-        });
-      }
-
-      function isTopmostInteractiveLayer(event, layerId) {
-        const availableLayerIds = interactiveClickLayerIds.filter((id) => map.getLayer(id));
-        const topFeature = map.queryRenderedFeatures(event.point, {
-          layers: availableLayerIds,
-        })[0];
-
-        return Boolean(topFeature && topFeature.layer && topFeature.layer.id === layerId);
-      }
-
-      function clearHoveredWard() {
-        if (hoveredWardId === null || !map.getSource("affected-wards")) {
-          return;
-        }
-
-        map.setFeatureState(
-          { source: "affected-wards", id: hoveredWardId },
-          { hover: false }
-        );
-        hoveredWardId = null;
-      }
-
-      function bindAffectedWardsHover() {
-        if (affectedWardsHoverBound) {
-          return;
-        }
-
-        affectedWardsHoverBound = true;
-        affectedWardsPopup = new maptilersdk.Popup({
-          closeButton: false,
-          closeOnClick: false,
-          className: "ward-hover-popup",
-          offset: 12,
-        });
-
-        map.on("mousemove", "affected-wards-fill-layer", (event) => {
-          clearTimeout(affectedWardsPopupTimer);
-          affectedWardsPopup.remove();
-
-          if (activeDescriptionPopup && activeDescriptionPopup.isOpen()) {
-            clearHoveredWard();
-            return;
-          }
-
-          const feature = event.features && event.features[0];
-          if (!feature) {
-            return;
-          }
-
-          if (hoveredWardId !== feature.id) {
-            clearHoveredWard();
-            hoveredWardId = feature.id;
-            map.setFeatureState(
-              { source: "affected-wards", id: hoveredWardId },
-              { hover: true }
-            );
-          }
-
-          map.getCanvas().style.cursor = "pointer";
-          const popupLngLat = [event.lngLat.lng, event.lngLat.lat];
-          affectedWardsPopupTimer = setTimeout(() => {
-            if (hoveredWardId !== feature.id || (activeDescriptionPopup && activeDescriptionPopup.isOpen())) {
-              return;
-            }
-
-            affectedWardsPopup
-              .setLngLat(popupLngLat)
-              .setHTML(buildAffectedWardPopupHtml(feature))
-              .addTo(map);
-          }, 500);
-        });
-
-        map.on("mouseleave", "affected-wards-fill-layer", () => {
-          clearTimeout(affectedWardsPopupTimer);
-          map.getCanvas().style.cursor = "";
-          affectedWardsPopup.remove();
+        if (activeDescriptionPopup && activeDescriptionPopup.isOpen()) {
           clearHoveredWard();
-        });
-      }
-
-      function bindHydropowerPopup() {
-        if (hydropowerPopupBound) {
           return;
         }
 
-        hydropowerPopupBound = true;
-        const layerIds = ["hydropower-fill-layer", "hydropower-line-layer", "hydropower-point-layer"];
+        const feature = event.features && event.features[0];
+        if (!feature) {
+          return;
+        }
 
-        layerIds.forEach((layerId) => {
-          map.on("mouseenter", layerId, () => {
-            map.getCanvas().style.cursor = "pointer";
-          });
+        if (hoveredWardId !== feature.id) {
+          clearHoveredWard();
+          hoveredWardId = feature.id;
+          map.setFeatureState(
+            { source: "affected-wards", id: hoveredWardId },
+            { hover: true }
+          );
+        }
 
-          map.on("mouseleave", layerId, () => {
-            map.getCanvas().style.cursor = "";
-          });
+        map.getCanvas().style.cursor = "pointer";
+        const popupLngLat = [event.lngLat.lng, event.lngLat.lat];
+        affectedWardsPopupTimer = setTimeout(() => {
+          if (hoveredWardId !== feature.id || (activeDescriptionPopup && activeDescriptionPopup.isOpen())) {
+            return;
+          }
 
-          map.on("click", layerId, (event) => {
-            if (!isTopmostInteractiveLayer(event, layerId)) {
-              return;
-            }
+          affectedWardsPopup
+            .setLngLat(popupLngLat)
+            .setHTML(buildAffectedWardPopupHtml(feature))
+            .addTo(map);
+        }, 500);
+      });
 
-            const feature = event.features && event.features[0];
-            if (!feature) {
-              return;
-            }
+      map.on("mouseleave", "affected-wards-fill-layer", () => {
+        clearTimeout(affectedWardsPopupTimer);
+        map.getCanvas().style.cursor = "";
+        affectedWardsPopup.remove();
+        clearHoveredWard();
+      });
+    }
 
-            showDescriptionPopup(event.lngLat, buildHydropowerPopupHtml(feature));
-          });
-        });
+    function bindHydropowerPopup() {
+      if (hydropowerPopupBound) {
+        return;
       }
 
-      function bindLayerPopup(layerId, title) {
+      hydropowerPopupBound = true;
+      const layerIds = ["hydropower-fill-layer", "hydropower-line-layer", "hydropower-point-layer"];
+
+      layerIds.forEach((layerId) => {
         map.on("mouseenter", layerId, () => {
           map.getCanvas().style.cursor = "pointer";
         });
@@ -1242,1436 +1512,1469 @@
             return;
           }
 
-          showDescriptionPopup(event.lngLat, buildFeaturePopupHtml(title, feature));
+          showDescriptionPopup(event.lngLat, buildHydropowerPopupHtml(feature));
         });
-      }
+      });
+    }
 
-      async function openDamagePhotoViewer(properties) {
-        clearTimeout(affectedWardsPopupTimer);
-        affectedWardsPopup.remove();
-        clearHoveredWard();
-        if (activeDescriptionPopup) {
-          activeDescriptionPopup.remove();
-        }
+    function bindLayerPopup(layerId, title) {
+      map.on("mouseenter", layerId, () => {
+        map.getCanvas().style.cursor = "pointer";
+      });
 
-        const modal = document.getElementById("photo-modal");
-        const image = document.getElementById("photo-modal-image");
-        const title = document.getElementById("photo-modal-title");
-        const meta = document.getElementById("photo-modal-meta");
-        const requestId = ++damagePhotoLoadRequest;
+      map.on("mouseleave", layerId, () => {
+        map.getCanvas().style.cursor = "";
+      });
 
-        image.classList.remove("loaded");
-        image.removeAttribute("src");
-        image.alt = `${properties.imageType} at ${properties.title}`;
-        title.textContent = properties.title;
-        meta.textContent = `Loading ${properties.imageType.toLowerCase()}...`;
-        modal.classList.add("open");
-        document.getElementById("photo-modal-close").focus();
-
-        const nextImage = new Image();
-        nextImage.src = properties.image;
-
-        try {
-          if (typeof nextImage.decode === "function") {
-            await nextImage.decode();
-          } else if (!nextImage.complete) {
-            await new Promise((resolve, reject) => {
-              nextImage.onload = resolve;
-              nextImage.onerror = reject;
-            });
-          }
-
-          if (requestId !== damagePhotoLoadRequest || !modal.classList.contains("open")) {
-            return;
-          }
-
-          image.src = properties.image;
-          image.classList.add("loaded");
-          meta.textContent = `${properties.imageType} | ${properties.date}`;
-        } catch (error) {
-          if (requestId === damagePhotoLoadRequest) {
-            meta.textContent = "Image could not be loaded.";
-          }
-        }
-      }
-
-      function closeDamagePhotoViewer() {
-        damagePhotoLoadRequest += 1;
-        const modal = document.getElementById("photo-modal");
-        modal.classList.remove("open");
-      }
-
-      function bindDamagePhotoEvents() {
-        if (damagePhotoEventsBound) {
+      map.on("click", layerId, (event) => {
+        if (!isTopmostInteractiveLayer(event, layerId)) {
           return;
         }
 
-        damagePhotoEventsBound = true;
-        damagePhotoHoverPopup = new maptilersdk.Popup({
-          closeButton: false,
-          closeOnClick: false,
-          className: "photo-hover-popup",
-          offset: 16,
-        });
-
-        map.on("mouseenter", "damage-photos-layer", (event) => {
-          const feature = event.features && event.features[0];
-          if (!feature) {
-            return;
-          }
-
-          map.getCanvas().style.cursor = "pointer";
-          const properties = feature.properties || {};
-          damagePhotoHoverPopup
-            .setLngLat(event.lngLat)
-            .setHTML(`<strong>${escapeHtml(properties.title || "Damage photo")}</strong><br>${escapeHtml(properties.imageType || "After image")} | ${escapeHtml(properties.date || "")}`)
-            .addTo(map);
-        });
-
-        map.on("mouseleave", "damage-photos-layer", () => {
-          map.getCanvas().style.cursor = "";
-          damagePhotoHoverPopup.remove();
-        });
-
-        map.on("click", "damage-photos-layer", (event) => {
-          if (!isTopmostInteractiveLayer(event, "damage-photos-layer")) {
-            return;
-          }
-
-          const feature = event.features && event.features[0];
-          if (!feature) {
-            return;
-          }
-
-          damagePhotoHoverPopup.remove();
-          openDamagePhotoViewer(feature.properties || {});
-        });
-      }
-
-      async function addVectorLayers() {
-        if (!map.getSource("affected-wards")) {
-          map.addSource("affected-wards", {
-            type: "geojson",
-            data: emptyGeoJSON,
-            promoteId: "OBJECTID",
-          });
-        }
-        await loadGeoJSONSafe("affected-wards", vectorFiles.affectedWards);
-
-        if (!map.getLayer("affected-wards-fill-layer")) {
-          map.addLayer({
-            id: "affected-wards-fill-layer",
-            type: "fill",
-            source: "affected-wards",
-            paint: {
-              "fill-color": [
-                "interpolate",
-                ["linear"],
-                ["coalesce", ["to-number", ["get", "Affected_pop"]], 0],
-                0, "#fee8c8",
-                500, "#fdbb84",
-                1500, "#e34a33",
-                3000, "#b30000",
-              ],
-              "fill-opacity": [
-                "case",
-                ["boolean", ["feature-state", "hover"], false],
-                0.55,
-                0.25,
-              ],
-            },
-          });
-        }
-
-        if (!map.getLayer("affected-wards-border-layer")) {
-          map.addLayer({
-            id: "affected-wards-border-layer",
-            type: "line",
-            source: "affected-wards",
-            paint: {
-              "line-color": [
-                "case",
-                ["boolean", ["feature-state", "hover"], false],
-                "#edd680",
-                "#8f2d20",
-              ],
-              "line-width": [
-                "case",
-                ["boolean", ["feature-state", "hover"], false],
-                2.5,
-                1,
-              ],
-            },
-          });
-        }
-
-        if (!map.getSource("flood-area")) {
-          map.addSource("flood-area", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-
-        const floodData = await loadGeoJSONSafe("flood-area", vectorFiles.flood);
-
-        if (!hasFittedToFloodExtent) {
-          const bounds = getGeoJSONBounds(floodData);
-          if (bounds) {
-            map.fitBounds(bounds, { padding: 25, maxZoom: 15, offset: [0, 10] });
-            hasFittedToFloodExtent = true;
-          }
-        }
-
-        if (!map.getLayer("flood-area-fill-layer")) {
-          map.addLayer({
-            id: "flood-area-fill-layer",
-            type: "fill",
-            source: "flood-area",
-            paint: {
-              "fill-color": "#2f80ed",
-              "fill-opacity": 0.3,
-            },
-          });
-        }
-
-        if (!map.getLayer("flood-area-border-layer")) {
-          map.addLayer({
-            id: "flood-area-border-layer",
-            type: "line",
-            source: "flood-area",
-            layout: { "line-join": "round", "line-cap": "round" },
-            paint: {
-              "line-color": "#1c5fb8",
-              "line-width": 1,
-            },
-          });
-        }
-
-        if (!map.getSource("lake1")) {
-          map.addSource("lake1", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("lake1", vectorFiles.lake1);
-
-        if (!map.getLayer("lake1-fill-layer")) {
-          map.addLayer({
-            id: "lake1-fill-layer",
-            type: "fill",
-            source: "lake1",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "fill-color": "#56ccf2",
-              "fill-opacity": 0.55,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("lake1-border-layer")) {
-          map.addLayer({
-            id: "lake1-border-layer",
-            type: "line",
-            source: "lake1",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "line-color": "#000000",
-              "line-width": 1.5,
-              "line-dasharray": [2, 2],
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("lake2")) {
-          map.addSource("lake2", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("lake2", vectorFiles.lake2);
-
-        if (!map.getLayer("lake2-fill-layer")) {
-          map.addLayer({
-            id: "lake2-fill-layer",
-            type: "fill",
-            source: "lake2",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "fill-color": "#56ccf2",
-              "fill-opacity": 0.55,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("lake2-border-layer")) {
-          map.addLayer({
-            id: "lake2-border-layer",
-            type: "line",
-            source: "lake2",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "line-color": "#000000",
-              "line-width": 1.5,
-              "line-dasharray": [2, 2],
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("lake3")) {
-          map.addSource("lake3", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("lake3", vectorFiles.lake3);
-
-        if (!map.getLayer("lake3-fill-layer")) {
-          map.addLayer({
-            id: "lake3-fill-layer",
-            type: "fill",
-            source: "lake3",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "fill-color": "#56ccf2",
-              "fill-opacity": 0.75,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("lake3-border-layer")) {
-          map.addLayer({
-            id: "lake3-border-layer",
-            type: "line",
-            source: "lake3",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "line-color": "#2d9cdb",
-              "line-width": 1.5,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        // DAMAGED BRIDGES
-
-        if (!map.getSource("bridges_damage")) {
-          map.addSource("bridges_damage", {
-            type: "geojson",
-            data: emptyGeoJSON
-          });
-        }
-
-        await loadGeoJSONSafe(
-          "bridges_damage",
-          vectorFiles.bridges_damage
-        );
-
-        // Damaged bridge POINT layer
-        if (!map.getLayer("bridges_damage-point-layer")) {
-
-          await ensureSvgIcon(
-            "damaged-bridge-point-icon",
-            damagedBridgePointIconSvg
-          );
-
-          map.addLayer({
-            id: "bridges_damage-point-layer",
-            type: "symbol",
-            source: "bridges_damage",
-
-            filter: [
-              "in",
-              ["geometry-type"],
-              ["literal", ["Point", "MultiPoint"]]
-            ],
-
-            layout: {
-              "icon-image": "damaged-bridge-point-icon",
-              "icon-size": 0.9,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none"
-            }
-          });
-        }
-
-        // DAMAGED ROADS
-        if (!map.getSource("road_damage")) {
-          map.addSource("road_damage", {
-            type: "geojson",
-            data: emptyGeoJSON
-          });
-        }
-        await loadGeoJSONSafe(
-          "road_damage",
-          vectorFiles.road_damage
-        );
-        // Damaged road LINE layer
-        if (!map.getLayer("road_damage-layer")) {
-
-          map.addLayer({
-            id: "road_damage-layer",
-            type: "line",
-            source: "road_damage",
-
-            filter: [
-              "in",
-              ["geometry-type"],
-              ["literal", ["LineString", "MultiLineString"]]
-            ],
-
-            paint: {
-              "line-color": "#ff0000",
-              "line-width": 2,
-              "line-opacity": 1
-            },
-
-            layout: {
-              visibility: "none"
-            }
-          });
-        }
-        if (!map.getSource("road_damage")) {
-          map.addSource("road_damage", {
-            type: "geojson",
-            data: emptyGeoJSON
-          });
-        }
-        await loadGeoJSONSafe(
-          "road_damage",
-          vectorFiles.road_damage
-        );
-        // Damaged road LINE layer
-        if (!map.getLayer("road_damage-layer")) {
-
-          map.addLayer({
-            id: "road_damage-layer",
-            type: "line",
-            source: "road_damage",
-
-            filter: [
-              "in",
-              ["geometry-type"],
-              ["literal", ["LineString", "MultiLineString"]]
-            ],
-
-            paint: {
-              "line-color": "#ff0000",
-              "line-width": 2,
-              "line-opacity": 1
-            },
-
-            layout: {
-              visibility: "none"
-            }
-          });
-        }
-
-        // highway
-        if (!map.getSource("highway")) {
-          map.addSource("highway", {
-            type: "geojson",
-            data: emptyGeoJSON
-          });
-        }
-        await loadGeoJSONSafe(
-          "highway",
-          vectorFiles.highway
-        );
-        // Damaged road LINE layer
-        if (!map.getLayer("highway-layer")) {
-
-          map.addLayer({
-            id: "highway-layer",
-            type: "line",
-            source: "highway",
-
-            filter: [
-              "in",
-              ["geometry-type"],
-              ["literal", ["LineString", "MultiLineString"]]
-            ],
-
-            paint: {
-              "line-color": "#150101",
-              "line-width": 2,
-              "line-opacity": 1
-            },
-
-            layout: {
-              visibility: "none"
-            }
-          });
-        }
-        if (!map.getSource("highway")) {
-          map.addSource("highway", {
-            type: "geojson",
-            data: emptyGeoJSON
-          });
-        }
-        await loadGeoJSONSafe(
-          "highway",
-          vectorFiles.highway
-        );
-        // highway road LINE layer
-        if (!map.getLayer("highway-layer")) {
-
-          map.addLayer({
-            id: "highway-layer",
-            type: "line",
-            source: "highway",
-
-            filter: [
-              "in",
-              ["geometry-type"],
-              ["literal", ["LineString", "MultiLineString"]]
-            ],
-
-            paint: {
-              "line-color": "#150101",
-              "line-width": 2,
-              "line-opacity": 1
-            },
-
-            layout: {
-              visibility: "none"
-            }
-          });
-        }
-
-        if (!map.getSource("bridges")) {
-          map.addSource("bridges", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("bridges", vectorFiles.bridges);
-
-        if (!map.getLayer("bridges-layer")) {
-          map.addLayer({
-            id: "bridges-layer",
-            type: "line",
-            source: "bridges",
-            filter: ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]],
-            paint: {
-              "line-color": "#000000",
-              "line-width": 1,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("bridges-point-layer")) {
-          await ensureSvgIcon("bridge-point-icon", bridgePointIconSvg);
-          map.addLayer({
-            id: "bridges-point-layer",
-            type: "symbol",
-            minzoom: 9,
-            source: "bridges",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "bridge-point-icon",
-              "icon-size": 0.7,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("holding-centers")) {
-          map.addSource("holding-centers", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("holding-centers", vectorFiles.holdingCenters);
-
-        if (!map.getLayer("holding-centers-layer")) {
-          await ensureSvgIcon("holding-center-triangle", holdingCenterTriangleSvg);
-          map.addLayer({
-            id: "holding-centers-layer",
-            type: "symbol",
-            source: "holding-centers",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "holding-center-triangle",
-              "icon-size": 0.9,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("hydropower")) {
-          map.addSource("hydropower", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("hydropower", vectorFiles.hydropower);
-
-        if (!map.getLayer("hydropower-fill-layer")) {
-          map.addLayer({
-            id: "hydropower-fill-layer",
-            type: "fill",
-            source: "hydropower",
-            filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
-            paint: {
-              "fill-color": "#9b51e0",
-              "fill-opacity": 0.45,
-              "fill-outline-color": "#7b3fb3",
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("hydropower-line-layer")) {
-          map.addLayer({
-            id: "hydropower-line-layer",
-            type: "line",
-            source: "hydropower",
-            filter: ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]],
-            paint: {
-              "line-color": "#7b3fb3",
-              "line-width": 2,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("hydropower-point-layer")) {
-          map.addLayer({
-            id: "hydropower-point-layer",
-            type: "circle",
-            source: "hydropower",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            paint: {
-              "circle-color": "#9b51e0",
-              "circle-radius": 4,
-              "circle-stroke-color": "#ffffff",
-              "circle-stroke-width": 1,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("buildings")) {
-          map.addSource("buildings", {
-            type: "geojson",
-            data: vectorFiles.buildings,
-          });
-        }
-
-        if (!map.getLayer("buildings-layer")) {
-          map.addLayer({
-            id: "buildings-layer",
-            type: "fill-extrusion",
-            source: "buildings",
-            minzoom: 11,
-            paint: {
-              "fill-extrusion-color": "#d44242",
-              "fill-extrusion-height": [
-                "max",
-                0,
-                ["coalesce", ["to-number", ["get", "GHeightmax"]], 0],
-              ],
-              "fill-extrusion-base": 0,
-              "fill-extrusion-opacity": 0.88,
-              "fill-extrusion-vertical-gradient": true,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("ntc-towers")) {
-          map.addSource("ntc-towers", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("ntc-towers", vectorFiles.ntcTowers);
-
-        if (!map.getLayer("ntc-towers-layer")) {
-          await ensureSvgIcon("ntc-tower-triangle", ntcTowerTriangleSvg);
-          map.addLayer({
-            id: "ntc-towers-layer",
-            type: "symbol",
-            source: "ntc-towers",
-            minzoom: 10,
-            layout: {
-              "icon-image": "ntc-tower-triangle",
-              "icon-size": 0.8,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("ncell-towers")) {
-          map.addSource("ncell-towers", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("ncell-towers", vectorFiles.ncellTowers);
-
-        if (!map.getLayer("ncell-towers-layer")) {
-          await ensureSvgIcon("ncell-tower-triangle", ncellTowerTriangleSvg);
-          map.addLayer({
-            id: "ncell-towers-layer",
-            type: "symbol",
-            minzoom: 10,
-            source: "ncell-towers",
-            layout: {
-              "icon-image": "ncell-tower-triangle",
-              "icon-size": 0.8,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("open-spaces-osm")) {
-          map.addSource("open-spaces-osm", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("open-spaces-osm", vectorFiles.openSpacesOsm);
-
-        if (!map.getLayer("open-spaces-osm-fill-layer")) {
-          map.addLayer({
-            id: "open-spaces-osm-fill-layer",
-            type: "fill",
-            source: "open-spaces-osm",
-            paint: {
-              "fill-color": "#3cb371",
-              "fill-opacity": 0.35,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("open-spaces-osm-border-layer")) {
-          map.addLayer({
-            id: "open-spaces-osm-border-layer",
-            type: "line",
-            source: "open-spaces-osm",
-            paint: {
-              "line-color": "#2e8b57",
-              "line-width": 1.2,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("probable-open-spaces")) {
-          map.addSource("probable-open-spaces", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("probable-open-spaces", vectorFiles.probableOpenSpaces);
-
-        if (!map.getLayer("probable-open-spaces-fill-layer")) {
-          map.addLayer({
-            id: "probable-open-spaces-fill-layer",
-            type: "fill",
-            source: "probable-open-spaces",
-            paint: {
-              "fill-color": "#f4a261",
-              "fill-opacity": 0.35,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("probable-open-spaces-border-layer")) {
-          map.addLayer({
-            id: "probable-open-spaces-border-layer",
-            type: "line",
-            source: "probable-open-spaces",
-            paint: {
-              "line-color": "#e76f51",
-              "line-width": 1.2,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getLayer("probable-open-spaces-point-layer")) {
-          map.addLayer({
-            id: "probable-open-spaces-point-layer",
-            type: "circle",
-            source: "probable-open-spaces",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            paint: {
-              "circle-color": "#f4a261",
-              "circle-radius": 5,
-              "circle-stroke-color": "#ffffff",
-              "circle-stroke-width": 1,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("petrol-pump")) {
-          map.addSource("petrol-pump", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("petrol-pump", vectorFiles.petrolPump);
-
-        if (!map.getLayer("petrol-pump-layer")) {
-          await ensureSvgIcon("petrol-pump-icon", petrolPumpSvg);
-          map.addLayer({
-            id: "petrol-pump-layer",
-            type: "symbol",
-            source: "petrol-pump",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "petrol-pump-icon",
-              "icon-size": 0.8,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("banks")) {
-          map.addSource("banks", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("banks", vectorFiles.banks);
-
-        if (!map.getLayer("banks-layer")) {
-          await ensureSvgIcon("bank-icon", bankSvg);
-          map.addLayer({
-            id: "banks-layer",
-            type: "symbol",
-            source: "banks",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "bank-icon",
-              "icon-size": 0.65,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("medical")) {
-          map.addSource("medical", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("medical", vectorFiles.medical);
-
-        if (!map.getLayer("medical-layer")) {
-          await ensureSvgIcon("medical-h-icon", medicalHSvg);
-          map.addLayer({
-            id: "medical-layer",
-            type: "symbol",
-            source: "medical",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "medical-h-icon",
-              "icon-size": 0.8,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("mailung-landmarks")) {
-          map.addSource("mailung-landmarks", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("mailung-landmarks", vectorFiles.mailungLandmarks);
-
-        if (!map.getLayer("mailung-landmarks-layer")) {
-          map.addLayer({
-            id: "mailung-landmarks-layer",
-            type: "circle",
-            source: "mailung-landmarks",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            paint: {
-              "circle-color": "#17b248",
-              "circle-radius": 4,
-              "circle-stroke-color": "#ffffff",
-              "circle-stroke-width": 1,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("mailung-substation")) {
-          map.addSource("mailung-substation", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("mailung-substation", vectorFiles.mailungSubstation);
-
-        if (!map.getLayer("mailung-substation-layer")) {
-          map.addLayer({
-            id: "mailung-substation-layer",
-            type: "circle",
-            source: "mailung-substation",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            paint: {
-              "circle-color": "#1ca2bd",
-              "circle-radius": 4.5,
-              "circle-stroke-color": "#ffffff",
-              "circle-stroke-width": 1,
-            },
-            layout: {
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("mailung-heli")) {
-          map.addSource("mailung-heli", {
-            type: "geojson",
-            data: emptyGeoJSON,
-          });
-        }
-        await loadGeoJSONSafe("mailung-heli", vectorFiles.mailungHeli);
-
-        if (!map.getLayer("mailung-heli-layer")) {
-          await ensureImageIcon("heli-site-icon", "image/helicopter.png");
-          map.addLayer({
-            id: "mailung-heli-layer",
-            type: "symbol",
-            source: "mailung-heli",
-            filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
-            layout: {
-              "icon-image": "heli-site-icon",
-              "icon-size": 0.025,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-              visibility: "none",
-            },
-          });
-        }
-
-        if (!map.getSource("damage-photos")) {
-          map.addSource("damage-photos", {
-            type: "geojson",
-            data: damagePhotoLocations,
-          });
-        }
-
-        if (!map.getLayer("damage-photos-layer")) {
-          await ensureSvgIcon("damage-photo-camera", damagePhotoCameraSvg);
-          map.addLayer({
-            id: "damage-photos-layer",
-            type: "symbol",
-            source: "damage-photos",
-            layout: {
-              "icon-image": "damage-photo-camera",
-              "icon-size": 0.75,
-              "icon-allow-overlap": true,
-              "icon-ignore-placement": true,
-            },
-          });
-        }
-      }
-
-      function syncLayerVisibility() {
-        const floodVisible = document.getElementById("flood-area-checkbox").checked ? "visible" : "none";
-        const affectedWardsVisible = document.getElementById("affected-wards-checkbox").checked ? "visible" : "none";
-        const bridgesVisible = document.getElementById("bridges-checkbox").checked ? "visible" : "none";
-        const damagedBridgesVisible = document.getElementById("bridges_damage-checkbox").checked ? "visible" : "none";
-        const damagedRoadsVisible = document.getElementById("road_damage-checkbox").checked ? "visible" : "none";
-        const highwayVisible = document.getElementById("highway-checkbox").checked ? "visible" : "none";
-        const holdingCentersVisible = document.getElementById("holding-centers-checkbox").checked ? "visible" : "none";
-        const hydropowerVisible = document.getElementById("hydropower-checkbox").checked ? "visible" : "none";
-        const buildingsVisible = document.getElementById("buildings-checkbox").checked ? "visible" : "none";
-        const ntcTowersVisible = document.getElementById("ntc-towers-checkbox").checked ? "visible" : "none";
-        const ncellTowersVisible = document.getElementById("ncell-towers-checkbox").checked ? "visible" : "none";
-        const openSpacesOsmVisible = document.getElementById("open-spaces-osm-checkbox").checked ? "visible" : "none";
-        const probableOpenSpacesVisible = document.getElementById("open-spaces-probable-checkbox").checked ? "visible" : "none";
-        const petrolPumpVisible = document.getElementById("petrol-pump-checkbox").checked ? "visible" : "none";
-        const banksVisible = document.getElementById("banks-checkbox").checked ? "visible" : "none";
-        const lake1Visible = document.getElementById("lake1-checkbox").checked ? "visible" : "none";
-        const lake2Visible = document.getElementById("lake2-checkbox").checked ? "visible" : "none";
-        const lake3Visible = document.getElementById("lake3-checkbox").checked ? "visible" : "none";
-        const medicalVisible = document.getElementById("medical-checkbox").checked ? "visible" : "none";
-        const mailungLandmarksVisible = document.getElementById("mailung-landmarks-checkbox").checked ? "visible" : "none";
-        const mailungSubstationVisible = document.getElementById("mailung-substation-checkbox").checked ? "visible" : "none";
-        const mailungHeliVisible = document.getElementById("mailung-heli-checkbox").checked ? "visible" : "none";
-        const damagePhotosVisible = document.getElementById("damage-photos-checkbox").checked ? "visible" : "none";
-
-        if (map.getLayer("flood-area-fill-layer")) {
-          map.setLayoutProperty("flood-area-fill-layer", "visibility", floodVisible);
-        }
-        if (map.getLayer("flood-area-border-layer")) {
-          map.setLayoutProperty("flood-area-border-layer", "visibility", floodVisible);
-        }
-        if (map.getLayer("affected-wards-fill-layer")) {
-          map.setLayoutProperty("affected-wards-fill-layer", "visibility", affectedWardsVisible);
-        }
-        if (map.getLayer("affected-wards-border-layer")) {
-          map.setLayoutProperty("affected-wards-border-layer", "visibility", affectedWardsVisible);
-        }
-        if (map.getLayer("bridges-layer")) {
-          map.setLayoutProperty("bridges-layer", "visibility", bridgesVisible);
-        }
-        if (map.getLayer("bridges-point-layer")) {
-          map.setLayoutProperty("bridges-point-layer", "visibility", bridgesVisible);
-        }
-        if (map.getLayer("bridges_damage-point-layer")) {
-          map.setLayoutProperty("bridges_damage-point-layer", "visibility", damagedBridgesVisible);
-        }
-        if (map.getLayer("road_damage-layer")) {
-          map.setLayoutProperty("road_damage-layer", "visibility", damagedRoadsVisible);
-        }
-        if (map.getLayer("highway-layer")) {
-          map.setLayoutProperty("highway-layer", "visibility", highwayVisible);
-        }
-        if (map.getLayer("holding-centers-layer")) {
-          map.setLayoutProperty("holding-centers-layer", "visibility", holdingCentersVisible);
-        }
-        if (map.getLayer("hydropower-fill-layer")) {
-          map.setLayoutProperty("hydropower-fill-layer", "visibility", hydropowerVisible);
-        }
-        if (map.getLayer("hydropower-line-layer")) {
-          map.setLayoutProperty("hydropower-line-layer", "visibility", hydropowerVisible);
-        }
-        if (map.getLayer("hydropower-point-layer")) {
-          map.setLayoutProperty("hydropower-point-layer", "visibility", hydropowerVisible);
-        }
-        if (map.getLayer("buildings-layer")) {
-          map.setLayoutProperty("buildings-layer", "visibility", buildingsVisible);
-        }
-        if (map.getLayer("ntc-towers-layer")) {
-          map.setLayoutProperty("ntc-towers-layer", "visibility", ntcTowersVisible);
-        }
-        if (map.getLayer("ncell-towers-layer")) {
-          map.setLayoutProperty("ncell-towers-layer", "visibility", ncellTowersVisible);
-        }
-        if (map.getLayer("open-spaces-osm-fill-layer")) {
-          map.setLayoutProperty("open-spaces-osm-fill-layer", "visibility", openSpacesOsmVisible);
-        }
-        if (map.getLayer("open-spaces-osm-border-layer")) {
-          map.setLayoutProperty("open-spaces-osm-border-layer", "visibility", openSpacesOsmVisible);
-        }
-        if (map.getLayer("probable-open-spaces-fill-layer")) {
-          map.setLayoutProperty("probable-open-spaces-fill-layer", "visibility", probableOpenSpacesVisible);
-        }
-        if (map.getLayer("probable-open-spaces-border-layer")) {
-          map.setLayoutProperty("probable-open-spaces-border-layer", "visibility", probableOpenSpacesVisible);
-        }
-        if (map.getLayer("probable-open-spaces-point-layer")) {
-          map.setLayoutProperty("probable-open-spaces-point-layer", "visibility", probableOpenSpacesVisible);
-        }
-        if (map.getLayer("petrol-pump-layer")) {
-          map.setLayoutProperty("petrol-pump-layer", "visibility", petrolPumpVisible);
-        }
-        if (map.getLayer("banks-layer")) {
-          map.setLayoutProperty("banks-layer", "visibility", banksVisible);
-        }
-        if (map.getLayer("lake1-fill-layer")) {
-          map.setLayoutProperty("lake1-fill-layer", "visibility", lake1Visible);
-        }
-        if (map.getLayer("lake1-border-layer")) {
-          map.setLayoutProperty("lake1-border-layer", "visibility", lake1Visible);
-        }
-        if (map.getLayer("lake2-fill-layer")) {
-          map.setLayoutProperty("lake2-fill-layer", "visibility", lake2Visible);
-        }
-        if (map.getLayer("lake2-border-layer")) {
-          map.setLayoutProperty("lake2-border-layer", "visibility", lake2Visible);
-        }
-        if (map.getLayer("lake3-fill-layer")) {
-          map.setLayoutProperty("lake3-fill-layer", "visibility", lake3Visible);
-        }
-        if (map.getLayer("lake3-border-layer")) {
-          map.setLayoutProperty("lake3-border-layer", "visibility", lake3Visible);
-        }
-        if (map.getLayer("medical-layer")) {
-          map.setLayoutProperty("medical-layer", "visibility", medicalVisible);
-        }
-        if (map.getLayer("mailung-landmarks-layer")) {
-          map.setLayoutProperty("mailung-landmarks-layer", "visibility", mailungLandmarksVisible);
-        }
-        if (map.getLayer("mailung-substation-layer")) {
-          map.setLayoutProperty("mailung-substation-layer", "visibility", mailungSubstationVisible);
-        }
-        if (map.getLayer("mailung-heli-layer")) {
-          map.setLayoutProperty("mailung-heli-layer", "visibility", mailungHeliVisible);
-        }
-        if (map.getLayer("damage-photos-layer")) {
-          map.setLayoutProperty("damage-photos-layer", "visibility", damagePhotosVisible);
-        }
-      }
-
-      function updateAllVectorsCheckboxState() {
-        const allVectorsCheckbox = document.getElementById("all-vectors-checkbox");
-        if (!allVectorsCheckbox) {
+        const feature = event.features && event.features[0];
+        if (!feature) {
           return;
         }
 
-        const checkboxes = vectorLayerCheckboxIds
-          .map((id) => document.getElementById(id))
-          .filter((element) => element);
+        showDescriptionPopup(event.lngLat, buildFeaturePopupHtml(title, feature));
+      });
+    }
 
-        if (checkboxes.length === 0) {
-          allVectorsCheckbox.checked = false;
-          allVectorsCheckbox.indeterminate = false;
+    async function openDamagePhotoViewer(properties) {
+      clearTimeout(affectedWardsPopupTimer);
+      affectedWardsPopup.remove();
+      clearHoveredWard();
+      if (activeDescriptionPopup) {
+        activeDescriptionPopup.remove();
+      }
+
+      const modal = document.getElementById("photo-modal");
+      const image = document.getElementById("photo-modal-image");
+      const title = document.getElementById("photo-modal-title");
+      const meta = document.getElementById("photo-modal-meta");
+      const requestId = ++damagePhotoLoadRequest;
+
+      image.classList.remove("loaded");
+      image.removeAttribute("src");
+      image.alt = `${properties.imageType} at ${properties.title}`;
+      title.textContent = properties.title;
+      meta.textContent = `Loading ${properties.imageType.toLowerCase()}...`;
+      modal.classList.add("open");
+      document.getElementById("photo-modal-close").focus();
+
+      const nextImage = new Image();
+      nextImage.src = properties.image;
+
+      try {
+        if (typeof nextImage.decode === "function") {
+          await nextImage.decode();
+        } else if (!nextImage.complete) {
+          await new Promise((resolve, reject) => {
+            nextImage.onload = resolve;
+            nextImage.onerror = reject;
+          });
+        }
+
+        if (requestId !== damagePhotoLoadRequest || !modal.classList.contains("open")) {
           return;
         }
 
-        const checkedCount = checkboxes.filter((checkbox) => checkbox.checked).length;
-        allVectorsCheckbox.checked = checkedCount === checkboxes.length;
-        allVectorsCheckbox.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+        image.src = properties.image;
+        image.classList.add("loaded");
+        meta.textContent = `${properties.imageType} | ${properties.date}`;
+      } catch (error) {
+        if (requestId === damagePhotoLoadRequest) {
+          meta.textContent = "Image could not be loaded.";
+        }
+      }
+    }
+
+    function closeDamagePhotoViewer() {
+      damagePhotoLoadRequest += 1;
+      const modal = document.getElementById("photo-modal");
+      modal.classList.remove("open");
+    }
+
+    function bindDamagePhotoEvents() {
+      if (damagePhotoEventsBound) {
+        return;
       }
 
-      function setAllVectorLayersVisibility(isVisible) {
-        isBulkVectorToggleUpdate = true;
-        vectorLayerCheckboxIds.forEach((id) => {
-          const checkbox = document.getElementById(id);
-          if (checkbox) {
-            checkbox.checked = isVisible;
+      damagePhotoEventsBound = true;
+      damagePhotoHoverPopup = new maptilersdk.Popup({
+        closeButton: false,
+        closeOnClick: false,
+        className: "photo-hover-popup",
+        offset: 16,
+      });
+
+      map.on("mouseenter", "damage-photos-layer", (event) => {
+        const feature = event.features && event.features[0];
+        if (!feature) {
+          return;
+        }
+
+        map.getCanvas().style.cursor = "pointer";
+        const properties = feature.properties || {};
+        damagePhotoHoverPopup
+          .setLngLat(event.lngLat)
+          .setHTML(`<strong>${escapeHtml(properties.title || "Damage photo")}</strong><br>${escapeHtml(properties.imageType || "After image")} | ${escapeHtml(properties.date || "")}`)
+          .addTo(map);
+      });
+
+      map.on("mouseleave", "damage-photos-layer", () => {
+        map.getCanvas().style.cursor = "";
+        damagePhotoHoverPopup.remove();
+      });
+
+      map.on("click", "damage-photos-layer", (event) => {
+        if (!isTopmostInteractiveLayer(event, "damage-photos-layer")) {
+          return;
+        }
+
+        const feature = event.features && event.features[0];
+        if (!feature) {
+          return;
+        }
+
+        damagePhotoHoverPopup.remove();
+        openDamagePhotoViewer(feature.properties || {});
+      });
+    }
+
+    async function addVectorLayers() {
+      if (!map.getSource("affected-wards")) {
+        map.addSource("affected-wards", {
+          type: "geojson",
+          data: emptyGeoJSON,
+          promoteId: "OBJECTID",
+        });
+      }
+      await loadGeoJSONSafe("affected-wards", vectorFiles.affectedWards);
+
+      if (!map.getLayer("affected-wards-fill-layer")) {
+        map.addLayer({
+          id: "affected-wards-fill-layer",
+          type: "fill",
+          source: "affected-wards",
+          paint: {
+            "fill-color": [
+              "interpolate",
+              ["linear"],
+              ["coalesce", ["to-number", ["get", "Affected_pop"]], 0],
+              0, "#fee8c8",
+              500, "#fdbb84",
+              1500, "#e34a33",
+              3000, "#b30000",
+            ],
+            "fill-opacity": [
+              "case",
+              ["boolean", ["feature-state", "hover"], false],
+              0.55,
+              0.25,
+            ],
+          },
+        });
+      }
+
+      if (!map.getLayer("affected-wards-border-layer")) {
+        map.addLayer({
+          id: "affected-wards-border-layer",
+          type: "line",
+          source: "affected-wards",
+          paint: {
+            "line-color": [
+              "case",
+              ["boolean", ["feature-state", "hover"], false],
+              "#edd680",
+              "#8f2d20",
+            ],
+            "line-width": [
+              "case",
+              ["boolean", ["feature-state", "hover"], false],
+              2.5,
+              1,
+            ],
+          },
+        });
+      }
+
+      if (!map.getSource("flood-area")) {
+        map.addSource("flood-area", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+
+      const floodData = await loadGeoJSONSafe("flood-area", vectorFiles.flood);
+
+      if (!hasFittedToFloodExtent) {
+        const bounds = getGeoJSONBounds(floodData);
+        if (bounds) {
+          map.fitBounds(bounds, { padding: 25, maxZoom: 15, offset: [0, 10] });
+          hasFittedToFloodExtent = true;
+        }
+      }
+
+      if (!map.getLayer("flood-area-fill-layer")) {
+        map.addLayer({
+          id: "flood-area-fill-layer",
+          type: "fill",
+          source: "flood-area",
+          paint: {
+            "fill-color": "#2f80ed",
+            "fill-opacity": 0.3,
+          },
+        });
+      }
+
+      if (!map.getLayer("flood-area-border-layer")) {
+        map.addLayer({
+          id: "flood-area-border-layer",
+          type: "line",
+          source: "flood-area",
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: {
+            "line-color": "#1c5fb8",
+            "line-width": 1,
+          },
+        });
+      }
+
+      if (!map.getSource("lake1")) {
+        map.addSource("lake1", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("lake1", vectorFiles.lake1);
+
+      if (!map.getLayer("lake1-fill-layer")) {
+        map.addLayer({
+          id: "lake1-fill-layer",
+          type: "fill",
+          source: "lake1",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#56ccf2",
+            "fill-opacity": 0.55,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("lake1-border-layer")) {
+        map.addLayer({
+          id: "lake1-border-layer",
+          type: "line",
+          source: "lake1",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "line-color": "#000000",
+            "line-width": 1.5,
+            "line-dasharray": [2, 2],
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("lake2")) {
+        map.addSource("lake2", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("lake2", vectorFiles.lake2);
+
+      if (!map.getLayer("lake2-fill-layer")) {
+        map.addLayer({
+          id: "lake2-fill-layer",
+          type: "fill",
+          source: "lake2",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#56ccf2",
+            "fill-opacity": 0.55,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("lake2-border-layer")) {
+        map.addLayer({
+          id: "lake2-border-layer",
+          type: "line",
+          source: "lake2",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "line-color": "#000000",
+            "line-width": 1.5,
+            "line-dasharray": [2, 2],
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("lake3")) {
+        map.addSource("lake3", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("lake3", vectorFiles.lake3);
+
+      if (!map.getLayer("lake3-fill-layer")) {
+        map.addLayer({
+          id: "lake3-fill-layer",
+          type: "fill",
+          source: "lake3",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#56ccf2",
+            "fill-opacity": 0.75,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("lake3-border-layer")) {
+        map.addLayer({
+          id: "lake3-border-layer",
+          type: "line",
+          source: "lake3",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "line-color": "#2d9cdb",
+            "line-width": 1.5,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      // DAMAGED BRIDGES
+
+      if (!map.getSource("bridges_damage")) {
+        map.addSource("bridges_damage", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+
+      await loadGeoJSONSafe(
+        "bridges_damage",
+        vectorFiles.bridges_damage
+      );
+
+      // Damaged bridge POINT layer
+      if (!map.getLayer("bridges_damage-point-layer")) {
+
+        await ensureSvgIcon(
+          "damaged-bridge-point-icon",
+          damagedBridgePointIconSvg
+        );
+
+        map.addLayer({
+          id: "bridges_damage-point-layer",
+          type: "symbol",
+          source: "bridges_damage",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["Point", "MultiPoint"]]
+          ],
+
+          layout: {
+            "icon-image": "damaged-bridge-point-icon",
+            "icon-size": 0.9,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none"
           }
         });
-        isBulkVectorToggleUpdate = false;
-        syncLayerVisibility();
-        updateAllVectorsCheckboxState();
       }
 
-      function keepFloodExtentBelowOtherLayers() {
-        const upperLayerCandidates = [
-          "bridges-layer",
-          "bridges-point-layer",
-          "holding-centers-layer",
-          "hydropower-fill-layer",
-          "hydropower-line-layer",
-          "hydropower-point-layer",
-          "buildings-layer",
-          "ntc-towers-layer",
-          "ncell-towers-layer",
-          "open-spaces-osm-fill-layer",
-          "open-spaces-osm-border-layer",
-          "probable-open-spaces-fill-layer",
-          "probable-open-spaces-border-layer",
-          "probable-open-spaces-point-layer",
-          "petrol-pump-layer",
-          "banks-layer",
-          "medical-layer",
-          "mailung-landmarks-layer",
-          "mailung-substation-layer",
-          "mailung-heli-layer",
-          "damage-photos-layer",
-        ];
-
-        const firstUpperLayer = upperLayerCandidates.find((layerId) => map.getLayer(layerId));
-        if (!firstUpperLayer) {
-          return;
-        }
-
-        if (map.getLayer("flood-area-fill-layer")) {
-          map.moveLayer("flood-area-fill-layer", firstUpperLayer);
-        }
-
-        if (map.getLayer("flood-area-border-layer")) {
-          map.moveLayer("flood-area-border-layer", firstUpperLayer);
-        }
+      // DAMAGED ROADS
+      if (!map.getSource("road_damage")) {
+        map.addSource("road_damage", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
       }
+      await loadGeoJSONSafe(
+        "road_damage",
+        vectorFiles.road_damage
+      );
+      // Damaged road LINE layer
+      if (!map.getLayer("road_damage-layer")) {
 
-      function parseCoordinatesFromText(text) {
-        const cleanText = String(text || "").trim();
-        if (!cleanText) {
-          return null;
-        }
+        map.addLayer({
+          id: "road_damage-layer",
+          type: "line",
+          source: "road_damage",
 
-        const parts = (cleanText.match(/[-+]?\d*\.?\d+/g) || []).slice(0, 2);
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["LineString", "MultiLineString"]]
+          ],
 
-        if (parts.length !== 2) {
-          return null;
-        }
+          paint: {
+            "line-color": "#ff0000",
+            "line-width": 2,
+            "line-opacity": 1
+          },
 
-        const first = Number(parts[0]);
-        const second = Number(parts[1]);
-        if (!Number.isFinite(first) || !Number.isFinite(second)) {
-          return null;
-        }
-
-        const firstLooksLat = Math.abs(first) <= 90;
-        const firstLooksLng = Math.abs(first) <= 180;
-        const secondLooksLat = Math.abs(second) <= 90;
-        const secondLooksLng = Math.abs(second) <= 180;
-
-        if (!firstLooksLng || !secondLooksLng) {
-          return null;
-        }
-
-        if (firstLooksLat && Math.abs(second) > 90 && secondLooksLng) {
-          return { lat: first, lng: second };
-        }
-
-        if (secondLooksLat && Math.abs(first) > 90 && firstLooksLng) {
-          return { lat: second, lng: first };
-        }
-
-        if (firstLooksLat && secondLooksLat) {
-          const candidateA = { lat: first, lng: second };
-          const candidateB = { lat: second, lng: first };
-
-          if (typeof map.getCenter === "function") {
-            const center = map.getCenter();
-            const scoreA = Math.abs(candidateA.lat - center.lat) + Math.abs(candidateA.lng - center.lng);
-            const scoreB = Math.abs(candidateB.lat - center.lat) + Math.abs(candidateB.lng - center.lng);
-            return scoreA <= scoreB ? candidateA : candidateB;
+          layout: {
+            visibility: "none"
           }
+        });
+      }
+      if (!map.getSource("road_damage")) {
+        map.addSource("road_damage", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+      await loadGeoJSONSafe(
+        "road_damage",
+        vectorFiles.road_damage
+      );
+      // Damaged road LINE layer
+      if (!map.getLayer("road_damage-layer")) {
 
-          return candidateA;
+        map.addLayer({
+          id: "road_damage-layer",
+          type: "line",
+          source: "road_damage",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["LineString", "MultiLineString"]]
+          ],
+
+          paint: {
+            "line-color": "#ff0000",
+            "line-width": 2,
+            "line-opacity": 1
+          },
+
+          layout: {
+            visibility: "none"
+          }
+        });
+      }
+
+      // highway
+      if (!map.getSource("highway")) {
+        map.addSource("highway", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+      await loadGeoJSONSafe(
+        "highway",
+        vectorFiles.highway
+      );
+      // Damaged road LINE layer
+      if (!map.getLayer("highway-layer")) {
+
+        map.addLayer({
+          id: "highway-layer",
+          type: "line",
+          source: "highway",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["LineString", "MultiLineString"]]
+          ],
+
+          paint: {
+            "line-color": "#150101",
+            "line-width": 2,
+            "line-opacity": 1
+          },
+
+          layout: {
+            visibility: "none"
+          }
+        });
+      }
+      if (!map.getSource("highway")) {
+        map.addSource("highway", {
+          type: "geojson",
+          data: emptyGeoJSON
+        });
+      }
+      await loadGeoJSONSafe(
+        "highway",
+        vectorFiles.highway
+      );
+      // highway road LINE layer
+      if (!map.getLayer("highway-layer")) {
+
+        map.addLayer({
+          id: "highway-layer",
+          type: "line",
+          source: "highway",
+
+          filter: [
+            "in",
+            ["geometry-type"],
+            ["literal", ["LineString", "MultiLineString"]]
+          ],
+
+          paint: {
+            "line-color": "#150101",
+            "line-width": 2,
+            "line-opacity": 1
+          },
+
+          layout: {
+            visibility: "none"
+          }
+        });
+      }
+
+      if (!map.getSource("bridges")) {
+        map.addSource("bridges", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("bridges", vectorFiles.bridges);
+
+      if (!map.getLayer("bridges-layer")) {
+        map.addLayer({
+          id: "bridges-layer",
+          type: "line",
+          source: "bridges",
+          filter: ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]],
+          paint: {
+            "line-color": "#000000",
+            "line-width": 1,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("bridges-point-layer")) {
+        await ensureSvgIcon("bridge-point-icon", bridgePointIconSvg);
+        map.addLayer({
+          id: "bridges-point-layer",
+          type: "symbol",
+          minzoom: 9,
+          source: "bridges",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "bridge-point-icon",
+            "icon-size": 0.7,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("holding-centers")) {
+        map.addSource("holding-centers", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("holding-centers", vectorFiles.holdingCenters);
+
+      if (!map.getLayer("holding-centers-layer")) {
+        await ensureSvgIcon("holding-center-triangle", holdingCenterTriangleSvg);
+        map.addLayer({
+          id: "holding-centers-layer",
+          type: "symbol",
+          source: "holding-centers",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "holding-center-triangle",
+            "icon-size": 0.9,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("hydropower")) {
+        map.addSource("hydropower", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("hydropower", vectorFiles.hydropower);
+
+      if (!map.getLayer("hydropower-fill-layer")) {
+        map.addLayer({
+          id: "hydropower-fill-layer",
+          type: "fill",
+          source: "hydropower",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#9b51e0",
+            "fill-opacity": 0.45,
+            "fill-outline-color": "#7b3fb3",
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("hydropower-line-layer")) {
+        map.addLayer({
+          id: "hydropower-line-layer",
+          type: "line",
+          source: "hydropower",
+          filter: ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]],
+          paint: {
+            "line-color": "#7b3fb3",
+            "line-width": 2,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("hydropower-point-layer")) {
+        map.addLayer({
+          id: "hydropower-point-layer",
+          type: "circle",
+          source: "hydropower",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          paint: {
+            "circle-color": "#9b51e0",
+            "circle-radius": 4,
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("buildings")) {
+        map.addSource("buildings", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("buildings", vectorFiles.buildings);
+
+      if (!map.getLayer("buildings-layer")) {
+        map.addLayer({
+          id: "buildings-layer",
+          type: "fill-extrusion",
+          source: "buildings",
+          minzoom: 11,
+          paint: {
+            "fill-extrusion-color": "#d44242",
+            "fill-extrusion-height": [
+              "max",
+              0,
+              ["coalesce", ["to-number", ["get", "GHeightmax"]], 0],
+            ],
+            "fill-extrusion-base": 0,
+            "fill-extrusion-opacity": 0.88,
+            "fill-extrusion-vertical-gradient": true,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("ntc-towers")) {
+        map.addSource("ntc-towers", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("ntc-towers", vectorFiles.ntcTowers);
+
+      if (!map.getLayer("ntc-towers-layer")) {
+        await ensureSvgIcon("ntc-tower-triangle", ntcTowerTriangleSvg);
+        map.addLayer({
+          id: "ntc-towers-layer",
+          type: "symbol",
+          source: "ntc-towers",
+          minzoom: 9,
+          layout: {
+            "icon-image": "ntc-tower-triangle",
+            "icon-size": 0.8,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("ncell-towers")) {
+        map.addSource("ncell-towers", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("ncell-towers", vectorFiles.ncellTowers);
+
+      if (!map.getLayer("ncell-towers-layer")) {
+        await ensureSvgIcon("ncell-tower-triangle", ncellTowerTriangleSvg);
+        map.addLayer({
+          id: "ncell-towers-layer",
+          type: "symbol",
+          minzoom: 9,
+          source: "ncell-towers",
+          layout: {
+            "icon-image": "ncell-tower-triangle",
+            "icon-size": 0.8,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("open-spaces-osm")) {
+        map.addSource("open-spaces-osm", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("open-spaces-osm", vectorFiles.openSpacesOsm);
+
+      if (!map.getLayer("open-spaces-osm-fill-layer")) {
+        map.addLayer({
+          id: "open-spaces-osm-fill-layer",
+          type: "fill",
+          source: "open-spaces-osm",
+          paint: {
+            "fill-color": "#3cb371",
+            "fill-opacity": 0.35,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("open-spaces-osm-border-layer")) {
+        map.addLayer({
+          id: "open-spaces-osm-border-layer",
+          type: "line",
+          source: "open-spaces-osm",
+          paint: {
+            "line-color": "#2e8b57",
+            "line-width": 1.2,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("probable-open-spaces")) {
+        map.addSource("probable-open-spaces", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("probable-open-spaces", vectorFiles.probableOpenSpaces);
+
+      if (!map.getLayer("probable-open-spaces-fill-layer")) {
+        map.addLayer({
+          id: "probable-open-spaces-fill-layer",
+          type: "fill",
+          source: "probable-open-spaces",
+          paint: {
+            "fill-color": "#f4a261",
+            "fill-opacity": 0.35,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("probable-open-spaces-border-layer")) {
+        map.addLayer({
+          id: "probable-open-spaces-border-layer",
+          type: "line",
+          source: "probable-open-spaces",
+          paint: {
+            "line-color": "#e76f51",
+            "line-width": 1.2,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("probable-open-spaces-point-layer")) {
+        map.addLayer({
+          id: "probable-open-spaces-point-layer",
+          type: "circle",
+          source: "probable-open-spaces",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          paint: {
+            "circle-color": "#f4a261",
+            "circle-radius": 5,
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("petrol-pump")) {
+        map.addSource("petrol-pump", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("petrol-pump", vectorFiles.petrolPump);
+
+      if (!map.getLayer("petrol-pump-layer")) {
+        await ensureSvgIcon("petrol-pump-icon", petrolPumpSvg);
+        map.addLayer({
+          id: "petrol-pump-layer",
+          type: "symbol",
+          source: "petrol-pump",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "petrol-pump-icon",
+            "icon-size": 0.8,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("banks")) {
+        map.addSource("banks", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("banks", vectorFiles.banks);
+
+      if (!map.getLayer("banks-layer")) {
+        await ensureSvgIcon("bank-icon", bankSvg);
+        map.addLayer({
+          id: "banks-layer",
+          type: "symbol",
+          source: "banks",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "bank-icon",
+            "icon-size": 0.65,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("medical")) {
+        map.addSource("medical", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("medical", vectorFiles.medical);
+
+      if (!map.getLayer("medical-layer")) {
+        await ensureSvgIcon("medical-h-icon", medicalHSvg);
+        map.addLayer({
+          id: "medical-layer",
+          type: "symbol",
+          source: "medical",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "medical-h-icon",
+            "icon-size": 0.8,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("mailung-landmarks")) {
+        map.addSource("mailung-landmarks", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("mailung-landmarks", vectorFiles.mailungLandmarks);
+
+      if (!map.getLayer("mailung-landmarks-layer")) {
+        map.addLayer({
+          id: "mailung-landmarks-layer",
+          type: "circle",
+          source: "mailung-landmarks",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          paint: {
+            "circle-color": "#17b248",
+            "circle-radius": 4,
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("mailung-substation")) {
+        map.addSource("mailung-substation", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("mailung-substation", vectorFiles.mailungSubstation);
+
+      if (!map.getLayer("mailung-substation-layer")) {
+        map.addLayer({
+          id: "mailung-substation-layer",
+          type: "circle",
+          source: "mailung-substation",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          paint: {
+            "circle-color": "#1ca2bd",
+            "circle-radius": 4.5,
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("mailung-heli")) {
+        map.addSource("mailung-heli", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("mailung-heli", vectorFiles.mailungHeli);
+
+      if (!map.getLayer("mailung-heli-layer")) {
+        await ensureImageIcon("heli-site-icon", "image/helicopter.png");
+        map.addLayer({
+          id: "mailung-heli-layer",
+          type: "symbol",
+          source: "mailung-heli",
+          filter: ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]],
+          layout: {
+            "icon-image": "heli-site-icon",
+            "icon-size": 0.025,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getSource("damage-photos")) {
+        map.addSource("damage-photos", {
+          type: "geojson",
+          data: damagePhotoLocations,
+        });
+      }
+
+      if (!map.getLayer("damage-photos-layer")) {
+        await ensureSvgIcon("damage-photo-camera", damagePhotoCameraSvg);
+        map.addLayer({
+          id: "damage-photos-layer",
+          type: "symbol",
+          source: "damage-photos",
+          layout: {
+            "icon-image": "damage-photo-camera",
+            "icon-size": 0.75,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+          },
+        });
+      }
+    }
+
+    function syncLayerVisibility() {
+      const floodVisible = document.getElementById("flood-area-checkbox").checked ? "visible" : "none";
+      const affectedWardsVisible = document.getElementById("affected-wards-checkbox").checked ? "visible" : "none";
+      const bridgesVisible = document.getElementById("bridges-checkbox").checked ? "visible" : "none";
+      const damagedBridgesVisible = document.getElementById("bridges_damage-checkbox").checked ? "visible" : "none";
+      const damagedRoadsVisible = document.getElementById("road_damage-checkbox").checked ? "visible" : "none";
+      const highwayVisible = document.getElementById("highway-checkbox").checked ? "visible" : "none";
+      const holdingCentersVisible = document.getElementById("holding-centers-checkbox").checked ? "visible" : "none";
+      const hydropowerVisible = document.getElementById("hydropower-checkbox").checked ? "visible" : "none";
+      const buildingsVisible = document.getElementById("buildings-checkbox").checked ? "visible" : "none";
+      const ntcTowersVisible = document.getElementById("ntc-towers-checkbox").checked ? "visible" : "none";
+      const ncellTowersVisible = document.getElementById("ncell-towers-checkbox").checked ? "visible" : "none";
+      const openSpacesOsmVisible = document.getElementById("open-spaces-osm-checkbox").checked ? "visible" : "none";
+      const probableOpenSpacesVisible = document.getElementById("open-spaces-probable-checkbox").checked ? "visible" : "none";
+      const petrolPumpVisible = document.getElementById("petrol-pump-checkbox").checked ? "visible" : "none";
+      const banksVisible = document.getElementById("banks-checkbox").checked ? "visible" : "none";
+      const lake1Visible = document.getElementById("lake1-checkbox").checked ? "visible" : "none";
+      const lake2Visible = document.getElementById("lake2-checkbox").checked ? "visible" : "none";
+      const lake3Visible = document.getElementById("lake3-checkbox").checked ? "visible" : "none";
+      const medicalVisible = document.getElementById("medical-checkbox").checked ? "visible" : "none";
+      const mailungLandmarksVisible = document.getElementById("mailung-landmarks-checkbox").checked ? "visible" : "none";
+      const mailungSubstationVisible = document.getElementById("mailung-substation-checkbox").checked ? "visible" : "none";
+      const mailungHeliVisible = document.getElementById("mailung-heli-checkbox").checked ? "visible" : "none";
+      const damagePhotosVisible = document.getElementById("damage-photos-checkbox").checked ? "visible" : "none";
+
+      if (map.getLayer("flood-area-fill-layer")) {
+        map.setLayoutProperty("flood-area-fill-layer", "visibility", floodVisible);
+      }
+      if (map.getLayer("flood-area-border-layer")) {
+        map.setLayoutProperty("flood-area-border-layer", "visibility", floodVisible);
+      }
+      if (map.getLayer("affected-wards-fill-layer")) {
+        map.setLayoutProperty("affected-wards-fill-layer", "visibility", affectedWardsVisible);
+      }
+      if (map.getLayer("affected-wards-border-layer")) {
+        map.setLayoutProperty("affected-wards-border-layer", "visibility", affectedWardsVisible);
+      }
+      if (map.getLayer("bridges-layer")) {
+        map.setLayoutProperty("bridges-layer", "visibility", bridgesVisible);
+      }
+      if (map.getLayer("bridges-point-layer")) {
+        map.setLayoutProperty("bridges-point-layer", "visibility", bridgesVisible);
+      }
+      if (map.getLayer("bridges_damage-point-layer")) {
+        map.setLayoutProperty("bridges_damage-point-layer", "visibility", damagedBridgesVisible);
+      }
+      if (map.getLayer("road_damage-layer")) {
+        map.setLayoutProperty("road_damage-layer", "visibility", damagedRoadsVisible);
+      }
+      if (map.getLayer("highway-layer")) {
+        map.setLayoutProperty("highway-layer", "visibility", highwayVisible);
+      }
+      if (map.getLayer("holding-centers-layer")) {
+        map.setLayoutProperty("holding-centers-layer", "visibility", holdingCentersVisible);
+      }
+      if (map.getLayer("hydropower-fill-layer")) {
+        map.setLayoutProperty("hydropower-fill-layer", "visibility", hydropowerVisible);
+      }
+      if (map.getLayer("hydropower-line-layer")) {
+        map.setLayoutProperty("hydropower-line-layer", "visibility", hydropowerVisible);
+      }
+      if (map.getLayer("hydropower-point-layer")) {
+        map.setLayoutProperty("hydropower-point-layer", "visibility", hydropowerVisible);
+      }
+      if (map.getLayer("buildings-layer")) {
+        map.setLayoutProperty("buildings-layer", "visibility", buildingsVisible);
+      }
+      if (map.getLayer("ntc-towers-layer")) {
+        map.setLayoutProperty("ntc-towers-layer", "visibility", ntcTowersVisible);
+      }
+      if (map.getLayer("ncell-towers-layer")) {
+        map.setLayoutProperty("ncell-towers-layer", "visibility", ncellTowersVisible);
+      }
+      if (map.getLayer("open-spaces-osm-fill-layer")) {
+        map.setLayoutProperty("open-spaces-osm-fill-layer", "visibility", openSpacesOsmVisible);
+      }
+      if (map.getLayer("open-spaces-osm-border-layer")) {
+        map.setLayoutProperty("open-spaces-osm-border-layer", "visibility", openSpacesOsmVisible);
+      }
+      if (map.getLayer("probable-open-spaces-fill-layer")) {
+        map.setLayoutProperty("probable-open-spaces-fill-layer", "visibility", probableOpenSpacesVisible);
+      }
+      if (map.getLayer("probable-open-spaces-border-layer")) {
+        map.setLayoutProperty("probable-open-spaces-border-layer", "visibility", probableOpenSpacesVisible);
+      }
+      if (map.getLayer("probable-open-spaces-point-layer")) {
+        map.setLayoutProperty("probable-open-spaces-point-layer", "visibility", probableOpenSpacesVisible);
+      }
+      if (map.getLayer("petrol-pump-layer")) {
+        map.setLayoutProperty("petrol-pump-layer", "visibility", petrolPumpVisible);
+      }
+      if (map.getLayer("banks-layer")) {
+        map.setLayoutProperty("banks-layer", "visibility", banksVisible);
+      }
+      if (map.getLayer("lake1-fill-layer")) {
+        map.setLayoutProperty("lake1-fill-layer", "visibility", lake1Visible);
+      }
+      if (map.getLayer("lake1-border-layer")) {
+        map.setLayoutProperty("lake1-border-layer", "visibility", lake1Visible);
+      }
+      if (map.getLayer("lake2-fill-layer")) {
+        map.setLayoutProperty("lake2-fill-layer", "visibility", lake2Visible);
+      }
+      if (map.getLayer("lake2-border-layer")) {
+        map.setLayoutProperty("lake2-border-layer", "visibility", lake2Visible);
+      }
+      if (map.getLayer("lake3-fill-layer")) {
+        map.setLayoutProperty("lake3-fill-layer", "visibility", lake3Visible);
+      }
+      if (map.getLayer("lake3-border-layer")) {
+        map.setLayoutProperty("lake3-border-layer", "visibility", lake3Visible);
+      }
+      if (map.getLayer("medical-layer")) {
+        map.setLayoutProperty("medical-layer", "visibility", medicalVisible);
+      }
+      if (map.getLayer("mailung-landmarks-layer")) {
+        map.setLayoutProperty("mailung-landmarks-layer", "visibility", mailungLandmarksVisible);
+      }
+      if (map.getLayer("mailung-substation-layer")) {
+        map.setLayoutProperty("mailung-substation-layer", "visibility", mailungSubstationVisible);
+      }
+      if (map.getLayer("mailung-heli-layer")) {
+        map.setLayoutProperty("mailung-heli-layer", "visibility", mailungHeliVisible);
+      }
+      if (map.getLayer("damage-photos-layer")) {
+        map.setLayoutProperty("damage-photos-layer", "visibility", damagePhotosVisible);
+      }
+    }
+
+    function updateAllVectorsCheckboxState() {
+      const allVectorsCheckbox = document.getElementById("all-vectors-checkbox");
+      if (!allVectorsCheckbox) {
+        return;
+      }
+
+      const checkboxes = vectorLayerCheckboxIds
+        .map((id) => document.getElementById(id))
+        .filter((element) => element);
+
+      if (checkboxes.length === 0) {
+        allVectorsCheckbox.checked = false;
+        allVectorsCheckbox.indeterminate = false;
+        return;
+      }
+
+      const checkedCount = checkboxes.filter((checkbox) => checkbox.checked).length;
+      allVectorsCheckbox.checked = checkedCount === checkboxes.length;
+      allVectorsCheckbox.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+    }
+
+    function setAllVectorLayersVisibility(isVisible) {
+      isBulkVectorToggleUpdate = true;
+      vectorLayerCheckboxIds.forEach((id) => {
+        const checkbox = document.getElementById(id);
+        if (checkbox) {
+          checkbox.checked = isVisible;
+        }
+      });
+      isBulkVectorToggleUpdate = false;
+      syncLayerVisibility();
+      updateAllVectorsCheckboxState();
+    }
+
+    function keepFloodExtentBelowOtherLayers() {
+      const upperLayerCandidates = [
+        "bridges-layer",
+        "bridges-point-layer",
+        "holding-centers-layer",
+        "hydropower-fill-layer",
+        "hydropower-line-layer",
+        "hydropower-point-layer",
+        "buildings-layer",
+        "ntc-towers-layer",
+        "ncell-towers-layer",
+        "open-spaces-osm-fill-layer",
+        "open-spaces-osm-border-layer",
+        "probable-open-spaces-fill-layer",
+        "probable-open-spaces-border-layer",
+        "probable-open-spaces-point-layer",
+        "petrol-pump-layer",
+        "banks-layer",
+        "medical-layer",
+        "mailung-landmarks-layer",
+        "mailung-substation-layer",
+        "mailung-heli-layer",
+        "damage-photos-layer",
+      ];
+
+      const firstUpperLayer = upperLayerCandidates.find((layerId) => map.getLayer(layerId));
+      if (!firstUpperLayer) {
+        return;
+      }
+
+      if (map.getLayer("flood-area-fill-layer")) {
+        map.moveLayer("flood-area-fill-layer", firstUpperLayer);
+      }
+
+      if (map.getLayer("flood-area-border-layer")) {
+        map.moveLayer("flood-area-border-layer", firstUpperLayer);
+      }
+    }
+
+    function parseCoordinatesFromText(text) {
+      const cleanText = String(text || "").trim();
+      if (!cleanText) {
+        return null;
+      }
+
+      const parts = (cleanText.match(/[-+]?\d*\.?\d+/g) || []).slice(0, 2);
+
+      if (parts.length !== 2) {
+        return null;
+      }
+
+      const first = Number(parts[0]);
+      const second = Number(parts[1]);
+      if (!Number.isFinite(first) || !Number.isFinite(second)) {
+        return null;
+      }
+
+      const firstLooksLat = Math.abs(first) <= 90;
+      const firstLooksLng = Math.abs(first) <= 180;
+      const secondLooksLat = Math.abs(second) <= 90;
+      const secondLooksLng = Math.abs(second) <= 180;
+
+      if (!firstLooksLng || !secondLooksLng) {
+        return null;
+      }
+
+      if (firstLooksLat && Math.abs(second) > 90 && secondLooksLng) {
+        return { lat: first, lng: second };
+      }
+
+      if (secondLooksLat && Math.abs(first) > 90 && firstLooksLng) {
+        return { lat: second, lng: first };
+      }
+
+      if (firstLooksLat && secondLooksLat) {
+        const candidateA = { lat: first, lng: second };
+        const candidateB = { lat: second, lng: first };
+
+        if (typeof map.getCenter === "function") {
+          const center = map.getCenter();
+          const scoreA = Math.abs(candidateA.lat - center.lat) + Math.abs(candidateA.lng - center.lng);
+          const scoreB = Math.abs(candidateB.lat - center.lat) + Math.abs(candidateB.lng - center.lng);
+          return scoreA <= scoreB ? candidateA : candidateB;
         }
 
-        if (firstLooksLat && secondLooksLng) {
-          return { lat: first, lng: second };
+        return candidateA;
+      }
+
+      if (firstLooksLat && secondLooksLng) {
+        return { lat: first, lng: second };
+      }
+
+      if (firstLooksLng && secondLooksLat) {
+        return { lat: second, lng: first };
+      }
+
+      return null;
+    }
+
+    function flyToCoordinate(parsed) {
+      map.flyTo({
+        center: [parsed.lng, parsed.lat],
+        zoom: 14,
+        speed: 0.9,
+        curve: 1.2,
+      });
+
+      if (coordinateJumpMarker) {
+        coordinateJumpMarker.remove();
+      }
+
+      coordinateJumpMarker = new maptilersdk.Marker({ color: "#d62828" })
+        .setLngLat([parsed.lng, parsed.lat])
+        .addTo(map);
+    }
+
+    function setupTopRightGeocoderCoordinateSearch() {
+      function hasGeocoderHint(element) {
+        if (!(element instanceof Element)) {
+          return false;
         }
 
-        if (firstLooksLng && secondLooksLat) {
-          return { lat: second, lng: first };
+        const className = typeof element.className === "string" ? element.className.toLowerCase() : "";
+        return className.includes("geocod") || className.includes("maptiler");
+      }
+
+      function isWithinGeocoder(element) {
+        if (!(element instanceof Element)) {
+          return false;
+        }
+
+        return Boolean(element.closest(".maptiler-geocoding-control") || element.closest("[class*='geocod']"));
+      }
+
+      function resolveGeocoderInputFromEvent(event) {
+        const path = typeof event.composedPath === "function" ? event.composedPath() : [];
+        const inputFromPath = path.find((item) => item instanceof HTMLInputElement && item.type === "text");
+        if (inputFromPath && (isWithinGeocoder(inputFromPath) || path.some((item) => hasGeocoderHint(item)))) {
+          return inputFromPath;
+        }
+
+        const activeElement = document.activeElement;
+        if (activeElement instanceof HTMLInputElement && activeElement.type === "text" && isWithinGeocoder(activeElement)) {
+          return activeElement;
         }
 
         return null;
       }
 
-      function flyToCoordinate(parsed) {
-        map.flyTo({
-          center: [parsed.lng, parsed.lat],
-          zoom: 14,
-          speed: 0.9,
-          curve: 1.2,
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") {
+          return;
+        }
+
+        const input = resolveGeocoderInputFromEvent(event);
+        if (!input) {
+          return;
+        }
+
+        const parsed = parseCoordinatesFromText(input.value);
+        if (!parsed) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        flyToCoordinate(parsed);
+
+        input.blur();
+      }, true);
+    }
+
+    async function addLayers() {
+      await addVectorLayers();
+      keepFloodExtentBelowOtherLayers();
+      syncLayerVisibility();
+    }
+
+    map.on("load", async () => {
+      await addLayers();
+      bindHydropowerPopup();
+      bindAffectedWardsHover();
+      bindLayerPopup("bridges-layer", "Bridge");
+      bindLayerPopup("bridges-point-layer", "Bridge");
+      bindLayerPopup("bridges_damage-point-layer", "Damaged Bridge");
+      // bindLayerPopup("road_damage-layer", "Damaged Road");
+      // bindLayerPopup("highway-layer", "Highway");
+      bindLayerPopup("holding-centers-layer", "Holding Center");
+      // bindLayerPopup("ntc-towers-layer", "NTC Tower");
+      // bindLayerPopup("ncell-towers-layer", "Ncell Tower");
+      bindLayerPopup("medical-layer", "Medical Facility");
+      bindLayerPopup("banks-layer", "Bank");
+      bindLayerPopup("mailung-landmarks-layer", "Existing Landmark");
+      bindLayerPopup("mailung-substation-layer", "Substation Alternative");
+      bindLayerPopup("mailung-heli-layer", "Heli Site");
+      bindDamagePhotoEvents();
+
+      vectorLayerCheckboxIds.forEach((id) => {
+        const checkbox = document.getElementById(id);
+        if (!checkbox) {
+          return;
+        }
+
+        checkbox.addEventListener("change", () => {
+          syncLayerVisibility();
+          if (!isBulkVectorToggleUpdate) {
+            updateAllVectorsCheckboxState();
+          }
         });
-
-        if (coordinateJumpMarker) {
-          coordinateJumpMarker.remove();
-        }
-
-        coordinateJumpMarker = new maptilersdk.Marker({ color: "#d62828" })
-          .setLngLat([parsed.lng, parsed.lat])
-          .addTo(map);
-      }
-
-      function setupTopRightGeocoderCoordinateSearch() {
-        function hasGeocoderHint(element) {
-          if (!(element instanceof Element)) {
-            return false;
-          }
-
-          const className = typeof element.className === "string" ? element.className.toLowerCase() : "";
-          return className.includes("geocod") || className.includes("maptiler");
-        }
-
-        function isWithinGeocoder(element) {
-          if (!(element instanceof Element)) {
-            return false;
-          }
-
-          return Boolean(element.closest(".maptiler-geocoding-control") || element.closest("[class*='geocod']"));
-        }
-
-        function resolveGeocoderInputFromEvent(event) {
-          const path = typeof event.composedPath === "function" ? event.composedPath() : [];
-          const inputFromPath = path.find((item) => item instanceof HTMLInputElement && item.type === "text");
-          if (inputFromPath && (isWithinGeocoder(inputFromPath) || path.some((item) => hasGeocoderHint(item)))) {
-            return inputFromPath;
-          }
-
-          const activeElement = document.activeElement;
-          if (activeElement instanceof HTMLInputElement && activeElement.type === "text" && isWithinGeocoder(activeElement)) {
-            return activeElement;
-          }
-
-          return null;
-        }
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key !== "Enter") {
-            return;
-          }
-
-          const input = resolveGeocoderInputFromEvent(event);
-          if (!input) {
-            return;
-          }
-
-          const parsed = parseCoordinatesFromText(input.value);
-          if (!parsed) {
-            return;
-          }
-
-          event.preventDefault();
-          event.stopPropagation();
-
-          flyToCoordinate(parsed);
-
-          input.blur();
-        }, true);
-      }
-
-      async function addLayers() {
-        await addVectorLayers();
-        keepFloodExtentBelowOtherLayers();
-        syncLayerVisibility();
-      }
-
-      map.on("load", async () => {
-        await addLayers();
-        bindHydropowerPopup();
-        bindAffectedWardsHover();
-        bindLayerPopup("bridges-layer", "Bridge");
-        bindLayerPopup("bridges-point-layer", "Bridge");
-        bindLayerPopup("bridges_damage-point-layer", "Damaged Bridge");
-        // bindLayerPopup("road_damage-layer", "Damaged Road");
-        // bindLayerPopup("highway-layer", "Highway");
-        bindLayerPopup("holding-centers-layer", "Holding Center");
-        // bindLayerPopup("ntc-towers-layer", "NTC Tower");
-        // bindLayerPopup("ncell-towers-layer", "Ncell Tower");
-        bindLayerPopup("medical-layer", "Medical Facility");
-        bindLayerPopup("banks-layer", "Bank");
-        bindLayerPopup("mailung-landmarks-layer", "Existing Landmark");
-        bindLayerPopup("mailung-substation-layer", "Substation Alternative");
-        bindLayerPopup("mailung-heli-layer", "Heli Site");
-        bindDamagePhotoEvents();
-
-        vectorLayerCheckboxIds.forEach((id) => {
-          const checkbox = document.getElementById(id);
-          if (!checkbox) {
-            return;
-          }
-
-          checkbox.addEventListener("change", () => {
-            syncLayerVisibility();
-            if (!isBulkVectorToggleUpdate) {
-              updateAllVectorsCheckboxState();
-            }
-          });
-        });
-
-        const allVectorsCheckbox = document.getElementById("all-vectors-checkbox");
-        if (allVectorsCheckbox) {
-          allVectorsCheckbox.addEventListener("change", () => {
-            setAllVectorLayersVisibility(allVectorsCheckbox.checked);
-          });
-        }
-
-        updateAllVectorsCheckboxState();
       });
 
-      const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
-      map.addControl(gc, "top-right");
-      setupTopRightGeocoderCoordinateSearch();
+      const allVectorsCheckbox = document.getElementById("all-vectors-checkbox");
+      if (allVectorsCheckbox) {
+        allVectorsCheckbox.addEventListener("change", () => {
+          setAllVectorLayersVisibility(allVectorsCheckbox.checked);
+        });
+      }
 
-      const sidebar = document.getElementById("sidebar");
-      const sidebarToggle = document.getElementById("sidebar-toggle");
-      const sidebarClose = document.getElementById("sidebar-close");
+      updateAllVectorsCheckboxState();
+    });
 
-      sidebarToggle.addEventListener("click", () => {
-        sidebar.classList.add("open");
-        sidebarToggle.classList.add("hidden");
-      });
+    const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
+    map.addControl(gc, "top-right");
+    setupTopRightGeocoderCoordinateSearch();
 
-      sidebarClose.addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    const sidebarToggle = document.getElementById("sidebar-toggle");
+    const sidebarClose = document.getElementById("sidebar-close");
+
+    sidebarToggle.addEventListener("click", () => {
+      sidebar.classList.add("open");
+      sidebarToggle.classList.add("hidden");
+    });
+
+    sidebarClose.addEventListener("click", () => {
+      sidebar.classList.remove("open");
+      sidebarToggle.classList.remove("hidden");
+    });
+
+    map.on("click", () => {
+      if (sidebar.classList.contains("open")) {
         sidebar.classList.remove("open");
         sidebarToggle.classList.remove("hidden");
-      });
+      }
+    });
 
-      map.on("click", () => {
-        if (sidebar.classList.contains("open")) {
-          sidebar.classList.remove("open");
-          sidebarToggle.classList.remove("hidden");
+    sidebar.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      const zoomBtn = e.target.closest(".zoom-to-layer-btn");
+      if (zoomBtn) {
+        e.preventDefault();
+        const sourceId = zoomBtn.getAttribute("data-source");
+        if (sourceId) {
+          zoomToSource(sourceId);
+        }
+      }
+    });
+
+    const photoModal = document.getElementById("photo-modal");
+    const photoModalClose = document.getElementById("photo-modal-close");
+
+    photoModalClose.addEventListener("click", closeDamagePhotoViewer);
+    photoModal.addEventListener("click", (event) => {
+      if (event.target === photoModal) {
+        closeDamagePhotoViewer();
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && photoModal.classList.contains("open")) {
+        closeDamagePhotoViewer();
+      }
+    });
+
+    document.querySelectorAll('input[name="basemap"]').forEach((radio) => {
+      radio.addEventListener("change", () => {
+        if (styleMap[radio.value]) {
+          map.setStyle(styleMap[radio.value]);
+          map.once("styledata", async () => {
+            await addLayers();
+          });
         }
       });
+    });
+  </script>
+</body>
 
-      sidebar.addEventListener("click", (e) => {
-        e.stopPropagation();
-      });
-
-      const photoModal = document.getElementById("photo-modal");
-      const photoModalClose = document.getElementById("photo-modal-close");
-
-      photoModalClose.addEventListener("click", closeDamagePhotoViewer);
-      photoModal.addEventListener("click", (event) => {
-        if (event.target === photoModal) {
-          closeDamagePhotoViewer();
-        }
-      });
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && photoModal.classList.contains("open")) {
-          closeDamagePhotoViewer();
-        }
-      });
-
-      document.querySelectorAll('input[name="basemap"]').forEach((radio) => {
-        radio.addEventListener("change", () => {
-          if (styleMap[radio.value]) {
-            map.setStyle(styleMap[radio.value]);
-            map.once("styledata", async () => {
-              await addLayers();
-            });
-          }
-        });
-      });
-      // for cluster
-    </script>
-  </body>
-
-  </html>
+</html>

@@ -766,6 +766,21 @@
           </svg>
         </button>
       </label>
+      <label>
+        <input type="checkbox" id="hanging_glacier-checkbox" unchecked />
+        <span class="color-box" style="background-color: #1a31b695; border: 1px solid #1a31b6;"></span>
+        Hanging Glacier
+        <button type="button" class="zoom-to-layer-btn" data-source="hanging_glacier" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
     </div>
 
     <div class="sidebar-section" id="mailung-layer-section">
@@ -875,6 +890,7 @@
         <li>Administrative Boundary: National Geoportal</li>
         <li>Buildings: OSM, Google, Microsoft</li>
         <li>Flood Extent: UNOSAT</li>
+        <li>Hanging Glacier: ToolsForEngineers</li>
         <li>Population: Meta, WorldPop</li>
         <li>Satellite Imagery: ....</li>
         <li>Towers: Ncell | NTC</li>
@@ -1003,6 +1019,7 @@
       lake1: "vector/lake1_28_wgs84.geojson",
       lake2: "vector/lake2_28_wgs84.geojson",
       lake3: "vector/lake3_sen_sep08.geojson",
+      hanging_glacier: "vector/hanging_glacier.geojson",
       affectedWards: "vector/affected_GaPaNaPa.geojson",
       bridges: "vector/bridge_fhsmo_apn.geojson",
       bridges_damage: "vector/bridges_damage.geojson",
@@ -1073,6 +1090,7 @@
       "lake1-checkbox",
       "lake2-checkbox",
       "lake3-checkbox",
+      "hanging_glacier-checkbox",
       "affected-wards-checkbox",
       "bridges-checkbox",
       "bridges_damage-checkbox",
@@ -1144,8 +1162,8 @@
 
     const petrolPumpSvg = `
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-          <rect x="6" y="4" width="8" height="12" rx="1.2" fill="#f4a261" />
-          <rect x="8" y="8" width="4" height="3" fill="#fff2df" />
+          <rect x="6" y="5" width="8" height="12" rx="1.2" fill="#f4a261" />
+          <rect x="8" y="8" width="4" height="5" fill="#fff2df" />
           <path d="M14 6h2v5" fill="none" stroke="#f4a261" stroke-width="1.2" stroke-linecap="round" />
         </svg>
       `.trim();
@@ -1862,9 +1880,48 @@
           },
         });
       }
+      // hanging_glacier
+      if (!map.getSource("hanging_glacier")) {
+        map.addSource("hanging_glacier", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("hanging_glacier", vectorFiles.hanging_glacier);
+
+      if (!map.getLayer("hanging_glacier-fill-layer")) {
+        map.addLayer({
+          id: "hanging_glacier-fill-layer",
+          type: "fill",
+          source: "hanging_glacier",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#1a31b695",
+            // "fill-opacity": 0.75,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("hanging_glacier-border-layer")) {
+        map.addLayer({
+          id: "hanging_glacier-border-layer",
+          type: "line",
+          source: "hanging_glacier",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "line-color": "#1a31b6",
+            "line-width": 1.5,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
 
       // DAMAGED BRIDGES
-
       if (!map.getSource("bridges_damage")) {
         map.addSource("bridges_damage", {
           type: "geojson",
@@ -2545,6 +2602,7 @@
       const lake1Visible = document.getElementById("lake1-checkbox").checked ? "visible" : "none";
       const lake2Visible = document.getElementById("lake2-checkbox").checked ? "visible" : "none";
       const lake3Visible = document.getElementById("lake3-checkbox").checked ? "visible" : "none";
+      const hanging_glacierVisible = document.getElementById("hanging_glacier-checkbox").checked ? "visible" : "none";
       const medicalVisible = document.getElementById("medical-checkbox").checked ? "visible" : "none";
       const mailungLandmarksVisible = document.getElementById("mailung-landmarks-checkbox").checked ? "visible" : "none";
       const mailungSubstationVisible = document.getElementById("mailung-substation-checkbox").checked ? "visible" : "none";
@@ -2637,6 +2695,12 @@
       }
       if (map.getLayer("lake3-border-layer")) {
         map.setLayoutProperty("lake3-border-layer", "visibility", lake3Visible);
+      }
+      if (map.getLayer("hanging_glacier-fill-layer")) {
+        map.setLayoutProperty("hanging_glacier-fill-layer", "visibility", hanging_glacierVisible);
+      }
+      if (map.getLayer("hanging_glacier-border-layer")) {
+        map.setLayoutProperty("hanging_glacier-border-layer", "visibility", hanging_glacierVisible);
       }
       if (map.getLayer("medical-layer")) {
         map.setLayoutProperty("medical-layer", "visibility", medicalVisible);
