@@ -446,7 +446,9 @@
 
     #video-modal-content {
       position: relative;
-      width: min(420px, 92vw);
+      width: min(640px, 94vw);
+      max-height: 90vh;
+      overflow-y: auto;
       background: #fff;
       border-radius: 10px;
       padding: 20px 22px 18px;
@@ -460,9 +462,30 @@
     }
 
     #video-modal-hint {
-      margin: 0 0 14px;
+      margin: 0 0 12px;
       font-size: 13px;
       color: #667;
+    }
+
+    #video-modal-preview {
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0a1114;
+      aspect-ratio: 16 / 9;
+      display: none;
+    }
+
+    #video-modal-preview.visible {
+      display: block;
+    }
+
+    #video-modal-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
     }
 
     #video-modal-links {
@@ -472,8 +495,11 @@
     }
 
     #video-modal-links a {
-      display: block;
-      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 14px;
       border-radius: 6px;
       background: #0d7377;
       color: #fff;
@@ -488,10 +514,43 @@
       background: #095c5f;
     }
 
+    #video-modal-links a.youtube {
+      background: #c4302b;
+    }
+
+    #video-modal-links a.youtube:hover {
+      background: #a02622;
+    }
+
+    #video-modal-links a.facebook {
+      background: #1877f2;
+    }
+
+    #video-modal-links a.facebook:hover {
+      background: #0f5dc0;
+    }
+
+    #video-modal-links a.twitter {
+      background: #1a1a1a;
+    }
+
+    #video-modal-links a.twitter:hover {
+      background: #000;
+    }
+
+    #video-modal-links a.tiktok {
+      background: #111;
+    }
+
+    #video-modal-links a.tiktok:hover {
+      background: #000;
+    }
+
     #video-modal-close {
       position: absolute;
       top: 8px;
       right: 8px;
+      z-index: 2;
       width: 34px;
       height: 34px;
       border: 0;
@@ -499,6 +558,7 @@
       background: #eee;
       color: #1d2529;
       font-size: 22px;
+      line-height: 1;
       cursor: pointer;
     }
 
@@ -649,9 +709,24 @@
       </label>
       <label>
         <input type="checkbox" id="calving-checkbox" checked />
-        <span class="color-box" style="background-color: #d62121; border: 1px solid #d6212196;"></span>
+        <span class="color-box" style="background-color: #d6212196; border: 1px solid #d62121;"></span>
         Calving Glacier
         <button type="button" class="zoom-to-layer-btn" data-source="calving" title="Zoom to layer"
+          aria-label="Zoom to layer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="16.5" y1="16.5" x2="21" y2="21" />
+            <line x1="11" y1="8" x2="11" y2="14" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+          </svg>
+        </button>
+      </label>
+      <label>
+        <input type="checkbox" id="landlide-checkbox" checked />
+        <span class="color-box" style="background-color: #e1810c95; border: 1px solid #e1810c;"></span>
+        Landlide Zone
+        <button type="button" class="zoom-to-layer-btn" data-source="landlide" title="Zoom to layer"
           aria-label="Zoom to layer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
             stroke-linejoin="round">
@@ -1139,6 +1214,7 @@
       <button id="video-modal-close" type="button" aria-label="Close">&times;</button>
       <h3 id="video-modal-title"></h3>
       <p id="video-modal-hint">Ground video / field footage</p>
+      <div id="video-modal-preview"></div>
       <div id="video-modal-links"></div>
     </div>
   </div>
@@ -1382,6 +1458,7 @@
       lake2: "vector/lake2_28_wgs84.geojson",
       lake3: "vector/lake3_sen_sep08.geojson",
       hanging_glacier: "vector/hanging_glacier.geojson",
+      landlide: "vector/landlide.geojson",
       calving: "vector/calving.geojson",
       affectedWards: "vector/affected_GaPaNaPa.geojson",
       bridges: "vector/bridge_fhsmo_apn.geojson",
@@ -1456,6 +1533,7 @@
       "lake2-checkbox",
       "lake3-checkbox",
       "hanging_glacier-checkbox",
+      "landlide-checkbox",
       "calving-checkbox",
       "affected-wards-checkbox",
       "bridges-checkbox",
@@ -2039,30 +2117,82 @@
       });
     }
 
+    function getYouTubeId(url) {
+      if (!url) return null;
+      const patterns = [
+        /youtu\.be\/([A-Za-z0-9_-]{6,})/,
+        /youtube\.com\/watch\?v=([A-Za-z0-9_-]{6,})/,
+        /youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/,
+        /youtube\.com\/shorts\/([A-Za-z0-9_-]{6,})/,
+      ];
+      for (const re of patterns) {
+        const m = String(url).match(re);
+        if (m) return m[1];
+      }
+      return null;
+    }
+
+    function detectPlatform(url) {
+      const u = String(url).toLowerCase();
+      if (u.includes("youtu")) return "youtube";
+      if (u.includes("facebook.com") || u.includes("fb.watch")) return "facebook";
+      if (u.includes("tiktok.com")) return "tiktok";
+      if (u.includes("x.com") || u.includes("twitter.com")) return "twitter";
+      return "other";
+    }
+
+    function platformLabel(platform, fallback) {
+      return ({
+        youtube: "▶ Play on YouTube",
+        facebook: "▶ Open on Facebook",
+        tiktok: "▶ Open on TikTok",
+        twitter: "▶ Open on X",
+        other: fallback || "▶ Open video",
+      })[platform] || "▶ Open video";
+    }
+
     function openGroundVideoViewer(properties) {
       if (activeDescriptionPopup) activeDescriptionPopup.remove();
       if (damagePhotoHoverPopup) damagePhotoHoverPopup.remove();
 
       const modal = document.getElementById("video-modal");
       const title = document.getElementById("video-modal-title");
+      const preview = document.getElementById("video-modal-preview");
       const linksEl = document.getElementById("video-modal-links");
 
       title.textContent = properties.title || "Ground Video";
+      preview.innerHTML = "";
+      preview.classList.remove("visible");
       linksEl.innerHTML = "";
 
-      // GeoJSON may store links as JSON string
       let links = properties.links;
       if (typeof links === "string") {
         try { links = JSON.parse(links); } catch (_) { links = []; }
       }
       if (!Array.isArray(links)) links = [];
 
+      // YouTube in-modal preview
+      let ytId = null;
+      for (const item of links) {
+        ytId = getYouTubeId(item.url);
+        if (ytId) break;
+      }
+      if (ytId) {
+        preview.classList.add("visible");
+        preview.innerHTML =
+          `<iframe src="https://www.youtube.com/embed/${ytId}?rel=0" title="Video preview"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe>`;
+      }
+
       links.forEach((item) => {
+        const platform = detectPlatform(item.url);
         const a = document.createElement("a");
         a.href = item.url;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-        a.textContent = item.label || "Open video";
+        a.className = platform;
+        a.textContent = item.label ? `▶ ${item.label}` : platformLabel(platform);
         linksEl.appendChild(a);
       });
 
@@ -2075,7 +2205,13 @@
     }
 
     function closeGroundVideoViewer() {
-      document.getElementById("video-modal").classList.remove("open");
+      const modal = document.getElementById("video-modal");
+      const preview = document.getElementById("video-modal-preview");
+      if (preview) {
+        preview.innerHTML = "";
+        preview.classList.remove("visible");
+      }
+      modal.classList.remove("open");
     }
 
     function bindGroundVideoEvents() {
@@ -2492,6 +2628,45 @@
           filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
           paint: {
             "line-color": "#d62121",
+            "line-width": 1.5,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+      if (!map.getSource("landlide")) {
+        map.addSource("landlide", {
+          type: "geojson",
+          data: emptyGeoJSON,
+        });
+      }
+      await loadGeoJSONSafe("landlide", vectorFiles.landlide);
+
+      if (!map.getLayer("landlide-fill-layer")) {
+        map.addLayer({
+          id: "landlide-fill-layer",
+          type: "fill",
+          source: "landlide",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "fill-color": "#e1810c95",
+            // "fill-opacity": 0.75,
+          },
+          layout: {
+            visibility: "none",
+          },
+        });
+      }
+
+      if (!map.getLayer("landlide-border-layer")) {
+        map.addLayer({
+          id: "landlide-border-layer",
+          type: "line",
+          source: "landlide",
+          filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
+          paint: {
+            "line-color": "#e1810c",
             "line-width": 1.5,
           },
           layout: {
@@ -3069,28 +3244,7 @@
         });
       }
 
-      if (!map.getSource("damage-photos")) {
-        map.addSource("damage-photos", {
-          type: "geojson",
-          data: damagePhotoLocations,
-        });
-      }
-
-      if (!map.getLayer("damage-photos-layer")) {
-        await ensureSvgIcon("damage-photo-camera", damagePhotoCameraSvg);
-        map.addLayer({
-          id: "damage-photos-layer",
-          type: "symbol",
-          source: "damage-photos",
-          layout: {
-            "icon-image": "damage-photo-camera",
-            "icon-size": 0.75,
-            "icon-allow-overlap": true,
-            "icon-ignore-placement": true,
-          },
-        });
-      }
-
+      // Ground videos first (below satellite damage photos)
       if (!map.getSource("ground-videos")) {
         map.addSource("ground-videos", {
           type: "geojson",
@@ -3106,11 +3260,39 @@
           source: "ground-videos",
           layout: {
             "icon-image": "ground-video-icon",
-            "icon-size": 0.75,
+            "icon-size": 0.7,
             "icon-allow-overlap": true,
             "icon-ignore-placement": true,
           },
         });
+      }
+
+      // Satellite damage photos above ground videos
+      if (!map.getSource("damage-photos")) {
+        map.addSource("damage-photos", {
+          type: "geojson",
+          data: damagePhotoLocations,
+        });
+      }
+
+      if (!map.getLayer("damage-photos-layer")) {
+        await ensureSvgIcon("damage-photo-camera", damagePhotoCameraSvg);
+        map.addLayer({
+          id: "damage-photos-layer",
+          type: "symbol",
+          source: "damage-photos",
+          layout: {
+            "icon-image": "damage-photo-camera",
+            "icon-size": 0.62,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+          },
+        });
+      }
+
+      // Ensure stack: videos under satellite photos
+      if (map.getLayer("ground-videos-layer") && map.getLayer("damage-photos-layer")) {
+        map.moveLayer("ground-videos-layer", "damage-photos-layer");
       }
     }
 
@@ -3135,6 +3317,7 @@
       const lake3Visible = document.getElementById("lake3-checkbox").checked ? "visible" : "none";
       const hanging_glacierVisible = document.getElementById("hanging_glacier-checkbox").checked ? "visible" : "none";
       const calvingVisible = document.getElementById("calving-checkbox").checked ? "visible" : "none";
+      const landlideVisible = document.getElementById("landlide-checkbox").checked ? "visible" : "none";
       const medicalVisible = document.getElementById("medical-checkbox").checked ? "visible" : "none";
       const mailungLandmarksVisible = document.getElementById("mailung-landmarks-checkbox").checked ? "visible" : "none";
       const mailungSubstationVisible = document.getElementById("mailung-substation-checkbox").checked ? "visible" : "none";
@@ -3243,6 +3426,12 @@
       if (map.getLayer("calving-border-layer")) {
         map.setLayoutProperty("calving-border-layer", "visibility", calvingVisible);
       }
+      if (map.getLayer("landlide-fill-layer")) {
+        map.setLayoutProperty("landlide-fill-layer", "visibility", landlideVisible);
+      }
+      if (map.getLayer("landlide-border-layer")) {
+        map.setLayoutProperty("landlide-border-layer", "visibility", landlideVisible);
+      }
       if (map.getLayer("medical-layer")) {
         map.setLayoutProperty("medical-layer", "visibility", medicalVisible);
       }
@@ -3307,6 +3496,8 @@
         "hanging_glacier-border-layer",
         "calving-fill-layer",
         "calving-border-layer",
+        "landlide-fill-layer",
+        "landlide-border-layer",
         "ntc-towers-layer",
         "ncell-towers-layer",
         "open-spaces-osm-fill-layer",

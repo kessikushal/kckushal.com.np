@@ -1162,79 +1162,6 @@
     /** Cache of loaded GeoJSON per source id — used by Zoom-to-layer */
     const layerGeoJSONCache = {};
 
-    const damagePhotoLocations = {
-      type: "FeatureCollection",
-      features: [
-        {
-          type: "Feature",
-          properties: {
-            title: "Rasuwagadhi",
-            imageType: "After satellite image",
-            date: "2026-08-28",
-            image: "image/rasuwagadhi_post.png",
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [85.3775507359763, 28.27918966400605],
-          },
-        },
-        {
-          type: "Feature",
-          properties: {
-            title: "Trishuli Bazar",
-            imageType: "After satellite image",
-            date: "2026-09-08",
-            image: "image/trishulibazar_post.png"
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [85.14983555182846, 27.924676246746778],
-          },
-        },
-        {
-          type: "Feature",
-          properties: {
-            title: "Devighat",
-            imageType: "After satellite image",
-            date: "2026-09-07",
-            image: "image/devighat_post.png",
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [85.1092064392529, 27.85981279441123],
-          },
-        },
-        {
-          type: "Feature",
-          properties: {
-            title: "Timure",
-            imageType: "After satellite image",
-            date: "2026-08-28",
-            image: "image/timure_post.png",
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [85.36650, 28.25411],
-          },
-        },
-        {
-          type: "Feature",
-          properties: {
-            title: "Syafrubesi",
-            imageType: "After satellite image",
-            date: "2026-08-28",
-            image: "image/syafrubesi_post.png",
-          },
-          geometry: {
-            type: "Point",
-            coordinates: [85.34140, 28.16460]
-          },
-        },
-      ],
-    };
-
-    layerGeoJSONCache["damage-photos"] = damagePhotoLocations;
-
     const groundVideoLocations = {
       type: "FeatureCollection",
       features: [
@@ -1267,7 +1194,7 @@
               { label: "Facebook Reel", url: "https://www.facebook.com/reel/1063237023267409" },
             ],
           },
-          geometry: { type: "Point", coordinates: [85.36683316314416, 28.254252653244347] },
+          geometry: { type: "Point", coordinates: [85.36672599565726, 28.25545584738553] },
         },
         {
           type: "Feature",
@@ -1375,6 +1302,79 @@
     };
 
     layerGeoJSONCache["ground-videos"] = groundVideoLocations;
+
+    const damagePhotoLocations = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: {
+            title: "Rasuwagadhi",
+            imageType: "After satellite image",
+            date: "2026-08-28",
+            image: "image/rasuwagadhi_post.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.37744429838273, 28.277186953856123],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Trishuli Bazar",
+            imageType: "After satellite image",
+            date: "2026-09-08",
+            image: "image/trishulibazar_post.png"
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.14983555182846, 27.924676246746778],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Devighat",
+            imageType: "After satellite image",
+            date: "2026-09-07",
+            image: "image/devighat_post.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.10967549432218, 27.860914330377085],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Timure",
+            imageType: "After satellite image",
+            date: "2026-08-28",
+            image: "image/timure_post.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.36591862293952, 28.252740369910665],
+          },
+        },
+        {
+          type: "Feature",
+          properties: {
+            title: "Syafrubesi",
+            imageType: "After satellite image",
+            date: "2026-08-28",
+            image: "image/syafrubesi_post.png",
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [85.34263472593322, 28.164630177277925]
+          },
+        },
+      ],
+    };
+
+    layerGeoJSONCache["damage-photos"] = damagePhotoLocations;
 
     const vectorFiles = {
       flood: "vector/UNOSAT_flood_extent.geojson",
