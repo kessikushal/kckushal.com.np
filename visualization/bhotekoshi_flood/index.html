@@ -723,10 +723,10 @@
         </button>
       </label>
       <label>
-        <input type="checkbox" id="landlide-checkbox" checked />
+        <input type="checkbox" id="landslide-checkbox" checked />
         <span class="color-box" style="background-color: #e1810c95; border: 1px solid #e1810c;"></span>
-        Landlide Zone
-        <button type="button" class="zoom-to-layer-btn" data-source="landlide" title="Zoom to layer"
+        Landslide Zone
+        <button type="button" class="zoom-to-layer-btn" data-source="landslide" title="Zoom to layer"
           aria-label="Zoom to layer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
             stroke-linejoin="round">
@@ -1458,7 +1458,7 @@
       lake2: "vector/lake2_28_wgs84.geojson",
       lake3: "vector/lake3_sen_sep08.geojson",
       hanging_glacier: "vector/hanging_glacier.geojson",
-      landlide: "vector/landlide.geojson",
+      landslide: "vector/landslide.geojson",
       calving: "vector/calving.geojson",
       affectedWards: "vector/affected_GaPaNaPa.geojson",
       bridges: "vector/bridge_fhsmo_apn.geojson",
@@ -1533,7 +1533,7 @@
       "lake2-checkbox",
       "lake3-checkbox",
       "hanging_glacier-checkbox",
-      "landlide-checkbox",
+      "landslide-checkbox",
       "calving-checkbox",
       "affected-wards-checkbox",
       "bridges-checkbox",
@@ -2132,6 +2132,12 @@
       return null;
     }
 
+    function getXStatusId(url) {
+      if (!url) return null;
+      const m = String(url).match(/(?:twitter\.com|x\.com)\/[^/]+\/status\/(\d+)/);
+      return m ? m[1] : null;
+    }
+
     function detectPlatform(url) {
       const u = String(url).toLowerCase();
       if (u.includes("youtu")) return "youtube";
@@ -2171,20 +2177,71 @@
       }
       if (!Array.isArray(links)) links = [];
 
-      // YouTube in-modal preview
-      let ytId = null;
-      for (const item of links) {
-        ytId = getYouTubeId(item.url);
-        if (ytId) break;
-      }
+      // Pick first link of each type
+      const ytLink = links.find((i) => detectPlatform(i.url) === "youtube");
+      const fbLink = links.find((i) => detectPlatform(i.url) === "facebook");
+      const xLink = links.find((i) => detectPlatform(i.url) === "twitter");
+      const tkLink = links.find((i) => detectPlatform(i.url) === "tiktok");
+
+      const ytId = ytLink ? getYouTubeId(ytLink.url) : null;
+      const xId = xLink ? getXStatusId(xLink.url) : null;
+
+      // Priority: YouTube → Facebook → X → TikTok
       if (ytId) {
+        // ✅ YouTube — works reliably
         preview.classList.add("visible");
-        preview.innerHTML =
-          `<iframe src="https://www.youtube.com/embed/${ytId}?rel=0" title="Video preview"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen loading="lazy"></iframe>`;
+        preview.innerHTML = `
+      <iframe
+        src="https://www.youtube.com/embed/${ytId}?rel=0"
+        title="Video preview"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen loading="lazy"></iframe>`;
+      } else if (fbLink) {
+        // ⚠️ Facebook — works only for some public videos
+        const encoded = encodeURIComponent(fbLink.url);
+        preview.classList.add("visible");
+        preview.innerHTML = `
+      <iframe
+        src="https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=0&width=640"
+        width="100%" height="100%"
+        style="border:none;overflow:hidden"
+        scrolling="no" frameborder="0" allowfullscreen
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+      </iframe>`;
+      } else if (xId) {
+        // ⚠️ X / Twitter — embed widget (often limited for videos)
+        preview.classList.add("visible");
+        preview.innerHTML = `
+      <div style="padding:12px;background:#000;height:100%;overflow:auto;">
+        <blockquote class="twitter-tweet" data-media-max-width="560">
+          <a href="https://twitter.com/i/status/${xId}"></a>
+        </blockquote>
+      </div>`;
+        // Load X widgets script once
+        if (!window.twttr) {
+          const s = document.createElement("script");
+          s.src = "https://platform.twitter.com/widgets.js";
+          s.async = true;
+          document.body.appendChild(s);
+          s.onload = () => {
+            if (window.twttr && window.twttr.widgets) {
+              window.twttr.widgets.load(preview);
+            }
+          };
+        } else if (window.twttr && window.twttr.widgets) {
+          window.twttr.widgets.load(preview);
+        }
+      } else if (tkLink) {
+        // ⚠️ TikTok — no reliable iframe; show message + button below
+        preview.classList.add("visible");
+        preview.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:center;height:100%;
+                  color:#ccc;font-size:14px;text-align:center;padding:16px;">
+        TikTok cannot be embedded here.<br/>Use the button below to open the video.
+      </div>`;
       }
 
+      // Buttons for ALL links (always shown)
       links.forEach((item) => {
         const platform = detectPlatform(item.url);
         const a = document.createElement("a");
@@ -2635,19 +2692,19 @@
           },
         });
       }
-      if (!map.getSource("landlide")) {
-        map.addSource("landlide", {
+      if (!map.getSource("landslide")) {
+        map.addSource("landslide", {
           type: "geojson",
           data: emptyGeoJSON,
         });
       }
-      await loadGeoJSONSafe("landlide", vectorFiles.landlide);
+      await loadGeoJSONSafe("landslide", vectorFiles.landslide);
 
-      if (!map.getLayer("landlide-fill-layer")) {
+      if (!map.getLayer("landslide-fill-layer")) {
         map.addLayer({
-          id: "landlide-fill-layer",
+          id: "landslide-fill-layer",
           type: "fill",
-          source: "landlide",
+          source: "landslide",
           filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
           paint: {
             "fill-color": "#e1810c95",
@@ -2659,11 +2716,11 @@
         });
       }
 
-      if (!map.getLayer("landlide-border-layer")) {
+      if (!map.getLayer("landslide-border-layer")) {
         map.addLayer({
-          id: "landlide-border-layer",
+          id: "landslide-border-layer",
           type: "line",
-          source: "landlide",
+          source: "landslide",
           filter: ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]],
           paint: {
             "line-color": "#e1810c",
@@ -3317,7 +3374,7 @@
       const lake3Visible = document.getElementById("lake3-checkbox").checked ? "visible" : "none";
       const hanging_glacierVisible = document.getElementById("hanging_glacier-checkbox").checked ? "visible" : "none";
       const calvingVisible = document.getElementById("calving-checkbox").checked ? "visible" : "none";
-      const landlideVisible = document.getElementById("landlide-checkbox").checked ? "visible" : "none";
+      const landslideVisible = document.getElementById("landslide-checkbox").checked ? "visible" : "none";
       const medicalVisible = document.getElementById("medical-checkbox").checked ? "visible" : "none";
       const mailungLandmarksVisible = document.getElementById("mailung-landmarks-checkbox").checked ? "visible" : "none";
       const mailungSubstationVisible = document.getElementById("mailung-substation-checkbox").checked ? "visible" : "none";
@@ -3426,11 +3483,11 @@
       if (map.getLayer("calving-border-layer")) {
         map.setLayoutProperty("calving-border-layer", "visibility", calvingVisible);
       }
-      if (map.getLayer("landlide-fill-layer")) {
-        map.setLayoutProperty("landlide-fill-layer", "visibility", landlideVisible);
+      if (map.getLayer("landslide-fill-layer")) {
+        map.setLayoutProperty("landslide-fill-layer", "visibility", landslideVisible);
       }
-      if (map.getLayer("landlide-border-layer")) {
-        map.setLayoutProperty("landlide-border-layer", "visibility", landlideVisible);
+      if (map.getLayer("landslide-border-layer")) {
+        map.setLayoutProperty("landslide-border-layer", "visibility", landslideVisible);
       }
       if (map.getLayer("medical-layer")) {
         map.setLayoutProperty("medical-layer", "visibility", medicalVisible);
@@ -3496,8 +3553,8 @@
         "hanging_glacier-border-layer",
         "calving-fill-layer",
         "calving-border-layer",
-        "landlide-fill-layer",
-        "landlide-border-layer",
+        "landslide-fill-layer",
+        "landslide-border-layer",
         "ntc-towers-layer",
         "ncell-towers-layer",
         "open-spaces-osm-fill-layer",
