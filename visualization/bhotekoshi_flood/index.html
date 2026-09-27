@@ -80,7 +80,7 @@
       z-index: 1001;
       overflow-y: auto;
       transition: left 0.3s ease;
-      padding: 20px;
+      padding: 15px;
     }
 
     #sidebar.open {
@@ -99,10 +99,10 @@
     #sidebar-title {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-size: 18px;
       font-weight: bold;
-      color: #2c3e50;
+      color: #0f0f10;
     }
 
     #sidebar-close {
@@ -128,7 +128,7 @@
     }
 
     .sidebar-section h4 {
-      margin: 0 0 12px 0;
+      margin: 0 0 5px 0;
       color: #2c3e50;
       font-size: 15px;
       border-bottom: 1px solid #dee2e6;
@@ -138,7 +138,7 @@
     .sidebar-section label {
       display: flex;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       cursor: pointer;
       font-size: 14px;
       color: #333;
@@ -154,25 +154,26 @@
     .zoom-to-layer-btn {
       margin-left: auto;
       flex-shrink: 0;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       padding: 0;
       border: none;
       border-radius: 4px;
       background: transparent;
-      color: #5a6a7a;
+      color: #050606;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      opacity: 0.55;
+      opacity: 0.6;
       transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
     }
 
     .zoom-to-layer-btn:hover {
       opacity: 1;
-      background: #e8eef4;
-      color: #1a73e8;
+      background: #ffffff;
+      color: #0037ff;
+      scale: 1.15;
     }
 
     .zoom-to-layer-btn:active {
@@ -180,8 +181,8 @@
     }
 
     .zoom-to-layer-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       pointer-events: none;
     }
 
@@ -278,7 +279,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 10px;
       background: rgba(10, 17, 20, 0.78);
     }
 
@@ -375,7 +376,7 @@
 
     .compare-label {
       position: absolute;
-      top: 10px;
+      bottom: 10px;
       padding: 3px 10px;
       font-size: 11px;
       font-weight: 700;
@@ -396,21 +397,22 @@
     }
 
     #photo-modal-caption {
-      padding: 12px 16px 14px;
+      padding: 3px 0px;
+      text-align: center;
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(1px);
       color: #ffffffdf;
     }
 
     #photo-modal-title {
-      margin: 0 38px 4px 0;
+      margin: 0 25px 4px 0;
       font-size: 17px;
     }
 
     #photo-modal-meta {
       margin: 0;
       color: rgba(255, 255, 255, 0.82);
-      font-size: 13px;
+      font-size: 15px;
     }
 
     #photo-modal-close {
@@ -424,9 +426,14 @@
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.92);
       color: #1d2529;
-      font-size: 24px;
+      font-size: 27px;
       line-height: 1;
       cursor: pointer;
+    }
+
+    #photo-modal-close:hover {
+      color: #bc1818;
+      font-size: 32px;
     }
 
     #video-modal {
@@ -436,7 +443,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 5px;
       background: rgba(10, 17, 20, 0.78);
     }
 
@@ -447,16 +454,18 @@
     #video-modal-content {
       position: relative;
       width: min(640px, 94vw);
-      max-height: 90vh;
+      height: 85vh;
+      max-width: 30%;
       overflow-y: auto;
       background: #fff;
       border-radius: 10px;
-      padding: 20px 22px 18px;
+      padding: 4px 2px;
       box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
     }
 
     #video-modal-title {
-      margin: 0 36px 4px 0;
+      margin: 0 0 7px 0;
+      text-align: center;
       font-size: 18px;
       color: #1d2529;
     }
@@ -469,11 +478,12 @@
 
     #video-modal-preview {
       width: 100%;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       border-radius: 8px;
       overflow: hidden;
       background: #0a1114;
-      aspect-ratio: 16 / 9;
+      /* height:auto; */
+      aspect-ratio: 5 / 6.2;
       display: none;
     }
 
@@ -499,7 +509,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 11px 14px;
+      padding: 5px 5px;
       border-radius: 6px;
       background: #0d7377;
       color: #fff;
@@ -550,22 +560,27 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      z-index: 2;
+      z-index: 1;
       width: 34px;
       height: 34px;
       border: 0;
       border-radius: 50%;
-      background: #eee;
+      background: rgba(194, 189, 189, 0.92);
       color: #1d2529;
-      font-size: 22px;
+      font-size: 27px;
       line-height: 1;
       cursor: pointer;
     }
 
+    #video-modal-close:hover {
+      color: #bc1818;
+      font-size: 32px;
+    }
+
     @media screen and (max-width: 768px) {
       #sidebar {
-        width: 85vw;
-        max-width: 300px;
+        width: 80vw;
+        max-width: 280px;
         left: -100vw;
         padding: 15px;
       }
@@ -575,19 +590,19 @@
       }
 
       .sidebar-section {
-        padding: 10px;
+        padding: 3px;
       }
 
       .sidebar-section h4 {
-        font-size: 14px;
+        font-size: 15px;
       }
 
       .sidebar-section label {
-        font-size: 13px;
+        font-size: 14px;
       }
 
       #sidebar-title {
-        font-size: 16px;
+        font-size: 17px;
       }
 
       #sidebar-toggle {
@@ -1330,7 +1345,7 @@
           properties: {
             title: "Trishuli Bazaar",
             links: [
-              { label: "Facebook Video", url: "https://www.facebook.com/share/v/19kCeG5B86/" },
+              { label: "Facebook Video", url: "https://www.facebook.com/share/v/19SBdYKUZr/" },
             ],
           },
           geometry: { type: "Point", coordinates: [85.14816991459641, 27.9207504225899] },
@@ -1350,7 +1365,7 @@
           properties: {
             title: "Galchi",
             links: [
-              { label: "Facebook", url: "https://www.facebook.com/share/r/1EVEjx2Vkt/" },
+              { label: "Facebook", url: "https://www.facebook.com/share/r/1EawoxGbac/" },
             ],
           },
           geometry: { type: "Point", coordinates: [84.97868565739013, 27.800484795085726] },
@@ -1370,7 +1385,7 @@
           properties: {
             title: "Muglin Arch Bridge",
             links: [
-              { label: "Facebook Video", url: "https://www.facebook.com/share/v/19e2fJQvAz/" },
+              { label: "Facebook Video", url: "https://www.facebook.com/share/v/1JDqr1Ueny/" },
             ],
           },
           geometry: { type: "Point", coordinates: [84.55699752538955, 27.854039915433216] },
