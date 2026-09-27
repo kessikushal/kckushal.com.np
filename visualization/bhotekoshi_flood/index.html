@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BhoteKoshi Flood Analysis Rasuwa Nepal</title>
+  <title>Bhote Koshi Flood Analysis – Rasuwa, Nepal</title>
   <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
   <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
   <!-- <script src="https://cdn.maptiler.com/maptiler-sdk-js/v4.1.0/maptiler-sdk.umd.min.js"></script>
@@ -605,7 +605,7 @@
     <div id="sidebar-header">
       <div id="sidebar-title">
         <img src="./image/APN.png" alt="APN" style="width: 25px; height: 25px; object-fit: contain;">
-        BhoteKoshi Flood Analysis
+        Bhote Koshi Flood Analysis
       </div>
       <button id="sidebar-close">✕</button>
     </div>
@@ -1139,7 +1139,7 @@
     </div>
 
     <div class="sidebar-section" id="description-section">
-      <h4>Event Description</h4>
+      <h4>📝 Event Description</h4>
       <p style="margin: 0; font-size: 13px; line-height: 1.6; text-align: justify;">
         This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major
         ice–rock, debris flow and flood event of 26 August 2026. It visualizes the affected flood extent, damaged roads
@@ -1149,18 +1149,18 @@
     </div>
 
     <div class="sidebar-section" id="impact-summary-section">
-      <h4>Estimated Affected</h4>
+      <h4>⚠️ Estimated Affected</h4>
       <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
-        <li>Buildings affected: 7,210</li>
-        <li>Population affected: 28,840 (building based)</li>
-        <li>Population affected: 1,917 (Meta)</li>
-        <li>Population affected: 2,613 (WorldPop)</li>
+        <li>Buildings Affected: 7,210</li>
+        <li>Population Affected: 28,840 (Building Based)</li>
+        <li>Population Affected: 1,917 (Meta)</li>
+        <li>Population Affected: 2,613 (WorldPop)</li>
       </ul>
     </div>
 
 
     <div class="sidebar-section" id="source-section">
-      <h4>Data Source</h4>
+      <h4>🗂️ Data Source</h4>
       <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
         <li>Administrative Boundary: National Geoportal</li>
         <li>Buildings: OSM, Google, Microsoft</li>
@@ -1172,10 +1172,10 @@
         <li>Towers: Ncell | NTC</li>
         <li>Banks, Bridges, Hydropower, Medical, Petrol Pumps, Road: Self-collected from Google Maps</li>
       </ul>
-    </div>  
+    </div>
 
     <div class="sidebar-section" id="prepard-section">
-      <h4>Team Member</h4>
+      <h4>👥 Team Member</h4>
       <ul style="margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7;">
         <li>Kushal KC</li>
         <li>Alison Shilpakar</li>
@@ -3778,6 +3778,12 @@
     const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
     map.addControl(gc, "top-right");
     setupTopRightGeocoderCoordinateSearch();
+    
+    map.addControl(new maptilersdk.ScaleControl({
+      maxWidth: 200,
+      unit: "metric", // "metric" | "imperial" | "nautical"
+    }), "top-right");
+    
 
     const sidebar = document.getElementById("sidebar");
     const sidebarToggle = document.getElementById("sidebar-toggle");
