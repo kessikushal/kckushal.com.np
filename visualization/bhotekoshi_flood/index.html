@@ -6,6 +6,79 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bhote Koshi Flood Analysis – Rasuwa, Nepal</title>
+
+  <!-- Canonical: replace with your real map URL -->
+  <link rel="canonical" href="https://www.kckushal.com.np/projects/bhotekoshi-flood-analysis/" />
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Interactive Web GIS map of the 26 August 2026 Bhote Koshi ice–rock avalanche, debris flow and flash flood in Rasuwa, Nepal. Flood extent, damage, infrastructure impacts, and field media along the Bhote Koshi–Trishuli corridor." />
+  <meta name="keywords"
+    content="Bhote Koshi flood, Bhotekoshi, Rasuwa flood, flash flood Nepal, Trishuli corridor, Web GIS, flood mapping, UNOSAT, disaster mapping, Nepal GIS, Kushal KC, geomatics" />
+  <meta name="author" content="Kushal KC" />
+  <meta name="robots" content="index, follow" />
+  <meta name="geo.region" content="NP-P3" />
+  <meta name="geo.placename" content="Rasuwa, Nepal" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bhote Koshi Flood Analysis – Rasuwa, Nepal" />
+  <meta property="og:description"
+    content="Web GIS map of the August 2026 Bhote Koshi flash flood and debris flow in Rasuwa: flood extent, damaged roads and bridges, affected buildings, and critical facilities." />
+  <meta property="og:image" content="https://www.kckushal.com.np/image/pp_size.jpg" />
+  <meta property="og:url" content="https://www.kckushal.com.np/visualization/bhotekoshi_flood/index.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Kushal KC | Geomatics & Web GIS" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bhote Koshi Flood Analysis – Rasuwa, Nepal" />
+  <meta name="twitter:description"
+    content="Interactive flood and debris-flow impact map for Rasuwa, Nepal (August 2026): extent, damage, infrastructure, and field videos." />
+  <meta name="twitter:image" content="https://www.kckushal.com.np/image/pp_size.jpg" />
+  <meta name="twitter:site" content="@kessikushal" />
+
+  <!-- Schema: WebApplication / Map -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Bhote Koshi Flood Analysis – Rasuwa, Nepal",
+  "alternateName": ["Bhotekoshi Flood Map", "Rasuwa Flash Flood Web GIS"],
+  "description": "Interactive Web GIS map documenting the 26 August 2026 ice–rock avalanche, debris flow and flash flood along the Bhote Koshi–Trishuli corridor in Rasuwa District, Nepal.",
+  "url": "https://www.kckushal.com.np/projects/bhotekoshi-flood-analysis/",
+  "image": "https://www.kckushal.com.np/image/pp_size.jpg",
+  "applicationCategory": "GeographicInformationSystem",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "keywords": "Bhote Koshi, Rasuwa, flash flood, debris flow, Web GIS, disaster mapping, Nepal",
+  "creator": {
+    "@type": "Person",
+    "name": "Kushal KC",
+    "url": "https://www.kckushal.com.np",
+    "sameAs": [
+      "https://github.com/kessikushal",
+      "https://www.linkedin.com/in/kessikushal/",
+      "https://x.com/kessikushal"
+    ]
+  },
+  "about": {
+    "@type": "Event",
+    "name": "Bhote Koshi ice–rock avalanche, debris flow and flood",
+    "startDate": "2026-08-26",
+    "location": {
+      "@type": "Place",
+      "name": "Rasuwa District, Nepal",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Rasuwa",
+        "addressCountry": "NP"
+      }
+    }
+  }
+}
+</script>
+
   <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
   <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
   <!-- <script src="https://cdn.maptiler.com/maptiler-sdk-js/v4.1.0/maptiler-sdk.umd.min.js"></script>
@@ -15,7 +88,7 @@
   <link href='https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.css' rel='stylesheet' />
   <script src="https://www.unpkg.com/@watergis/maplibre-gl-legend@latest/dist/maplibre-gl-legend.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
-  <link rel="icon" href="./image/APN.png" type="image/png" />
+  <link rel="icon" href="../../image/apn_chair.jpg" type="image/jpg" />
 
   <style>
     body {
