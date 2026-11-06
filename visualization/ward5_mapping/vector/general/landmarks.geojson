@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "landmarks",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 15, "Name": "Bhatbhateni Mandir" }, "geometry": { "type": "Point", "coordinates": [ 85.331074684762683, 27.719565282386327 ] } },
+{ "type": "Feature", "properties": { "id": 17, "Name": "Tangal Ganeshthan" }, "geometry": { "type": "Point", "coordinates": [ 85.330449124284044, 27.717072419208158 ] } },
+{ "type": "Feature", "properties": { "id": 17, "Name": "Manmaneshwor" }, "geometry": { "type": "Point", "coordinates": [ 85.331322923047821, 27.71521767796829 ] } },
+{ "type": "Feature", "properties": { "id": 19, "Name": "Maligau" }, "geometry": { "type": "Point", "coordinates": [ 85.334254120719081, 27.714261287221127 ] } },
+{ "type": "Feature", "properties": { "id": 20, "Name": "Sanogaucharan Ground" }, "geometry": { "type": "Point", "coordinates": [ 85.333062576950354, 27.71226409126589 ] } },
+{ "type": "Feature", "properties": { "id": 22, "Name": "Balmandir" }, "geometry": { "type": "Point", "coordinates": [ 85.331034966637134, 27.713900880444054 ] } },
+{ "type": "Feature", "properties": { "id": 1, "Name": "Krishna Mandir" }, "geometry": { "type": "Point", "coordinates": [ 85.336313629651926, 27.717833095726704 ] } },
+{ "type": "Feature", "properties": { "id": 2, "Name": "Tudal Devi" }, "geometry": { "type": "Point", "coordinates": [ 85.335494443310893, 27.716848599323392 ] } },
+{ "type": "Feature", "properties": { "id": 3, "Name": "Dabali" }, "geometry": { "type": "Point", "coordinates": [ 85.33568310440765, 27.716303606421214 ] } },
+{ "type": "Feature", "properties": { "id": 4, "Name": "Satya Narayan Mandir" }, "geometry": { "type": "Point", "coordinates": [ 85.336584829978491, 27.715853655591623 ] } },
+{ "type": "Feature", "properties": { "id": 5, "Name": "Nateshwori" }, "geometry": { "type": "Point", "coordinates": [ 85.335035823079068, 27.715528415252436 ] } },
+{ "type": "Feature", "properties": { "id": 6, "Name": "Machadhunga" }, "geometry": { "type": "Point", "coordinates": [ 85.334050317086962, 27.716783222294421 ] } },
+{ "type": "Feature", "properties": { "id": 7, "Name": "Mahadev Mandir" }, "geometry": { "type": "Point", "coordinates": [ 85.334045352321255, 27.71585365559163 ] } },
+{ "type": "Feature", "properties": { "id": 8, "Name": "Prajapati Guthi" }, "geometry": { "type": "Point", "coordinates": [ 85.333249748617348, 27.716608517100298 ] } },
+{ "type": "Feature", "properties": { "id": 9, "Name": "Dhanaganesh" }, "geometry": { "type": "Point", "coordinates": [ 85.337062688677435, 27.719924571701746 ] } },
+{ "type": "Feature", "properties": { "id": 11, "Name": "Pancha Dhara" }, "geometry": { "type": "Point", "coordinates": [ 85.33764853103041, 27.7206761088269 ] } },
+{ "type": "Feature", "properties": { "id": 13, "Name": "Bhimshen Mandir" }, "geometry": { "type": "Point", "coordinates": [ 85.333723883741939, 27.716220648593428 ] } }
+]
+}

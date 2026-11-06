@@ -1,0 +1,295 @@
+{
+  "app": {
+    "title": "Bhote Koshi Flood Analysis",
+    "logo": "image/APN.png",
+    "apiKey": "beLTXJmGL8weKgdDngiU",
+    "center": [85.35, 28.15],
+    "zoom": 6,
+    "pitch": 45,
+    "terrain": false,
+    "defaultBasemap": "DARK",
+    "fitLayer": "flood-area",
+    "fitPadding": 25,
+    "fitMaxZoom": 15,
+    "sidebarOpen": true
+  },
+
+  "basemaps": [
+    { "id": "DARK", "label": "Dark Streets", "style": "STREETS.DARK" },
+    { "id": "OUTDOOR", "label": "Outdoor", "style": "OUTDOOR" },
+    { "id": "STREETS", "label": "Streets", "style": "STREETS" },
+    { "id": "TOPO", "label": "Topo", "style": "TOPO" },
+    { "id": "HYBRID", "label": "Satellite", "style": "HYBRID" }
+  ],
+
+  "groups": [
+    { "title": "📚 Vector Layers", "layers": ["flood-area", "road_damage", "bridges_damage", "buildings", "calving", "landslide", "affected-wards", "probable-open-spaces", "bridges", "highway", "hydropower", "holding-centers", "ntc-towers", "ncell-towers", "petrol-pump", "banks", "medical", "open-spaces-osm", "lake1", "lake2", "lake3", "hanging_glacier"] },
+    { "title": "Mailung Layers", "layers": ["mailung-landmarks", "mailung-substation", "mailung-heli"] },
+    { "title": "Damage Photos | Videos", "layers": ["damage-photos", "ground-videos"] }
+  ],
+
+  "sections": [
+    { "title": "📝 Event Description", "type": "text", "content": "This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major ice–rock, debris flow and flood event of 26 August 2026. It visualizes the affected flood extent, damaged roads and bridges, hydropower infrastructure, settlements and other critical facilities along the Bhote Koshi–Trishuli corridor. The map is being actively updated as new satellite observations, field information and damage assessments become available." },
+    { "title": "⚠️ Estimated Affected", "type": "list", "content": ["Buildings Affected: 7,210", "Population Affected: 28,840 (Building Based)", "Population Affected: 1,917 (Meta)", "Population Affected: 2,613 (WorldPop)"] },
+    { "title": "🗂️ Data Source", "type": "list", "content": ["Administrative Boundary: National Geoportal", "Buildings: OSM, Google, Microsoft", "Flood Extent: UNOSAT", "Ground Videos: Social Media", "Hanging Glaciers: ToolsForEngineers", "Population: Meta, WorldPop", "Satellite Imagery: Vantor", "Towers: Ncell | NTC", "Banks, Bridges, Hydropower, Medical, Petrol Pumps, Road: Self-collected from Google Maps"] },
+    { "title": "👥 Team Member", "type": "list", "content": ["Kushal KC", "Alison Shilpakar", "Sujan Tyata", "Risab Shrestha"] }
+  ],
+
+  "icons": {
+    "bridge": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M3 11h14' stroke='#000' stroke-width='2' stroke-linecap='round'/><path d='M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2' fill='none' stroke='#000' stroke-width='1.7' stroke-linecap='round'/><path d='M7 11v2M10 11v2M13 11v2' stroke='#000' stroke-width='1.2' stroke-linecap='round'/></svg>" },
+    "bridge-damaged": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 20 20'><path d='M3 11h14' stroke='#f00' stroke-width='2' stroke-linecap='round'/><path d='M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2' fill='none' stroke='#f00' stroke-width='1.7' stroke-linecap='round'/><path d='M7 11v2M10 11v2M13 11v2' stroke='#f00' stroke-width='1.2' stroke-linecap='round'/></svg>" },
+    "holding": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M10 2L17 16H3L10 2Z' fill='#2ecc71'/><path d='M10 5L13.5 13H6.5L10 5Z' fill='#fff' opacity='0.9'/></svg>" },
+    "ntc": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z' fill='#1e5fb8'/><rect x='6' y='16' width='8' height='1.5' fill='#1e5fb8'/><circle cx='6.6' cy='5.6' r='1.1' fill='#1e5fb8'/><circle cx='13.4' cy='5.6' r='1.1' fill='#1e5fb8'/><circle cx='5.1' cy='8.2' r='.9' fill='#1e5fb8'/><circle cx='14.9' cy='8.2' r='.9' fill='#1e5fb8'/></svg>" },
+    "ncell": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M10 3L12.4 17H11L10 12L9 17H7.6L10 3Z' fill='#8e44ad'/><rect x='6' y='16' width='8' height='1.5' fill='#8e44ad'/><circle cx='6.6' cy='5.6' r='1.1' fill='#8e44ad'/><circle cx='13.4' cy='5.6' r='1.1' fill='#8e44ad'/><circle cx='5.1' cy='8.2' r='.9' fill='#8e44ad'/><circle cx='14.9' cy='8.2' r='.9' fill='#8e44ad'/></svg>" },
+    "petrol": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><rect x='6' y='5' width='8' height='12' rx='1.2' fill='#f4a261'/><rect x='8' y='8' width='4' height='5' fill='#fff2df'/><path d='M14 6h2v5' fill='none' stroke='#f4a261' stroke-width='1.2' stroke-linecap='round'/></svg>" },
+    "bank": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M10 3L17 7v2H3V7L10 3Z' fill='#1f4e79'/><rect x='5' y='9' width='2' height='6' fill='#1f4e79'/><rect x='9' y='9' width='2' height='6' fill='#1f4e79'/><rect x='13' y='9' width='2' height='6' fill='#1f4e79'/><rect x='3' y='15' width='14' height='2' fill='#1f4e79'/></svg>" },
+    "medical": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='10' cy='10' r='7' fill='#e74c3c'/><rect x='9.1' y='5.2' width='1.8' height='9.6' rx='.6' fill='#fff'/><rect x='5.2' y='9.1' width='9.6' height='1.8' rx='.6' fill='#fff'/></svg>" },
+    "camera": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='14' cy='14' r='13' fill='#990303' stroke='#fff' stroke-width='2'/><path d='M7 10.5h3l1.4-2h5.2l1.4 2h3a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 21 20.5H7A1.5 1.5 0 0 1 5.5 19v-7A1.5 1.5 0 0 1 7 10.5Z' fill='#fff'/><circle cx='14' cy='15.2' r='3.4' fill='#990303'/></svg>" },
+    "video": { "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='14' cy='14' r='13' fill='#0d7377' stroke='#fff' stroke-width='2'/><rect x='6' y='9' width='11' height='10' rx='1.5' fill='#fff'/><path d='M17.5 12.5 L22 9.5 L22 18.5 L17.5 15.5 Z' fill='#fff'/></svg>" },
+    "heli": { "url": "image/helicopter.png" }
+  },
+
+  "layers": [
+    {
+      "id": "affected-wards", "label": "Affected Local Levels / Wards", "visible": true,
+      "source": { "url": "vector/affected_GaPaNaPa.geojson", "promoteId": "OBJECTID" },
+      "legend": { "type": "box", "color": "#b75d4966" },
+      "render": [
+        { "type": "fill", "paint": {
+            "fill-color": ["interpolate", ["linear"], ["coalesce", ["to-number", ["get", "Affected_pop"]], 0], 0, "#fee8c820", 500, "#fdbb8420", 1500, "#e34a3320", 3000, "#b3000020"],
+            "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 0.55, 0.25] } },
+        { "type": "line", "geometry": "polygon", "paint": {
+            "line-color": ["case", ["boolean", ["feature-state", "hover"], false], "#edd680", "#8f2d20"],
+            "line-width": ["case", ["boolean", ["feature-state", "hover"], false], 2.5, 1] } }
+      ],
+      "hover": { "state": true, "delay": 500, "className": "ward-hover-popup",
+        "template": "<div style='font-size:12px;line-height:1.5;min-width:190px'><div style='font-size:16px;font-weight:700;margin-bottom:3px'>{GaPa_NaPa} ({Type_GN})</div><div style='font-size:14px'><b>District:</b> {DISTRICT}</div><div><b>Ward:</b> {NEW_WARD_N}</div><div><b>Affected population:</b> {Affected_pop|num}</div><div><b>Affected buildings:</b> {geohash_count|num}</div></div>" }
+    },
+    {
+      "id": "flood-area", "label": "Flood Extent", "visible": true,
+      "source": { "url": "vector/UNOSAT_flood_extent.geojson" },
+      "legend": { "type": "box", "color": "#2f81ed75" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#2f80ed", "fill-opacity": 0.3 } },
+        { "type": "line", "geometry": "polygon", "layout": { "line-join": "round", "line-cap": "round" }, "paint": { "line-color": "#1c5fb8", "line-width": 1 } }
+      ]
+    },
+    {
+      "id": "lake1", "label": "Lake 1 - 2026-08-28 (Drained)", "visible": false,
+      "source": { "url": "vector/lake1_28_wgs84.geojson" },
+      "legend": { "type": "box", "color": "#56ccf2", "border": "#000000", "dashed": true },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#56ccf2", "fill-opacity": 0.55 } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#000000", "line-width": 1.5, "line-dasharray": [2, 2] } }
+      ]
+    },
+    {
+      "id": "lake2", "label": "Lake 2 - 2026-08-28 (Drained)", "visible": false,
+      "source": { "url": "vector/lake2_28_wgs84.geojson" },
+      "legend": { "type": "box", "color": "#56ccf2", "border": "#000000", "dashed": true },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#56ccf2", "fill-opacity": 0.55 } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#000000", "line-width": 1.5, "line-dasharray": [2, 2] } }
+      ]
+    },
+    {
+      "id": "lake3", "label": "Lake 3 - 2026-09-08", "visible": false,
+      "source": { "url": "vector/lake3_sen_sep08.geojson" },
+      "legend": { "type": "box", "color": "#56ccf2" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#56ccf2", "fill-opacity": 0.75 } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#2d9cdb", "line-width": 1.5 } }
+      ]
+    },
+    {
+      "id": "hanging_glacier", "label": "Hanging Glacier", "visible": false,
+      "source": { "url": "vector/hanging_glacier.geojson" },
+      "legend": { "type": "box", "color": "#2491D465", "border": "#00EDFC" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#2491D465" } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#00EDFC", "line-width": 1.5 } }
+      ]
+    },
+    {
+      "id": "calving", "label": "Calving Glacier", "visible": true,
+      "source": { "url": "vector/calving.geojson" },
+      "legend": { "type": "box", "color": "#d6212196", "border": "#d62121" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#d6212196" } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#d62121", "line-width": 1.5 } }
+      ]
+    },
+    {
+      "id": "landslide", "label": "Landslide Zone", "visible": true,
+      "source": { "url": "vector/landslide.geojson" },
+      "legend": { "type": "box", "color": "#e1810c95", "border": "#e1810c" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#e1810c95" } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#e1810c", "line-width": 1.5 } }
+      ]
+    },
+    {
+      "id": "bridges_damage", "label": "Damaged Bridges", "visible": true,
+      "source": { "url": "vector/bridges_damage.geojson" },
+      "legend": { "type": "icon", "icon": "bridge-damaged" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "bridge-damaged", "icon-size": 0.9 } }],
+      "interaction": { "type": "popup", "title": "Damaged Bridge" }
+    },
+    {
+      "id": "road_damage", "label": "Damaged Roads", "visible": true,
+      "source": { "url": "vector/Road_Damage.geojson" },
+      "legend": { "type": "line", "color": "#ff0000" },
+      "render": [{ "type": "line", "paint": { "line-color": "#ff0000", "line-width": 2, "line-opacity": 1 } }]
+    },
+    {
+      "id": "highway", "label": "Main Highway (River Corridor)", "visible": false,
+      "source": { "url": "vector/highway.geojson" },
+      "legend": { "type": "line", "color": "#150101" },
+      "render": [{ "type": "line", "paint": { "line-color": "#150101", "line-width": 2, "line-opacity": 1 } }]
+    },
+    {
+      "id": "bridges", "label": "Bridges", "visible": false,
+      "source": { "url": "vector/bridge_fhsmo_apn.geojson" },
+      "legend": { "type": "icon", "icon": "bridge" },
+      "render": [
+        { "type": "line", "paint": { "line-color": "#000000", "line-width": 1 } },
+        { "type": "symbol", "minzoom": 9, "layout": { "icon-image": "bridge", "icon-size": 0.7 } }
+      ],
+      "interaction": { "type": "popup", "title": "Bridge" }
+    },
+    {
+      "id": "holding-centers", "label": "Holding Centers", "visible": true,
+      "source": { "url": "vector/HC.geojson" },
+      "legend": { "type": "icon", "icon": "holding" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "holding", "icon-size": 0.9 } }],
+      "interaction": { "type": "popup", "title": "Holding Center" }
+    },
+    {
+      "id": "hydropower", "label": "Hydropowers", "visible": false,
+      "source": { "url": "vector/Hydropower_Status.geojson" },
+      "legend": { "type": "point", "color": "#9b51e0" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#9b51e0", "fill-opacity": 0.45, "fill-outline-color": "#7b3fb3" } },
+        { "type": "line", "paint": { "line-color": "#7b3fb3", "line-width": 2 } },
+        { "type": "circle", "paint": { "circle-color": "#9b51e0", "circle-radius": 4, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1 } }
+      ],
+      "interaction": { "type": "popup", "title": "Hydropower" }
+    },
+    {
+      "id": "buildings", "label": "Affected Buildings", "visible": true,
+      "source": { "url": "vector/affected_buildings_Gheight.geojson" },
+      "legend": { "type": "box", "color": "#d442427e" },
+      "render": [{ "type": "fill-extrusion", "minzoom": 13, "paint": {
+          "fill-extrusion-color": "#d44242",
+          "fill-extrusion-height": ["max", 0, ["coalesce", ["to-number", ["get", "GHeightmax"]], 0]],
+          "fill-extrusion-base": 0, "fill-extrusion-opacity": 0.88, "fill-extrusion-vertical-gradient": true } }]
+    },
+    {
+      "id": "ntc-towers", "label": "NTC Towers", "visible": false,
+      "source": { "url": "vector/NTC_Towers.geojson" },
+      "legend": { "type": "icon", "icon": "ntc" },
+      "render": [{ "type": "symbol", "minzoom": 9, "layout": { "icon-image": "ntc", "icon-size": 0.8 } }]
+    },
+    {
+      "id": "ncell-towers", "label": "Ncell Towers", "visible": false,
+      "source": { "url": "vector/Ncell_tower.geojson" },
+      "legend": { "type": "icon", "icon": "ncell" },
+      "render": [{ "type": "symbol", "minzoom": 9, "layout": { "icon-image": "ncell", "icon-size": 0.8 } }]
+    },
+    {
+      "id": "open-spaces-osm", "label": "Open Spaces (OSM)", "visible": false,
+      "source": { "url": "vector/open_spaces_osm.geojson" },
+      "legend": { "type": "box", "color": "#3cb371" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#3cb371", "fill-opacity": 0.35 } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#2e8b57", "line-width": 1.2 } }
+      ]
+    },
+    {
+      "id": "probable-open-spaces", "label": "Probable Open Spaces", "visible": false,
+      "source": { "url": "vector/probable_open_spaces.geojson" },
+      "legend": { "type": "point", "color": "#f4a261" },
+      "render": [
+        { "type": "fill", "paint": { "fill-color": "#f4a261", "fill-opacity": 0.35 } },
+        { "type": "line", "geometry": "polygon", "paint": { "line-color": "#e76f51", "line-width": 1.2 } },
+        { "type": "circle", "paint": { "circle-color": "#f4a261", "circle-radius": 5, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1 } }
+      ]
+    },
+    {
+      "id": "petrol-pump", "label": "Petrol Pump", "visible": false,
+      "source": { "url": "vector/petrol_pump.geojson" },
+      "legend": { "type": "icon", "icon": "petrol" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "petrol", "icon-size": 0.8 } }]
+    },
+    {
+      "id": "banks", "label": "Banks", "visible": false,
+      "source": { "url": "vector/banks_v3.geojson" },
+      "legend": { "type": "icon", "icon": "bank" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "bank", "icon-size": 0.65 } }],
+      "interaction": { "type": "popup", "title": "Bank" }
+    },
+    {
+      "id": "medical", "label": "Medical Facilities", "visible": false,
+      "source": { "url": "vector/medical.geojson" },
+      "legend": { "type": "icon", "icon": "medical" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "medical", "icon-size": 0.8 } }],
+      "interaction": { "type": "popup", "title": "Medical Facility" }
+    },
+    {
+      "id": "mailung-landmarks", "label": "Existing Landmarks", "visible": false,
+      "source": { "url": "vector/Existing_Landmarks_Mailung.geojson" },
+      "legend": { "type": "point", "color": "#17b248" },
+      "render": [{ "type": "circle", "paint": { "circle-color": "#17b248", "circle-radius": 4, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1 } }],
+      "interaction": { "type": "popup", "title": "Existing Landmark" }
+    },
+    {
+      "id": "mailung-substation", "label": "Substation Alternatives", "visible": false,
+      "source": { "url": "vector/Substation(Alternatives_based_on_slope)_Mailung.geojson" },
+      "legend": { "type": "point", "color": "#1ca2bd" },
+      "render": [{ "type": "circle", "paint": { "circle-color": "#1ca2bd", "circle-radius": 4.5, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1 } }],
+      "interaction": { "type": "popup", "title": "Substation Alternative" }
+    },
+    {
+      "id": "mailung-heli", "label": "Heli Sites", "visible": true,
+      "source": { "url": "vector/Heli_sites_Mailung.geojson" },
+      "legend": { "type": "icon", "icon": "heli" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "heli", "icon-size": 0.025 } }],
+      "interaction": { "type": "popup", "title": "Heli Site" }
+    },
+    {
+      "id": "ground-videos", "label": "Ground Videos", "visible": true,
+      "source": { "data": { "type": "FeatureCollection", "features": [
+        { "type": "Feature", "properties": { "title": "Sale | Seqiong Village", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/reel/1103014792618988" }] }, "geometry": { "type": "Point", "coordinates": [85.43028445352799, 28.33500372973884] } },
+        { "type": "Feature", "properties": { "title": "Gyirong", "links": [{ "label": "YouTube", "url": "https://youtu.be/qlE51Eu0thk?si=08rsXqWaKsiYWOva" }, { "label": "X / Twitter", "url": "https://x.com/skybytee/status/2092535848034357672" }] }, "geometry": { "type": "Point", "coordinates": [85.37755819021359, 28.279938601609228] } },
+        { "type": "Feature", "properties": { "title": "Timure", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/reel/1063237023267409" }] }, "geometry": { "type": "Point", "coordinates": [85.36672599565726, 28.25545584738553] } },
+        { "type": "Feature", "properties": { "title": "Syabru Besi", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/share/r/1C1hjnSEgJ" }, { "label": "YouTube", "url": "https://youtu.be/J4HxxUR_G8w?si=s1n4eZNzWpzt0ZB4" }] }, "geometry": { "type": "Point", "coordinates": [85.33867133320338, 28.165102661032897] } },
+        { "type": "Feature", "properties": { "title": "Dhunche", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/reel/1354816210198086" }] }, "geometry": { "type": "Point", "coordinates": [85.29477523597643, 28.112957128907496] } },
+        { "type": "Feature", "properties": { "title": "Mailung | Upper Trishuli", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/watch/?v=1291517609615680" }] }, "geometry": { "type": "Point", "coordinates": [85.23181157916449, 28.09107314359131] } },
+        { "type": "Feature", "properties": { "title": "Dandagaun", "links": [{ "label": "Facebook Reel", "url": "https://www.facebook.com/reel/4592218197691042" }] }, "geometry": { "type": "Point", "coordinates": [85.18924238164362, 28.03503873420734] } },
+        { "type": "Feature", "properties": { "title": "Betrawati", "links": [{ "label": "YouTube 1", "url": "https://youtu.be/jnn4s6CkQs4?si=t5G6522lb2hEsgYy" }, { "label": "YouTube 2", "url": "https://youtu.be/qjApXYPD2Ow?si=a11_ljrsbbARCq4p" }] }, "geometry": { "type": "Point", "coordinates": [85.18617343620113, 27.974491688593407] } },
+        { "type": "Feature", "properties": { "title": "Trishuli Bazaar", "links": [{ "label": "Facebook Video", "url": "https://www.facebook.com/share/v/1HkTyQ58zq" }] }, "geometry": { "type": "Point", "coordinates": [85.14816991459641, 27.9207504225899] } },
+        { "type": "Feature", "properties": { "title": "Devighat", "links": [{ "label": "YouTube", "url": "https://youtu.be/_7tVfK94Qu0?si=DA7N-F_VJGFbdnL1" }] }, "geometry": { "type": "Point", "coordinates": [85.1083037418016, 27.858366211427267] } },
+        { "type": "Feature", "properties": { "title": "Galchi", "links": [{ "label": "Facebook", "url": "https://www.facebook.com/share/r/1EawoxGbac/" }] }, "geometry": { "type": "Point", "coordinates": [84.97868565739013, 27.800484795085726] } },
+        { "type": "Feature", "properties": { "title": "Malekhu-Dhading Bridge", "links": [{ "label": "X / Twitter", "url": "https://x.com/RohitNirbhawan1/status/2092945647963975766?s=20" }] }, "geometry": { "type": "Point", "coordinates": [84.84372701627393, 27.803367029789364] } },
+        { "type": "Feature", "properties": { "title": "Muglin Arch Bridge", "links": [{ "label": "Facebook Video", "url": "https://www.facebook.com/share/v/1JDqr1Ueny/" }] }, "geometry": { "type": "Point", "coordinates": [84.55699752538955, 27.854039915433216] } }
+      ] } },
+      "legend": { "type": "icon", "icon": "video" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "video", "icon-size": 0.7 } }],
+      "interaction": { "type": "video", "titleField": "title", "linksField": "links" }
+    },
+    {
+      "id": "damage-photos", "label": "Satellite Images", "visible": true,
+      "source": { "data": { "type": "FeatureCollection", "features": [
+        { "type": "Feature", "properties": { "title": "Rasuwagadhi", "imageType": "After satellite image", "date": "2026-08-28", "image": "image/rasuwagadhi_post.png" }, "geometry": { "type": "Point", "coordinates": [85.37744429838273, 28.277186953856123] } },
+        { "type": "Feature", "properties": { "title": "Trishuli Bazar", "imageType": "After satellite image", "date": "2026-09-08", "image": "image/trishulibazar_post.png" }, "geometry": { "type": "Point", "coordinates": [85.14983555182846, 27.924676246746778] } },
+        { "type": "Feature", "properties": { "title": "Devighat", "imageType": "After satellite image", "date": "2026-09-07", "image": "image/devighat_post.png" }, "geometry": { "type": "Point", "coordinates": [85.10967549432218, 27.860914330377085] } },
+        { "type": "Feature", "properties": { "title": "Timure", "imageType": "After satellite image", "date": "2026-08-28", "image": "image/timure_post.png" }, "geometry": { "type": "Point", "coordinates": [85.36591862293952, 28.252740369910665] } },
+        { "type": "Feature", "properties": { "title": "Syafrubesi", "imageType": "After satellite image", "date": "2026-08-28", "image": "image/syafrubesi_post.png" }, "geometry": { "type": "Point", "coordinates": [85.34263472593322, 28.164630177277925] } }
+      ] } },
+      "legend": { "type": "icon", "icon": "camera" },
+      "render": [{ "type": "symbol", "layout": { "icon-image": "camera", "icon-size": 0.62 } }],
+      "hover": { "state": false, "delay": 0, "offset": 16, "className": "photo-hover-popup", "template": "<strong>{title}</strong><br>{imageType} | {date}" },
+      "interaction": { "type": "compare", "titleField": "title", "imageField": "image", "beforeReplace": ["_post", "_pre"] }
+    }
+  ]
+}

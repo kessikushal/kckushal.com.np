@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhote Koshi Flood Analysis – Rasuwa, Nepal</title>
+  <link rel="canonical" href="https://www.kckushal.com.np/visualization/bhotekoshi_flood/index.html" />
+  <meta name="description" content="Rasuwa flood Web GIS by Kushal KC — interactive flood map of the 26 August 2026 Bhote Koshi ice–rock avalanche, debris flow and flash flood in Rasuwa, Nepal." />
+  <meta name="author" content="Kushal KC" />
+  <meta property="og:title" content="Bhote Koshi Flood Analysis – Rasuwa, Nepal" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://www.kckushal.com.np/visualization/bhotekoshi_flood/image/rasuwagadhi_post.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../../image/apn_chair.jpg" type="image/jpg" />
+
+  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.umd.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.2.2/maptiler-sdk.css" rel="stylesheet" />
+  <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/maptilersdk.umd.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.98/style.css" rel="stylesheet" />
+
+  <style>
+    body { margin: 0; font-family: sans-serif; overflow: hidden; }
+    #map { position: absolute; inset: 0; width: 100%; height: 100vh; }
+    #map .maplibregl-ctrl-logo, #map .maptiler-logo { display: none !important; }
+    #load-error { display: none; position: fixed; inset: 0; z-index: 3000; background: #fff; padding: 30px; font-size: 15px; }
+
+    #sidebar-toggle { position: absolute; top: 10px; left: 10px; width: 44px; height: 44px; border-radius: 8px; background: #fff; border: 0; box-shadow: 0 2px 8px rgba(0,0,0,.25); font-size: 24px; cursor: pointer; z-index: 1002; display: flex; align-items: center; justify-content: center; transition: all .3s ease; }
+    #sidebar-toggle:hover { background: #f0f0f0; transform: scale(1.05); }
+    #sidebar-toggle.hidden { opacity: 0; pointer-events: none; }
+    #sidebar { position: absolute; top: 0; left: -380px; width: 340px; height: 100vh; background: #fff; box-shadow: 2px 0 15px rgba(0,0,0,.2); z-index: 1001; overflow-y: auto; transition: left .3s ease; padding: 15px; box-sizing: border-box; }
+    #sidebar.open { left: 0; }
+    #sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 2px solid #eee; }
+    #sidebar-title { display: flex; align-items: center; gap: 6px; font-size: 18px; font-weight: bold; color: #0f0f10; }
+    #sidebar-title img { width: 25px; height: 25px; object-fit: contain; }
+    #sidebar-close { background: none; border: 0; font-size: 24px; cursor: pointer; color: #666; width: 30px; height: 30px; }
+    #sidebar-close:hover { color: #000; }
+    .sidebar-section { margin-bottom: 5px; padding: 5px; background: #f8f9fa; border-radius: 8px; }
+    .sidebar-section h4 { margin: 0 0 5px; color: #2c3e50; font-size: 15px; border-bottom: 1px solid #dee2e6; padding-bottom: 3px; }
+    .sidebar-section label { display: flex; align-items: center; margin-bottom: 3px; cursor: pointer; font-size: 14px; color: #333; gap: 2px; }
+    .sidebar-section input { margin-right: 8px; flex-shrink: 0; }
+    .sidebar-section p { margin: 0; font-size: 13px; line-height: 1.6; text-align: justify; }
+    .sidebar-section ul { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7; }
+    .zoom-to-layer-btn { margin-left: auto; flex-shrink: 0; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #050606; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; opacity: .6; transition: all .15s ease; }
+    .zoom-to-layer-btn:hover { opacity: 1; background: #fff; color: #0037ff; scale: 1.15; }
+    .zoom-to-layer-btn svg { width: 16px; height: 16px; pointer-events: none; }
+    .color-box { width: 14px; height: 12px; display: inline-block; margin-right: 6px; border-radius: 2px; border: 1px solid rgba(0,0,0,.1); box-sizing: border-box; flex-shrink: 0; }
+    .color-point { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 10px 0 2px; flex-shrink: 0; }
+    .color-line { width: 15px; height: 2px; display: inline-block; margin-right: 6px; flex-shrink: 0; }
+    .legend-icon { width: 16px; height: 16px; margin-right: 6px; object-fit: contain; flex-shrink: 0; }
+
+    .ward-hover-popup .maplibregl-popup-content { background: rgba(255,255,255,.2); backdrop-filter: blur(2px); box-shadow: 0 2px 10px rgba(0,0,0,.18); padding: 6px 10px; }
+    .photo-hover-popup .maplibregl-popup-content { padding: 7px 9px; background: rgba(255,255,255,.92); font-size: 12px; line-height: 1.4; }
+    .maplibregl-ctrl-terrain .maplibregl-ctrl-icon, .maplibregl-ctrl-terrain-enabled .maplibregl-ctrl-icon { background-image: none !important; }
+    .maplibregl-ctrl-terrain, .maplibregl-ctrl-terrain-enabled { position: relative; }
+    .maplibregl-ctrl-terrain::after, .maplibregl-ctrl-terrain-enabled::after { content: "3D"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #2c3e50; font-size: 12px; font-weight: 700; pointer-events: none; }
+    .maplibregl-ctrl-terrain-enabled::after { color: #16d800; }
+
+    #photo-modal, #video-modal { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center; padding: 10px; background: rgba(10,17,20,.78); }
+    #photo-modal.open, #video-modal.open { display: flex; }
+    #photo-modal-content { position: relative; width: fit-content; max-width: 94vw; max-height: 92vh; overflow: auto; border-radius: 8px; box-shadow: 0 18px 50px rgba(0,0,0,.4); }
+    .compare-slider { position: relative; width: min(900px, 90vw); max-height: 70vh; aspect-ratio: 4/3; overflow: hidden; border-radius: 4px; background: #05070a; touch-action: none; user-select: none; display: none; }
+    .compare-slider.loaded { display: block; }
+    .compare-img-wrap { position: absolute; top: 0; left: 0; height: 100%; overflow: hidden; pointer-events: none; }
+    .compare-after { width: 100%; } .compare-before { width: 50%; }
+    .compare-img-wrap img { position: absolute; top: 0; left: 0; max-width: none; object-fit: cover; display: block; }
+    .compare-divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,.6); pointer-events: none; }
+    .compare-handle { position: absolute; top: 50%; left: 50%; width: 42px; height: 42px; margin: -21px 0 0 -21px; border-radius: 50%; background: rgba(255,255,255,.95); box-shadow: 0 2px 8px rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; cursor: ew-resize; touch-action: none; color: #1d2529; font-size: 17px; font-weight: 700; }
+    .compare-label { position: absolute; bottom: 10px; padding: 3px 10px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.55); border-radius: 3px; pointer-events: none; }
+    .compare-label-before { left: 10px; } .compare-label-after { right: 10px; }
+    #photo-modal-caption { padding: 10px 45px; text-align: center; background: rgba(255,255,255,.2); backdrop-filter: blur(1px); color: #ffffffdf; }
+    #photo-modal-title { margin: 0 30px 4px; font-size: 17px; }
+    #photo-modal-meta { margin: 0; color: rgba(255,255,255,.82); font-size: 15px; }
+    #photo-modal-close, #video-modal-close { position: absolute; top: 8px; right: 8px; z-index: 1; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255,255,255,.92); color: #1d2529; font-size: 27px; line-height: 1; cursor: pointer; }
+    #photo-modal-close:hover, #video-modal-close:hover { color: #bc1818; font-size: 32px; }
+    #video-modal-content { position: relative; width: min(640px, 94vw); max-width: 30%; overflow-y: auto; background: #fff; border-radius: 10px; padding: 10px 13px 13px; box-shadow: 0 18px 50px rgba(0,0,0,.35); }
+    #video-modal-title { margin: 0 10px 7px 0; text-align: center; font-size: 18px; color: #1d2529; }
+    #video-modal-preview { display: none; width: 100%; margin-bottom: 12px; border-radius: 8px; overflow: hidden; background: #0a1114; aspect-ratio: 5/6.15; }
+    #video-modal-preview.visible { display: block; }
+    #video-modal-preview iframe { width: 100%; height: 100%; border: 0; display: block; }
+    #video-modal-links { display: flex; flex-direction: column; gap: 8px; }
+    #video-modal-links a { display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 6px; background: #0d7377; color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; text-align: center; }
+    #video-modal-links a:hover { filter: brightness(.85); }
+    #video-modal-links a.youtube { background: #c4302b; } #video-modal-links a.facebook { background: #1877f2; }
+    #video-modal-links a.twitter { background: #1a1a1a; } #video-modal-links a.tiktok { background: #111; }
+
+    @media (max-width: 768px) {
+      #sidebar { width: 80vw; max-width: 280px; left: -100vw; }
+      #sidebar.open { left: 0; }
+      .sidebar-section { padding: 3px; }
+      #sidebar-title { font-size: 17px; }
+      #sidebar-toggle { width: 40px; height: 40px; font-size: 20px; }
+      #video-modal-content { width: 100%; max-width: 45%; min-width: 35%; padding: 10px 7px 7px; }
+      #video-modal-title { font-size: 16px; }
+      #video-modal-preview { aspect-ratio: 5/6.3; max-height: 40vh; }
+    }
+  </style>
+</head>
+
+<body>
+  <button id="sidebar-toggle" class="hidden" title="Toggle Menu">☰</button>
+  <div id="sidebar"></div>
+  <div id="map"></div>
+  <div id="load-error"></div>
+
+  <div id="photo-modal" role="dialog" aria-modal="true">
+    <div id="photo-modal-content">
+      <button id="photo-modal-close" type="button" aria-label="Close">&times;</button>
+      <div id="photo-compare" class="compare-slider">
+        <div class="compare-img-wrap compare-after"><img id="cmp-after" alt="" /></div>
+        <div class="compare-img-wrap compare-before" id="cmp-before-wrap"><img id="cmp-before" alt="" /></div>
+        <div class="compare-divider" id="cmp-divider"></div>
+        <div class="compare-handle" id="cmp-handle">⇔</div>
+        <span class="compare-label compare-label-before">Before</span>
+        <span class="compare-label compare-label-after">After</span>
+      </div>
+      <div id="photo-modal-caption"><h3 id="photo-modal-title"></h3><p id="photo-modal-meta"></p></div>
+    </div>
+  </div>
+
+  <div id="video-modal" role="dialog" aria-modal="true">
+    <div id="video-modal-content">
+      <button id="video-modal-close" type="button" aria-label="Close">&times;</button>
+      <h3 id="video-modal-title"></h3>
+      <div id="video-modal-preview"></div>
+      <div id="video-modal-links"></div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       Config-driven Web GIS engine. All content lives in data.json
+       (layers, styles, zoom ranges, legend, popups, sidebar text).
+       ========================================================= */
+    const $ = (s) => document.querySelector(s);
+    const EMPTY = { type: "FeatureCollection", features: [] };
+    const ZOOM_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>`;
+
+    let CFG, map, activePopup = null, fitted = false, jumpMarker = null;
+    const cache = {};            // layerId -> GeoJSON (used by zoom-to-layer)
+    const partToLayer = {};      // map layer id -> layer config
+    const iconImages = {};       // iconId -> loaded Image
+    const hoverPopups = [];
+
+    const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    // {field} = escaped value, {field|num} = formatted number
+    const tpl = (s, p) => String(s).replace(/\{(\w+)(?:\|(\w+))?\}/g, (_, k, f) => {
+      const v = p ? p[k] : undefined;
+      if (f === "num") { const n = Number(v); return Number.isFinite(n) ? n.toLocaleString() : "0"; }
+      return v === undefined || v === null || v === "" ? "Not available" : esc(v);
+    });
+    const partId = (l, i) => `${l.id}__${i}`;
+    const isOn = (id) => $(`#chk-${id}`).checked;
+    const layerById = (id) => CFG.layers.find((l) => l.id === id);
+
+    (async function boot() {
+      try {
+        const r = await fetch("data.json");
+        if (!r.ok) throw new Error(r.status + " " + r.statusText);
+        CFG = await r.json();
+      } catch (e) {
+        const el = $("#load-error");
+        el.style.display = "block";
+        el.innerHTML = "<b>Could not load data.json</b><br>" + esc(e.message) + "<br><br>Open this page through a web server (e.g. <code>python -m http.server</code>), not by double-clicking the file.";
+        return;
+      }
+      init();
+    })();
+
+    /* ---------------- Sidebar ---------------- */
+    function legendHtml(g) {
+      if (!g) return "";
+      if (g.type === "box") return `<span class="color-box" style="background:${g.color};${g.border ? `border:1px ${g.dashed ? "dashed" : "solid"} ${g.border};` : ""}"></span>`;
+      if (g.type === "line") return `<span class="color-line" style="background:${g.color}"></span>`;
+      if (g.type === "point") return `<span class="color-point" style="background:${g.color}"></span>`;
+      if (g.type === "icon") {
+        const ic = CFG.icons[g.icon] || {};
+        const src = ic.url || "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(ic.svg || "");
+        return `<img class="legend-icon" src="${src}" alt="">`;
+      }
+      return "";
+    }
+
+    function buildSidebar() {
+      const a = CFG.app;
+      let h = `<div id="sidebar-header"><div id="sidebar-title">${a.logo ? `<img src="${esc(a.logo)}" alt="">` : ""}${esc(a.title)}</div><button id="sidebar-close">✕</button></div>`;
+
+      h += `<div class="sidebar-section"><h4>🗺️ Basemap Layer</h4>${CFG.basemaps.map((b) =>
+        `<label><input type="radio" name="basemap" value="${esc(b.id)}" ${b.id === a.defaultBasemap ? "checked" : ""}/>${esc(b.label)}</label>`).join("")}</div>`;
+
+      CFG.groups.forEach((g, gi) => {
+        h += `<div class="sidebar-section"><h4>${esc(g.title)}</h4>`;
+        if (gi === 0) h += `<label><input type="checkbox" id="all-layers" checked /><strong>Turn ON/OFF all Layers</strong></label>`;
+        g.layers.forEach((id) => {
+          const l = layerById(id);
+          if (!l) return console.warn("Group references unknown layer:", id);
+          h += `<label><input type="checkbox" class="layer-chk" id="chk-${l.id}" ${l.visible ? "checked" : ""}/>${legendHtml(l.legend)}${esc(l.label)}` +
+            (l.zoomButton === false ? "" : `<button type="button" class="zoom-to-layer-btn" data-source="${l.id}" title="Zoom to layer" aria-label="Zoom to layer">${ZOOM_SVG}</button>`) + `</label>`;
+        });
+        h += `</div>`;
+      });
+
+      (CFG.sections || []).forEach((s) => {
+        h += `<div class="sidebar-section"><h4>${esc(s.title)}</h4>` +
+          (s.type === "list" ? `<ul>${s.content.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>` : `<p>${esc(s.content)}</p>`) + `</div>`;
+      });
+      $("#sidebar").innerHTML = h;
+      if (a.sidebarOpen !== false) $("#sidebar").classList.add("open"); else $("#sidebar-toggle").classList.remove("hidden");
+    }
+
+    function updateMasterCheckbox() {
+      const all = $("#all-layers"); if (!all) return;
+      const boxes = [...document.querySelectorAll(".layer-chk")];
+      const n = boxes.filter((b) => b.checked).length;
+      all.checked = n === boxes.length;
+      all.indeterminate = n > 0 && n < boxes.length;
+    }
+
+    function syncVisibility() {
+      CFG.layers.forEach((l) => {
+        const v = isOn(l.id) ? "visible" : "none";
+        l.render.forEach((_, i) => { const id = partId(l, i); if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", v); });
+      });
+    }
+
+    /* ---------------- Data / icons / layers ---------------- */
+    async function loadData(l) {
+      if (l.source.data) { cache[l.id] = l.source.data; return; }
+      try {
+        const r = await fetch(l.source.url);
+        if (r.ok) cache[l.id] = await r.json();
+        else console.warn("Could not load", l.source.url, r.status);
+      } catch (e) { console.warn("Could not load", l.source.url, e); }
+    }
+
+    function loadImg(src) {
+      return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error("icon load failed: " + src)); im.src = src; });
+    }
+
+    async function ensureIcons() {
+      await Promise.all(Object.entries(CFG.icons || {}).map(async ([id, ic]) => {
+        try {
+          if (!iconImages[id]) iconImages[id] = await loadImg(ic.url || "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(ic.svg));
+          if (!map.hasImage(id)) map.addImage(id, iconImages[id]);
+        } catch (e) { console.warn(e.message); }
+      }));
+    }
+
+    const GEOM = {
+      polygon: ["Polygon", "MultiPolygon"],
+      line: ["LineString", "MultiLineString"],
+      point: ["Point", "MultiPoint"],
+    };
+    const DEFAULT_GEOM = { fill: "polygon", "fill-extrusion": "polygon", line: "line", circle: "point", symbol: "point" };
+
+    function buildFilter(p) {
+      const g = p.geometry || DEFAULT_GEOM[p.type];
+      const parts = [];
+      if (g && g !== "any") parts.push(["in", ["geometry-type"], ["literal", GEOM[g] || g]]);
+      if (p.filter) parts.push(p.filter);
+      return parts.length === 0 ? null : parts.length === 1 ? parts[0] : ["all", ...parts];
+    }
+
+    async function addAll() {
+      await ensureIcons();
+      CFG.layers.forEach((l) => {
+        if (!map.getSource(l.id)) {
+          map.addSource(l.id, { type: "geojson", data: cache[l.id] || EMPTY, ...(l.source.promoteId ? { promoteId: l.source.promoteId } : {}) });
+        }
+        l.render.forEach((p, i) => {
+          const id = partId(l, i);
+          partToLayer[id] = l;
+          if (map.getLayer(id)) return;
+          const layout = { ...(p.type === "symbol" ? { "icon-allow-overlap": true, "icon-ignore-placement": true } : {}), ...(p.layout || {}), visibility: isOn(l.id) ? "visible" : "none" };
+          const def = { id, type: p.type, source: l.id, paint: p.paint || {}, layout };
+          const f = buildFilter(p); if (f) def.filter = f;
+          const minz = p.minzoom ?? l.minzoom, maxz = p.maxzoom ?? l.maxzoom;
+          if (minz !== undefined) def.minzoom = minz;
+          if (maxz !== undefined) def.maxzoom = maxz;
+          map.addLayer(def);
+        });
+      });
+      if (!fitted) {
+        const b = getBounds(cache[CFG.app.fitLayer]);
+        if (b) { map.fitBounds(b, { padding: CFG.app.fitPadding ?? 25, maxZoom: CFG.app.fitMaxZoom ?? 15, offset: [0, 10] }); fitted = true; }
+      }
+    }
+
+    /* ---------------- Zoom to layer ---------------- */
+    function getBounds(gj) {
+      if (!gj || !Array.isArray(gj.features) || !gj.features.length) return null;
+      let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity;
+      (function walk(co) {
+        if (!Array.isArray(co)) return;
+        if (typeof co[0] === "number") { a = Math.min(a, co[0]); b = Math.min(b, co[1]); c = Math.max(c, co[0]); d = Math.max(d, co[1]); return; }
+        co.forEach(walk);
+      })(gj.features.map((f) => f.geometry && f.geometry.coordinates));
+      return Number.isFinite(a) ? [[a, b], [c, d]] : null;
+    }
+
+    function zoomToSource(id) {
+      const b = getBounds(cache[id]);
+      if (!b) return console.warn("Zoom to layer: no data for", id);
+      const mobile = matchMedia("(max-width: 768px)").matches;
+      map.fitBounds(b, {
+        padding: mobile ? { top: 20, bottom: 20, left: 20, right: 20 } : { top: 10, bottom: 70, left: 380, right: 5 },
+        maxZoom: mobile ? 18 : 20, duration: 1000,
+      });
+    }
+
+    /* ---------------- Popups & interactions ---------------- */
+    function closeTransient() {
+      if (activePopup) activePopup.remove();
+      hoverPopups.forEach((p) => p.remove());
+    }
+
+    function popupHtml(inter, f) {
+      const p = f.properties || {};
+      let rows;
+      if (inter.fields) rows = inter.fields.map((x) => (typeof x === "string" ? [x, x] : [x.key, x.label || x.key])).filter(([k]) => p[k] !== undefined && p[k] !== null && p[k] !== "");
+      else rows = Object.keys(p).filter((k) => p[k] !== null && p[k] !== undefined && p[k] !== "").map((k) => [k, k]);
+      const title = `<div style="font-size:13px;font-weight:700;margin-bottom:6px">${esc(inter.title || "Feature")}</div>`;
+      if (!rows.length) return `<div style="font-size:12px">${title}No attributes available.</div>`;
+      return `<div style="font-size:12px;line-height:1.4;max-width:300px">${title}${rows.map(([k, lab]) => `<div style="margin-bottom:4px"><strong>${esc(lab)}:</strong> ${esc(p[k])}</div>`).join("")}</div>`;
+    }
+
+    function runInteraction(l, f, lngLat) {
+      const inter = l.interaction;
+      closeTransient();
+      if (inter.type === "popup") {
+        const pop = new maptilersdk.Popup({ closeButton: true, closeOnClick: true }).setLngLat(lngLat).setHTML(inter.template ? tpl(inter.template, f.properties) : popupHtml(inter, f)).addTo(map);
+        activePopup = pop;
+        pop.on("close", () => { if (activePopup === pop) activePopup = null; });
+      } else if (inter.type === "compare") openCompare(inter, f.properties || {});
+      else if (inter.type === "video") openVideo(inter, f.properties || {});
+    }
+
+    function bindInteractions() {
+      // topmost clickable feature wins
+      map.on("click", (e) => {
+        $("#sidebar").classList.remove("open"); $("#sidebar-toggle").classList.remove("hidden");
+        const ids = Object.keys(partToLayer).filter((id) => partToLayer[id].interaction && map.getLayer(id) && map.getLayoutProperty(id, "visibility") !== "none");
+        const f = ids.length ? map.queryRenderedFeatures(e.point, { layers: ids })[0] : null;
+        if (f) runInteraction(partToLayer[f.layer.id], f, e.lngLat);
+      });
+      map.on("mousemove", (e) => {
+        const ids = Object.keys(partToLayer).filter((id) => (partToLayer[id].interaction || partToLayer[id].hover) && map.getLayer(id) && map.getLayoutProperty(id, "visibility") !== "none");
+        map.getCanvas().style.cursor = ids.length && map.queryRenderedFeatures(e.point, { layers: ids }).length ? "pointer" : "";
+      });
+      // hover tooltips / hover highlight
+      CFG.layers.filter((l) => l.hover).forEach((l) => {
+        const h = l.hover, pid = partId(l, h.part || 0);
+        const pop = new maptilersdk.Popup({ closeButton: false, closeOnClick: false, className: h.className || "", offset: h.offset ?? 12 });
+        hoverPopups.push(pop);
+        let hid = null, timer;
+        const clear = () => { if (hid !== null && h.state && map.getSource(l.id)) map.setFeatureState({ source: l.id, id: hid }, { hover: false }); hid = null; };
+        map.on("mousemove", pid, (e) => {
+          clearTimeout(timer); pop.remove();
+          if (activePopup && activePopup.isOpen()) return clear();
+          const f = e.features && e.features[0]; if (!f) return;
+          if (h.state && hid !== f.id) { clear(); hid = f.id; map.setFeatureState({ source: l.id, id: hid }, { hover: true }); }
+          const ll = [e.lngLat.lng, e.lngLat.lat];
+          timer = setTimeout(() => {
+            if (activePopup && activePopup.isOpen()) return;
+            if (h.template) pop.setLngLat(ll).setHTML(tpl(h.template, f.properties)).addTo(map);
+          }, h.delay ?? 0);
+        });
+        map.on("mouseleave", pid, () => { clearTimeout(timer); pop.remove(); clear(); });
+      });
+    }
+
+    /* ---------------- Before/After photo viewer ---------------- */
+    let dragging = false, compareBound = false, photoReq = 0;
+    function setCmp(pct) {
+      const c = Math.min(100, Math.max(0, pct));
+      $("#cmp-before-wrap").style.width = c + "%"; $("#cmp-divider").style.left = c + "%"; $("#cmp-handle").style.left = c + "%";
+    }
+    function syncCmpSize() {
+      const s = $("#photo-compare"); if (!s.classList.contains("loaded")) return;
+      ["#cmp-after", "#cmp-before"].forEach((id) => { $(id).style.width = s.clientWidth + "px"; $(id).style.height = s.clientHeight + "px"; });
+    }
+    function bindCompare() {
+      if (compareBound) return; compareBound = true;
+      const s = $("#photo-compare");
+      const pct = (x) => { const r = s.getBoundingClientRect(); return ((x - r.left) / r.width) * 100; };
+      const cx = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
+      const start = (e) => { if (!s.classList.contains("loaded")) return; dragging = true; setCmp(pct(cx(e))); e.preventDefault(); };
+      s.addEventListener("mousedown", start); s.addEventListener("touchstart", start, { passive: false });
+      addEventListener("mousemove", (e) => dragging && setCmp(pct(cx(e))));
+      addEventListener("touchmove", (e) => dragging && setCmp(pct(cx(e))), { passive: false });
+      addEventListener("mouseup", () => (dragging = false)); addEventListener("touchend", () => (dragging = false));
+      addEventListener("resize", () => $("#photo-modal").classList.contains("open") && syncCmpSize());
+    }
+    async function openCompare(inter, p) {
+      bindCompare();
+      const modal = $("#photo-modal"), slider = $("#photo-compare"), req = ++photoReq;
+      const after = p[inter.imageField || "image"];
+      const [from, to] = inter.beforeReplace || ["_post", "_pre"];
+      const before = String(after || "").replace(from, to);
+      slider.classList.remove("loaded"); setCmp(50);
+      $("#cmp-after").removeAttribute("src"); $("#cmp-before").removeAttribute("src");
+      $("#photo-modal-title").textContent = p[inter.titleField || "title"] || ""; $("#photo-modal-meta").textContent = "";
+      modal.classList.add("open"); $("#photo-modal-close").focus();
+      try {
+        await Promise.all([loadImg(after), loadImg(before)]);
+        if (req !== photoReq || !modal.classList.contains("open")) return;
+        $("#cmp-after").src = after; $("#cmp-before").src = before;
+        slider.classList.add("loaded"); requestAnimationFrame(syncCmpSize);
+      } catch (e) { if (req === photoReq) $("#photo-modal-meta").textContent = "Before/after imagery could not be loaded."; }
+    }
+    function closeCompare() { photoReq++; dragging = false; $("#photo-modal").classList.remove("open"); }
+
+    /* ---------------- Ground video viewer ---------------- */
+    function platform(u) {
+      u = String(u).toLowerCase();
+      if (u.includes("youtu")) return "youtube";
+      if (u.includes("facebook.com") || u.includes("fb.watch")) return "facebook";
+      if (u.includes("tiktok.com")) return "tiktok";
+      if (u.includes("x.com") || u.includes("twitter.com")) return "twitter";
+      return "other";
+    }
+    function ytId(u) { const m = String(u).match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{6,})/); return m ? m[1] : null; }
+    function xId(u) { const m = String(u).match(/(?:twitter\.com|x\.com)\/[^/]+\/status\/(\d+)/); return m ? m[1] : null; }
+
+    function openVideo(inter, p) {
+      const prev = $("#video-modal-preview"), box = $("#video-modal-links");
+      $("#video-modal-title").textContent = p[inter.titleField || "title"] || "Ground Video";
+      prev.innerHTML = ""; prev.classList.remove("visible"); box.innerHTML = "";
+      let links = p[inter.linksField || "links"];
+      if (typeof links === "string") { try { links = JSON.parse(links); } catch (_) { links = []; } }
+      if (!Array.isArray(links)) links = [];
+      const by = (t) => links.find((i) => platform(i.url) === t);
+      const yt = by("youtube"), fb = by("facebook"), x = by("twitter"), tk = by("tiktok");
+
+      if (yt && ytId(yt.url)) {
+        prev.classList.add("visible");
+        prev.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId(yt.url)}?rel=0" title="Video preview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+      } else if (fb) {
+        prev.classList.add("visible");
+        prev.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(fb.url)}&show_text=0&width=640" style="border:none;overflow:hidden" scrolling="no" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
+      } else if (x && xId(x.url)) {
+        prev.classList.add("visible");
+        prev.innerHTML = `<div style="padding:12px;background:#000;height:100%;overflow:auto"><blockquote class="twitter-tweet" data-media-max-width="560"><a href="https://twitter.com/i/status/${xId(x.url)}"></a></blockquote></div>`;
+        if (!window.twttr) { const s = document.createElement("script"); s.src = "https://platform.twitter.com/widgets.js"; s.async = true; s.onload = () => window.twttr && window.twttr.widgets.load(prev); document.body.appendChild(s); }
+        else window.twttr.widgets && window.twttr.widgets.load(prev);
+      } else if (tk) {
+        prev.classList.add("visible");
+        prev.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#ccc;font-size:14px;text-align:center;padding:16px">TikTok cannot be embedded here.<br/>Use the button below to open the video.</div>`;
+      }
+      links.forEach((i) => {
+        const pf = platform(i.url), a = document.createElement("a");
+        a.href = i.url; a.target = "_blank"; a.rel = "noopener noreferrer"; a.className = pf;
+        a.textContent = "▶ " + (i.label || "Open video");
+        box.appendChild(a);
+      });
+      if (!links.length) box.innerHTML = "<p style='color:#666;font-size:13px'>No video links available.</p>";
+      $("#video-modal").classList.add("open"); $("#video-modal-close").focus();
+    }
+    function closeVideo() { const p = $("#video-modal-preview"); p.innerHTML = ""; p.classList.remove("visible"); $("#video-modal").classList.remove("open"); }
+
+    /* ---------------- Coordinate search in geocoder ---------------- */
+    function parseCoords(text) {
+      const m = String(text || "").match(/[-+]?\d*\.?\d+/g);
+      if (!m || m.length < 2) return null;
+      const a = Number(m[0]), b = Number(m[1]);
+      if (!isFinite(a) || !isFinite(b) || Math.abs(a) > 180 || Math.abs(b) > 180) return null;
+      if (Math.abs(a) <= 90 && Math.abs(b) > 90) return { lat: a, lng: b };
+      if (Math.abs(b) <= 90 && Math.abs(a) > 90) return { lat: b, lng: a };
+      if (Math.abs(a) <= 90 && Math.abs(b) <= 90) {
+        const c = map.getCenter(), A = { lat: a, lng: b }, B = { lat: b, lng: a };
+        return Math.abs(A.lat - c.lat) + Math.abs(A.lng - c.lng) <= Math.abs(B.lat - c.lat) + Math.abs(B.lng - c.lng) ? A : B;
+      }
+      return null;
+    }
+    function setupCoordinateSearch() {
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const t = (e.composedPath && e.composedPath().find((x) => x instanceof HTMLInputElement && x.type === "text")) || document.activeElement;
+        if (!(t instanceof HTMLInputElement) || !t.closest("[class*='geocod'], .maptiler-geocoding-control")) return;
+        const c = parseCoords(t.value); if (!c) return;
+        e.preventDefault(); e.stopPropagation();
+        map.flyTo({ center: [c.lng, c.lat], zoom: 14, speed: 0.9, curve: 1.2 });
+        if (jumpMarker) jumpMarker.remove();
+        jumpMarker = new maptilersdk.Marker({ color: "#d62828" }).setLngLat([c.lng, c.lat]).addTo(map);
+        t.blur();
+      }, true);
+    }
+
+    /* ---------------- Init ---------------- */
+    function resolveStyle(v) {
+      if (/^https?:/i.test(v)) return v;
+      return v.split(".").reduce((o, k) => (o ? o[k] : undefined), maptilersdk.MapStyle);
+    }
+
+    function init() {
+      const a = CFG.app;
+      document.title = a.title + " – Rasuwa, Nepal";
+      maptilersdk.config.apiKey = a.apiKey;
+      buildSidebar();
+      const dataReady = Promise.all(CFG.layers.map(loadData));
+      const base = CFG.basemaps.find((b) => b.id === a.defaultBasemap) || CFG.basemaps[0];
+
+      map = new maptilersdk.Map({
+        container: "map", style: resolveStyle(base.style), center: a.center, zoom: a.zoom, pitch: a.pitch ?? 0,
+        terrain: !!a.terrain, terrainControl: true, fullscreenControl: "bottom-right", geolocateControl: true,
+      });
+
+      map.on("load", async () => {
+        await dataReady;
+        await addAll();
+        bindInteractions();
+        updateMasterCheckbox();
+      });
+
+      map.addControl(new maptilersdkMaptilerGeocoder.GeocodingControl({}), "top-right");
+      map.addControl(new maptilersdk.ScaleControl({ maxWidth: 200, unit: "metric" }), "top-right");
+      setupCoordinateSearch();
+
+      // sidebar behaviour
+      const sb = $("#sidebar"), tg = $("#sidebar-toggle");
+      tg.addEventListener("click", () => { sb.classList.add("open"); tg.classList.add("hidden"); });
+      $("#sidebar-close").addEventListener("click", () => { sb.classList.remove("open"); tg.classList.remove("hidden"); });
+      sb.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const z = e.target.closest(".zoom-to-layer-btn");
+        if (z) { e.preventDefault(); zoomToSource(z.dataset.source); }
+      });
+      document.querySelectorAll(".layer-chk").forEach((c) => c.addEventListener("change", () => { syncVisibility(); updateMasterCheckbox(); }));
+      const all = $("#all-layers");
+      if (all) all.addEventListener("change", () => {
+        document.querySelectorAll(".layer-chk").forEach((c) => (c.checked = all.checked));
+        syncVisibility(); updateMasterCheckbox();
+      });
+
+      document.querySelectorAll('input[name="basemap"]').forEach((r) => r.addEventListener("change", () => {
+        const b = CFG.basemaps.find((x) => x.id === r.value); if (!b) return;
+        map.setStyle(resolveStyle(b.style));
+        map.once("styledata", () => addAll());
+      }));
+
+      // modals
+      $("#photo-modal-close").addEventListener("click", closeCompare);
+      $("#photo-modal").addEventListener("click", (e) => e.target.id === "photo-modal" && closeCompare());
+      $("#video-modal-close").addEventListener("click", closeVideo);
+      $("#video-modal").addEventListener("click", (e) => e.target.id === "video-modal" && closeVideo());
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        if ($("#photo-modal").classList.contains("open")) closeCompare();
+        if ($("#video-modal").classList.contains("open")) closeVideo();
+      });
+    }
+  </script>
+</body>
+</html>

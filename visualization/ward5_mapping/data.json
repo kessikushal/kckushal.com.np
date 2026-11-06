@@ -1,0 +1,910 @@
+{
+  "app": {
+    "title": "Development and Cultural Profile of Ward 5",
+    "logo": "image/KMC_logo.png",
+    "apiKey": "beLTXJmGL8weKgdDngiU",
+    "center": [
+      85.33296829585755,
+      27.716885421724427
+    ],
+    "zoom": 15,
+    "pitch": 0,
+    "terrain": false,
+    "defaultBasemap": "OUTDOOR",
+    "fitLayer": "ward-boundary",
+    "fitPadding": 40,
+    "fitMaxZoom": 17,
+    "sidebarOpen": true
+  },
+  "basemaps": [
+    {
+      "id": "DARK",
+      "label": "Dark Streets",
+      "style": "STREETS.DARK"
+    },
+    {
+      "id": "OUTDOOR",
+      "label": "Outdoor",
+      "style": "OUTDOOR"
+    },
+    {
+      "id": "STREETS",
+      "label": "Streets",
+      "style": "STREETS"
+    },
+    {
+      "id": "TOPO",
+      "label": "Topo",
+      "style": "TOPO"
+    },
+    {
+      "id": "HYBRID",
+      "label": "Satellite",
+      "style": "HYBRID"
+    }
+  ],
+  "groups": [
+    {
+      "title": "📚 General Layers",
+      "layers": [
+        "ward-boundary",
+        "kmc-boundary",
+        "main-roads",
+        "road-network",
+        "water-network",
+        "core-area",
+        "landmarks",
+        "buildings"
+      ]
+    },
+    {
+      "title": "🛣️ Road Works (Fiscal Year)",
+      "layers": [
+        "road-blacktopping",
+        "road-concreting",
+        "road-stone-pavement"
+      ]
+    },
+    {
+      "title": "💧 Water & Sanitation Works",
+      "layers": [
+        "drinking-water-pipeline",
+        "sewage-repair",
+        "sewage-construction"
+      ]
+    },
+    {
+      "title": "🎉 Jatra Routes",
+      "layers": [
+        "jatra-1",
+        "jatra-2",
+        "jatra-3"
+      ]
+    },
+    {
+      "title": "🏛️ Cultural Heritage Points",
+      "layers": [
+        "hities",
+        "inar",
+        "public-tap",
+        "falcha"
+      ]
+    },
+    {
+      "title": "🏗️ Development Areas",
+      "layers": [
+        "building-construction",
+        "sports",
+        "Land-Protection"
+      ]
+    },
+    {
+      "title": "📍 Landmarks & Monuments",
+      "layers": [
+        "monuments"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "📝 About Ward 5",
+      "type": "text",
+      "content": "Ward No. 5 of Kathmandu Metropolitan City is centered around Hadigaun (Handigaun), one of the oldest continuously inhabited settlements in the Kathmandu Valley with roots tracing back to the Kirat and Licchavi periods. The ward encompasses historic neighborhoods including Hadigaun, Bhatbhateni, Bishalnagar and surrounding areas. It is renowned for its rich Newar cultural heritage, traditional festivals such as Kahi Nabhako Jatra (a unique chariot procession without wheels), ancient temples, traditional stone water spouts (hiti), public rest houses (falcha), and numerous community monuments. With a population of approximately 18,320, Ward 5 represents a living blend of deep historical legacy and modern urban life."
+    },
+    {
+      "title": "🏛️ Cultural Significance",
+      "type": "list",
+      "content": [
+        "One of the oldest settlements in Kathmandu Valley (Kirat–Licchavi origins)",
+        "Home to Kailashkut Bhawan historical site (Licchavi era palace complex)",
+        "Famous for Kahi Nabhako Jatra – unique wheel-less chariot festival",
+        "Contains numerous traditional hiti (stone spouts), inar, falcha and public taps",
+        "96+ monuments recognized by Department of Archaeology (predominantly community-scale)",
+        "Important Newar cultural and residential core with traditional tole life"
+      ]
+    },
+    {
+      "title": "🗂️ Data Source",
+      "type": "list",
+      "content": [
+        "Administrative Boundary: Kathmandu Metropolitan City / National Geoportal",
+        "Road Network & Works: Ward Office / Field Survey",
+        "Water & Sanitation: Ward Office / KUKL related mapping",
+        "Jatra Routes: Community & Cultural Mapping",
+        "Hiti, Inar, Falcha, Public Taps: Field Survey + Cultural Inventory",
+        "Buildings & Landmarks: OSM + Field Verification",
+        "Monuments: Department of Archaeology / Local Inventory"
+      ]
+    },
+    {
+      "title": "👥 Prepared By",
+      "type": "list",
+      "content": [
+        "<a href='https://www.linkedin.com/in/kessikushal/' target='_blank'>Kushal K.C</a>"
+      ]
+    }
+  ],
+  "icons": {
+    "bridge": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M3 11h14' stroke='#000' stroke-width='2' stroke-linecap='round'/><path d='M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2' fill='none' stroke='#000' stroke-width='1.7' stroke-linecap='round'/><path d='M7 11v2M10 11v2M13 11v2' stroke='#000' stroke-width='1.2' stroke-linecap='round'/></svg>"
+    },
+    "hiti": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><rect x='4' y='3' width='14' height='16' rx='1.5' fill='#1a73e8' opacity='0.9'/><path d='M7 7h8M7 10h8M7 13h5' stroke='#fff' stroke-width='1.4' stroke-linecap='round'/><circle cx='11' cy='17' r='1.6' fill='#fff'/></svg>"
+    },
+    "inar": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><circle cx='11' cy='11' r='8' fill='#2ecc71' stroke='#1e8449' stroke-width='1.5'/><circle cx='11' cy='11' r='3.5' fill='#fff' opacity='0.9'/><path d='M11 6v10M6 11h10' stroke='#1e8449' stroke-width='1.3' stroke-linecap='round'/></svg>"
+    },
+    "public-tap": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M6 4h10v3H6z' fill='#3498db'/><path d='M9 7v6h4V7' fill='#2980b9'/><path d='M8 13h6v2H8z' fill='#1a5276'/><circle cx='11' cy='17' r='2' fill='#5dade2'/></svg>"
+    },
+    "falcha": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M3 14h16v2H3z' fill='#8e44ad'/><path d='M5 8h12l1 6H4l1-6z' fill='#9b59b6'/><path d='M7 5h8v3H7z' fill='#6c3483'/><path d='M9 3h4v2H9z' fill='#5b2c6f'/></svg>"
+    },
+    "landmark": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M11 2L13.5 8H19L14.5 12L16.5 18L11 14.5L5.5 18L7.5 12L3 8H8.5L11 2Z' fill='#e67e22' stroke='#d35400' stroke-width='0.8'/></svg>"
+    },
+    "monument": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M4 18h14v2H4z' fill='#7f8c8d'/><path d='M6 10h10v8H6z' fill='#95a5a6'/><path d='M8 6h6v4H8z' fill='#bdc3c7'/><path d='M9 3h4v3H9z' fill='#ecf0f1'/></svg>"
+    },
+    "jatra": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><circle cx='11' cy='11' r='9' fill='#c0392b'/><path d='M7 8l2 6h6l2-6' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='9' cy='15' r='1.3' fill='#fff'/><circle cx='13' cy='15' r='1.3' fill='#fff'/></svg>"
+    },
+    "road-work": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M3 14h16' stroke='#f39c12' stroke-width='3' stroke-linecap='round'/><path d='M5 10h12' stroke='#e67e22' stroke-width='2' stroke-linecap='round'/><path d='M7 6h8' stroke='#d35400' stroke-width='1.5' stroke-linecap='round'/></svg>"
+    },
+    "water": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M11 3c-3 4-6 7-6 10a6 6 0 0 0 12 0c0-3-3-6-6-10z' fill='#3498db'/></svg>"
+    },
+    "sewage": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M4 6h14v3H4z' fill='#7f8c8d'/><path d='M6 9v7h3V9M13 9v7h3V9' fill='#95a5a6'/><path d='M3 16h16v2H3z' fill='#5d6d7e'/></svg>"
+    }
+  },
+  "layers": [
+    {
+      "id": "ward-boundary",
+      "label": "Ward 5 Boundary",
+      "visible": false,
+      "source": {
+        "url": "vector/general/ward5.geojson",
+        "promoteId": "OBJECTID"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#e74c3c66",
+        "border": "#c0392b"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#e74c3c",
+            "fill-opacity": 0
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#c0392b",
+            "line-width": 2
+          }
+        }
+      ],
+      "hover": {
+        "state": true,
+        "delay": 300,
+        "className": "ward-hover-popup",
+        "template": "<div style='font-size:13px;line-height:1.5;min-width:180px'><div style='font-size:15px;font-weight:700;margin-bottom:4px'>Ward 5 – Hadigaun</div><div><b>Kathmandu Metropolitan City</b></div><div>Population: ~18,320</div></div>"
+      }
+    },
+    {
+      "id": "kmc-boundary",
+      "label": "KMC Boundary",
+      "visible": false,
+      "source": {
+        "url": "vector/general/KMC_boundary.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#2c3e5066",
+        "border": "#2c3e50"
+      },
+      "render": [
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#2c3e50",
+            "line-width": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "road-network",
+      "label": "Road Network",
+      "visible": false,
+      "source": {
+        "url": "vector/general/road_network.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#7f8c8d"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#7f8c8d",
+            "line-width": 1.7,
+            "line-opacity": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "water-network",
+      "label": "Water Network",
+      "visible": false,
+      "source": {
+        "url": "vector/general/water_network.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#3498db"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#3498db",
+            "line-width": 1.5,
+            "line-opacity": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "core-area",
+      "label": "Core Area",
+      "visible": false,
+      "source": {
+        "url": "vector/general/core_area.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#9b59b666",
+        "border": "#8e44ad"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#9b59b6",
+            "fill-opacity": 0.1
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#8e44ad",
+            "line-width": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "landmarks",
+      "label": "Landmarks",
+      "visible": true,
+      "source": {
+        "url": "vector/general/landmarks.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "landmark"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "landmark",
+            "icon-size": 0.8
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Landmark"
+      }
+    },
+    {
+      "id": "main-roads",
+      "label": "Major Roads",
+      "visible": false,
+      "source": {
+        "url": "vector/general/major_road.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#34495e88",
+        "border": "#2c3e50"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#34495e",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#2c3e50",
+            "line-width": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "buildings",
+      "label": "Buildings",
+      "visible": false,
+      "source": {
+        "url": "vector/building.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#bdc3c77a"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#bdc3c7",
+            "fill-opacity": 0.55,
+            "fill-outline-color": "#95a5a6"
+          }
+        },
+        {
+          "type": "fill-extrusion",
+          "minzoom": 15,
+          "paint": {
+            "fill-extrusion-color": "#bdc3c7",
+            "fill-extrusion-height": [
+              "coalesce",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ]
+              ],
+              6
+            ],
+            "fill-extrusion-base": 0,
+            "fill-extrusion-opacity": 0.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "road-blacktopping",
+      "label": "Blacktopping",
+      "visible": false,
+      "source": {
+        "url": "vector/road/Blacktopping.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#2c3e50"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#2c3e50",
+            "line-width": 3.5,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Blacktopping Work",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "length_m",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "road-concreting",
+      "label": "Concreting",
+      "visible": false,
+      "source": {
+        "url": "vector/road/Concreting.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#7f8c8d"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#7f8c8d",
+            "line-width": 3.2,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Concreting Work",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "length_m",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "road-stone-pavement",
+      "label": "Stone Pavement",
+      "visible": false,
+      "source": {
+        "url": "vector/road/Stone_Paving.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#d35400"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#d35400",
+            "line-width": 3,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Stone Pavement Work",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "length_m",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "drinking-water-pipeline",
+      "label": "Drinking Water Pipeline",
+      "visible": false,
+      "source": {
+        "url": "vector/water_sanitation/drinking_water.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#2980b9"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#2980b9",
+            "line-width": 2.5,
+            "line-opacity": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Drinking Water Pipeline",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "diameter",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "sewage-repair",
+      "label": "Sewage Repair",
+      "visible": false,
+      "source": {
+        "url": "vector/water_sanitation/sewage_cleaning.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#8e44ad"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#8e44ad",
+            "line-width": 2.5,
+            "line-opacity": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sewage Repair",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "sewage-construction",
+      "label": "Sewage Construction",
+      "visible": false,
+      "source": {
+        "url": "vector/water_sanitation/sewage_construction.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#6c3483"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#6c3483",
+            "line-width": 2.8,
+            "line-opacity": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sewage Construction",
+        "fields": [
+          "name",
+          "fiscal_year",
+          "status"
+        ]
+      }
+    },
+    {
+      "id": "jatra-1",
+      "label": "Jatra Route 1",
+      "visible": true,
+      "source": {
+        "url": "vector/jatra1.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#c0392b"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#c0392b",
+            "line-width": 4,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Jatra Route 1"
+      }
+    },
+    {
+      "id": "jatra-2",
+      "label": "Jatra Route 2",
+      "visible": true,
+      "source": {
+        "url": "vector/jatra2.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#e74c3c"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#e74c3c",
+            "line-width": 3.5,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Jatra Route 2"
+      }
+    },
+    {
+      "id": "jatra-3",
+      "label": "Jatra Route 3",
+      "visible": true,
+      "source": {
+        "url": "vector/jatra3.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#e67e22"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#e67e22",
+            "line-width": 3.5,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Jatra Route 3"
+      }
+    },
+    {
+      "id": "hities",
+      "label": "Hities (Stone Spouts)",
+      "visible": true,
+      "source": {
+        "url": "vector/hities.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "hiti"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "hiti",
+            "icon-size": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Hiti (Stone Spout)"
+      }
+    },
+    {
+      "id": "inar",
+      "label": "Inar",
+      "visible": true,
+      "source": {
+        "url": "vector/inar.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "inar"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "inar",
+            "icon-size": 0.8
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Inar"
+      }
+    },
+    {
+      "id": "public-tap",
+      "label": "Public Tap Points",
+      "visible": true,
+      "source": {
+        "url": "vector/public_tap.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "public-tap"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "public-tap",
+            "icon-size": 0.8
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Public Tap"
+      }
+    },
+    {
+      "id": "falcha",
+      "label": "Falcha (Rest Houses)",
+      "visible": true,
+      "source": {
+        "url": "vector/falcha.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "falcha"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "falcha",
+            "icon-size": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Falcha"
+      }
+    },
+    {
+      "id": "building-construction",
+      "label": "Building Construction",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/building_constuction.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#f39c1266",
+        "border": "#e67e22"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#f39c12",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#e67e22",
+            "line-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Building Construction Area"
+      }
+    },
+    {
+      "id": "sports",
+      "label": "Sports Areas",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/sport_park.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#27ae6066",
+        "border": "#1e8449"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#27ae60",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#1e8449",
+            "line-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sports Area"
+      }
+    },
+    {
+      "id": "Land-Protection",
+      "label": "Land Protection",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/Land_Protection.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#27ae6066",
+        "border": "#1e8449"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#27ae60",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#1e8449",
+            "line-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup"
+      }
+    },
+    
+    {
+      "id": "monuments",
+      "label": "Monuments",
+      "visible": true,
+      "source": {
+        "url": "vector/monuments.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "monument"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "monument",
+            "icon-size": 0.8
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Monument"
+      }
+    }
+  ]
+}
