@@ -10,7 +10,7 @@
     "zoom": 15,
     "pitch": 0,
     "terrain": false,
-    "defaultBasemap": "OUTDOOR",
+    "defaultBasemap": "TOPO",
     "fitLayer": "ward-boundary",
     "fitPadding": 40,
     "fitMaxZoom": 17,
@@ -54,6 +54,7 @@
         "road-network",
         "water-network",
         "core-area",
+        "node",
         "landmarks",
         "buildings",
         "educational-area"
@@ -362,7 +363,7 @@
       },
       "legend": {
         "type": "box",
-        "color": "#9b59b620",
+        "color": "#9b59b630",
         "border": "#8e44ad",
         "border-width": 1
       },
@@ -371,7 +372,7 @@
           "type": "fill",
           "paint": {
             "fill-color": "#9b59b6",
-            "fill-opacity": 0.10
+            "fill-opacity": 0.20
           }
         },
         {
@@ -383,6 +384,37 @@
           }
         }
       ]
+    },
+    {
+      "id": "node",
+      "label": "Node",
+      "visible": false,
+      "source": {
+        "url": "vector/general/node.geojson"
+      },
+      "legend": {
+        "type": "point",
+        "color": "#e74c3c"
+      },
+      "render": [
+        {
+          "type": "circle",
+          "paint": {
+            "circle-color": "#e74c3c",
+            "circle-radius": 4,
+            "circle-opacity": 0.8,
+            "circle-stroke-color": "#ffffff",
+            "circle-stroke-width": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Node",
+        "fields": [
+          "Name"
+        ]
+      }
     },
     {
       "id": "landmarks",
@@ -523,7 +555,7 @@
     {
       "id": "road-blacktopping",
       "label": "Blacktopping",
-      "visible": false,
+      "visible": true,
       "source": {
         "url": "vector/road/Blacktopping.geojson"
       },
@@ -553,7 +585,7 @@
     {
       "id": "road-concreting",
       "label": "Concreting",
-      "visible": false,
+      "visible": true,
       "source": {
         "url": "vector/road/Concreting.geojson"
       },
@@ -583,7 +615,7 @@
     {
       "id": "road-stone-pavement",
       "label": "Stone Pavement",
-      "visible": false,
+      "visible": true,
       "source": {
         "url": "vector/road/Stone_Paving.geojson"
       },
@@ -705,79 +737,88 @@
     {
       "id": "dhanaganesh-jatra",
       "label": "Dhanaganesh Jatra",
-      "visible": true,
+      "visible": false,
       "source": {
         "url": "vector/jatra/dhanaganesh_jatra.geojson"
       },
       "legend": {
         "type": "line",
-        "color": "#c0392b"
+        "color": "#7B3294"
       },
       "render": [
         {
           "type": "line",
           "paint": {
-            "line-color": "#c0392b",
+            "line-color": "#7B3294",
             "line-width": 2,
-            "line-opacity": 1
+            "line-opacity": 0.8
           }
         }
       ],
       "interaction": {
         "type": "popup",
-        "title": "Dhanaganesh Jatra"
+        "title": "Dhanaganesh Jatra",
+        "fields": [
+          "Name"
+        ]
       }
     },
     {
       "id": "manekhat-jatra",
       "label": "Manekhat Jatra",
-      "visible": true,
+      "visible": false,
       "source": {
         "url": "vector/jatra/manekhat_jatra.geojson"
       },
       "legend": {
         "type": "line",
-        "color": "#e74c3c"
+        "color": "#00876C"
       },
       "render": [
         {
           "type": "line",
           "paint": {
-            "line-color": "#e74c3c",
-            "line-width": 1.5,
-            "line-opacity": 1
+            "line-color": "#00876C",
+            "line-width": 2,
+            "line-opacity": 0.8
           }
         }
       ],
       "interaction": {
         "type": "popup",
-        "title": "Manekhat Jatra"
+        "title": "Manekhat Jatra",
+        "fields": [
+          "Name"
+        ]
       }
     },
     {
       "id": "narayan-jatra",
       "label": "Narayan Jatra",
-      "visible": true,
+      "visible": false,
       "source": {
         "url": "vector/jatra/narayan_jatra.geojson"
       },
       "legend": {
         "type": "line",
-        "color": "#e67e22"
+        "color": "#B8860B"
       },
       "render": [
         {
           "type": "line",
           "paint": {
-            "line-color": "#e67e22",
-            "line-width": 1.5,
-            "line-opacity": 1
+            "line-color": "#B8860B",
+            "line-width": 2,
+            "line-opacity": 0.8
           }
         }
       ],
       "interaction": {
         "type": "popup",
-        "title": "Narayan Jatra"
+        "title": "Narayan Jatra",
+        "fields": [
+          "Name"
+        ]
       }
     },
     {
