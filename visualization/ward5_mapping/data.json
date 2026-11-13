@@ -759,7 +759,7 @@
     },
     {
       "id": "beautification-construction",
-      "label": "Beautification Construction",
+      "label": "Construction",
       "visible": false,
       "source": {
         "url": "vector/beautification/beautification_construction.geojson"
@@ -790,7 +790,7 @@
     },
     {
       "id": "beautification-protection",
-      "label": "Beautification Protection",
+      "label": "Protection",
       "visible": false,
       "source": {
         "url": "vector/beautification/beautification_protection.geojson"
@@ -821,7 +821,7 @@
     },
     {
       "id": "beautification-maintenance",
-      "label": "Beautification Maintenance",
+      "label": "Maintenance",
       "visible": false,
       "source": {
         "url": "vector/beautification/beautification_maintenance.geojson"
