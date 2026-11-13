@@ -780,7 +780,7 @@
       ],
       "interaction": {
         "type": "popup",
-        "title": "Beautification Construction",
+        "title": "Construction",
         "fields": [
           "Name",
           "Fiscal Year",
@@ -811,7 +811,7 @@
       ],
       "interaction": {
         "type": "popup",
-        "title": "Beautification Protection",
+        "title": "Protection",
         "fields": [
           "Name",
           "Fiscal Year",
@@ -842,7 +842,7 @@
       ],
       "interaction": {
         "type": "popup",
-        "title": "Beautification Maintenance",
+        "title": "Maintenance",
         "fields": [
           "Name",
           "Fiscal Year",
