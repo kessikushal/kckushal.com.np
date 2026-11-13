@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "beautification_construction",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "other": "Gate with lions", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.336324046012066, 27.717907693933746 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "Remarks": "Wooden light gate in Dabali", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.335759533663762, 27.716273395838762 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "Remarks": "Kotal Gate", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.333880148931627, 27.716235064753313 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "Remarks": "Hadhigaun Gate", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.336299653502948, 27.717849616531581 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Yasima Construction", "Remarks": "Wooden Stand/Roof", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.336148652257478, 27.717311819788183 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "Remarks": "Nateshwori Gate", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.335339053272236, 27.715384811586638 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Gate Construction", "Remarks": "Bhimsen Gate", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.33354446154749, 27.718462913897728 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Wall Construction", "Remarks": "Kharibot", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.336907143128855, 27.715785545661113 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Dachi Appa Construction", "Remarks": "Donche Chowk", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.335227544660498, 27.717512767599487 ] } }
+]
+}

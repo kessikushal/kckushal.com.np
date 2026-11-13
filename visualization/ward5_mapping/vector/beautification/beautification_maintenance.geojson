@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "beautification_maintenance",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 0, "Name": "Bridge Maintenance", "Remarks": "Mesh Fancing in Dhobikhola Bridges", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.339756420476036, 27.718242219769817 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Wall plastering in Krishna Tempe", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.336332176848444, 27.71774972340004 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Wall plastering in Nateshowri Tempe", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.335300722187242, 27.715679844789339 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Mahadev and Dhanwantari temple", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.335730494962732, 27.716525451763868 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Building Maintenance", "Remarks": "Painting in Health Post", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.337137420028355, 27.71720931317352 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Wall Maintenance", "Remarks": "Wall plastering in Charnarayan Marg", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.335245258268102, 27.715073226324442 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Wall Maintenance", "Remarks": "Wall plastering Bhimsen Marg", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.33635511742213, 27.718155394053664 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "School Maintenance", "Remarks": "False ceiling in Tangal School", "Fiscal Year": "81/82" }, "geometry": { "type": "Point", "coordinates": [ 85.331804172193912, 27.716134300460727 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Pillar for Bell in Tundaldevi Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.335272845033856, 27.717382674218737 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Painting in Krishna Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.33635192316487, 27.717791539129497 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Mahankal Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.334582885497014, 27.718112126389066 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Lions at Tangal Ganesh Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.330412928026561, 27.717062086959185 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Ganesh Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.334124074020622, 27.716185118187578 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Ganesh Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.333873179643575, 27.714517135199376 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Krishna Temple", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.333715209109911, 27.711507564222753 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Roof Maintenance", "Remarks": "Ddeche Pati", "Fiscal Year": "80/81" }, "geometry": { "type": "Point", "coordinates": [ 85.335183986608598, 27.71737512415644 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "Temple Maintenance", "Remarks": "Dhanwantari Temple", "Fiscal Year": "80/81" }, "geometry": { "type": "Point", "coordinates": [ 85.339033937593754, 27.719776624733154 ] } },
+{ "type": "Feature", "properties": { "id": 8, "Name": "Temple Maintenance", "Remarks": "Ganesh Temple", "Fiscal Year": "79/80" }, "geometry": { "type": "Point", "coordinates": [ 85.337619172078405, 27.720759875150563 ] } }
+]
+}

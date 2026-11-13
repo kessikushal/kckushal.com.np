@@ -1,6 +1,0 @@
-{
-            "key": "area_sq_km",
-            "label": "Area Km sq"
-          }
-
-             "buildings", hatako general
