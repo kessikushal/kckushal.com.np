@@ -60,7 +60,7 @@
       ]
     },
     {
-      "title": "🛣️ Road Works (Fiscal Year)",
+      "title": "🛣️ Road Works",
       "layers": [
         "road-concreting",
         "road-blacktopping",
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "title": "🎉 Jatras",
+      "title": "🎉 Jatra Routes",
       "layers": [
         "dhanaganesh-jatra",
         "manekhat-jatra",
@@ -104,50 +104,54 @@
     },
     {
       "title": "📍 Others",
-      "layers": [
-        "monuments"
-      ]
+      "layers": []
     }
   ],
   "sections": [
     {
       "title": "📝 About Ward 5",
       "type": "text",
-      "content": "Ward No. 5 of Kathmandu Metropolitan City is centered around Hadigaun (Handigaun), one of the oldest continuously inhabited settlements in the Kathmandu Valley with roots tracing back to the Kirat and Licchavi periods. The ward encompasses historic neighborhoods including Hadigaun, Bhatbhateni, Bishalnagar and surrounding areas. It is renowned for its rich Newar cultural heritage, traditional festivals such as Kahi Nabhako Jatra (a unique chariot procession without wheels), ancient temples, traditional stone water spouts (hiti), public rest houses (falcha), and numerous community monuments. With a population of approximately 18,320, Ward 5 represents a living blend of deep historical legacy and modern urban life."
+      "content": "Ward No. 5 of Kathmandu Metropolitan City covers Hadigaun, Bhatbhateni, Bishalnagar and surrounding neighborhoods. Rooted in Kirat–Licchavi history, it is known for its rich Newar heritage, ancient temples, traditional hitis, falchas and the unique Kahi Nabhako Jatra. With approximately 18,000+ residents, the ward blends historic identity with modern urban life."
     },
     {
       "title": "🏛️ Cultural Significance",
       "type": "list",
       "content": [
-        "One of the oldest settlements in Kathmandu Valley (Kirat–Licchavi origins)",
-        "Home to Kailashkut Bhawan historical site (Licchavi era palace complex)",
-        "Famous for Kahi Nabhako Jatra – unique wheel-less chariot festival",
-        "Contains numerous traditional hiti (stone spouts), inar, falcha and public taps",
-        "96+ monuments recognized by Department of Archaeology (predominantly community-scale)",
-        "Important Newar cultural and residential core with traditional tole life"
+        "One of Kathmandu Valley’s oldest settlements, with Kirat–Licchavi heritage",
+        "Home to the historic Kailashkut Bhawan palace complex",
+        "Known for the unique Kahi Nabhako Jatra (wheel-less chariot festival)",
+        "Rich in traditional hitis, inars, falchas and public taps",
+        "Home to 95+ heritage monuments recognized by the Department of Archaeology",
+        "A vibrant Newar cultural and traditional residential community"
       ]
     },
     {
       "title": "🗂️ Data Source",
       "type": "list",
       "content": [
-        "Administrative Boundary: Kathmandu Metropolitan City / National Geoportal",
-        "Road Network & Works: Ward Office / Field Survey",
-        "Water & Sanitation: Ward Office / KUKL related mapping",
-        "Jatra Routes: Community & Cultural Mapping",
-        "Hiti, Inar, Falcha, Public Taps: Field Survey + Cultural Inventory",
-        "Buildings & Landmarks: OSM + Field Verification",
-        "Monuments: Department of Archaeology / Local Inventory"
+        "Administrative Boundary: Digitized from ward-level administrative records",
+        "Jatra Routes: Ward Office",
+        "Hiti, Inar, Falcha, Public Taps & Temples: Ward Office",
+        "Educational Areas, Landmarks & Road Network: OpenStreetMap (OSM)"
       ]
     },
     {
-      "title": "👥 Prepared By",
+      "title": "🌐 GIS Development & Spatial Mapping",
       "type": "list",
       "content": [
         {
-          "text": "Kushal K.C",
+          "text": "Kushal K.C. | Geomatics Engineer",
           "href": "https://www.linkedin.com/in/kessikushal/",
           "target": "_blank"
+        },
+        {
+          "text": "Shapefile Processing"
+        },
+        {
+          "text": "Spatial Data Management"
+        },
+        {
+          "text": "WebGIS Development"
         }
       ]
     }
@@ -201,7 +205,7 @@
     },
     "temple": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M11 1L12.5 3.5H9.5z' fill='#f1c40f' stroke='#9a7d0a' stroke-width='0.6'/><path d='M11 3.5v2' stroke='#b8860b' stroke-width='1.2'/><path d='M5 7L11 4.5 17 7l-1 1H6z' fill='#c0392b' stroke='#78281f' stroke-width='0.8'/><path d='M6 8h10v1H6z' fill='#e67e22'/><path d='M4 11L11 8 18 11l-1 1H5z' fill='#c0392b' stroke='#78281f' stroke-width='0.8'/><path d='M5 12h12v1H5z' fill='#e67e22'/><path d='M6 13h10v6H6z' fill='#f5cba7' stroke='#784212' stroke-width='0.8'/><path d='M8 13v6M14 13v6' stroke='#784212' stroke-width='1.2'/><path d='M9 19v-3a2 2 0 0 1 4 0v3' fill='#784212'/><path d='M3 19h16v2H3z' fill='#8e5a2a' stroke='#633b1d' stroke-width='0.7'/></svg>",
-      "legendSize": 18
+      "legendSize": 14
     }
   },
   "layers": [
@@ -1048,31 +1052,6 @@
           "Name",
           "Fiscal Year"
         ]
-      }
-    },
-    {
-      "id": "monuments",
-      "label": "POW",
-      "visible": false,
-      "source": {
-        "url": "vector/other/pow.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "monument"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "monument",
-            "icon-size": 2
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Monument"
       }
     }
   ]
