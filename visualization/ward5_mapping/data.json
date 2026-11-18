@@ -45,7 +45,7 @@
   ],
   "groups": [
     {
-      "title": "📚 General Layers",
+      "title": "🗺️ Administrative & Base Map",
       "layers": [
         "ward-boundary",
         "kmc-boundary",
@@ -54,41 +54,41 @@
         "road-network",
         "water-network",
         "core-area",
+        "buildings",
         "node",
         "landmarks",
-        "buildings",
         "educational-area"
       ]
     },
     {
-      "title": "🛣️ Road Works",
+      "title": "🏛️ Cultural Heritage & Community Assets",
       "layers": [
-        "road-concreting",
+        "temple",
+        "hities",
+        "inar",
+        "falcha",
+        "public-tap",
+        "ganana-pokhari"
+      ]
+    },
+    {
+      "title": "🛣️ Road Network Improvements",
+      "layers": [
         "road-blacktopping",
+        "road-concreting",
         "road-stone-pavement"
       ]
     },
     {
-      "title": "💧 Water & Sanitation Works",
+      "title": "💧 Water Supply & Sanitation",
       "layers": [
-        "sewage-repair",
+        "drinking-water-pipeline",
         "sewage-construction",
-        "drinking-water-pipeline"
+        "sewage-repair"
       ]
     },
     {
-      "title": "🏛️ Cultural Heritage Points",
-      "layers": [
-        "hities",
-        "inar",
-        "public-tap",
-        "ganana-pokhari",
-        "falcha",
-        "temple"
-      ]
-    },
-    {
-      "title": "🏗️ Development Areas",
+      "title": "🏗️ Development & Public Facilities",
       "layers": [
         "building-construction",
         "sports",
@@ -96,32 +96,32 @@
       ]
     },
     {
-      "title": "🌿 Beautification Areas",
+      "title": "🌿 Beautification & Public Realm",
       "layers": [
+        "beautification-construction",
         "beautification-protection",
         "beautification-maintenance",
-        "beautification-construction",
         "beautification-line"
       ]
     },
     {
-      "title": "🎉 Jatra Routes",
-      "layers": [
-        "dhanaganesh-jatra",
-        "manekhat-jatra",
-        "narayan-jatra"
-      ]
-    },
-    {
-      "title": "⚡ Utility Networks",
+      "title": "⚡ Utility Infrastructure",
       "layers": [
         "electric-pole",
+        "electricity-cable",
         "ntc-cable",
         "wifi-cable",
         "kvda-pipe",
         "melamchi-pipe",
-        "electricity-cable",
         "sewer-line"
+      ]
+    },
+    {
+      "title": "🎉 Traditional Jatra Routes",
+      "layers": [
+        "dhanaganesh-jatra",
+        "manekhat-jatra",
+        "narayan-jatra"
       ]
     }
   ],
@@ -175,10 +175,6 @@
     }
   ],
   "icons": {
-    "bridge": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M3 11h14' stroke='#000' stroke-width='2' stroke-linecap='round'/><path d='M5 11c1.4-2.2 3-3.2 5-3.2s3.6 1 5 3.2' fill='none' stroke='#000' stroke-width='1.7' stroke-linecap='round'/><path d='M7 11v2M10 11v2M13 11v2' stroke='#000' stroke-width='1.2' stroke-linecap='round'/></svg>",
-      "legendSize": 16
-    },
     "hiti": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 22 22'><rect x='2.5' y='5' width='6.5' height='9' rx='0.8' fill='#c62828'/><path d='M8.5 6c2.5-1.8 5.5-1.3 8 1.5 1.5 1.7 2.4 3.8 2.6 5.8.1 1-.4 1.6-1.3 1.6-1 0-1.6-.7-2-1.5-1.1-1.9-2.6-3.3-4.5-4.1-1.4-.6-2.8-.5-3.8.2V6z' fill='#e53935'/><path d='M14.8 9.2c1.3 1.2 2.2 2.8 2.5 4.4.1.6-.2 1-.7 1.1-.6.1-1-.3-1.2-.8-.7-1.4-1.7-2.5-3-3.2.6-.6 1.4-1.1 2.4-1.5z' fill='#ef5350'/><path d='M17.8 14.2c.5.4.6 1 .3 1.3-.3.4-.8.3-1.1 0-.3-.2-.4-.6-.4-1 .4-.1.8-.2 1.2-.3z' fill='#c62828'/><circle cx='18.6' cy='15.8' r='1' fill='#b71c1c'/><path d='M10 9.2c1.4-.4 2.9 0 4.1 1' stroke='#b71c1c' stroke-width='.65' fill='none'/><path d='M12.2 11.5c.9.4 1.7 1 2.3 1.7' stroke='#b71c1c' stroke-width='.55' fill='none'/><path d='M17.8 16.2c.15 1.4-.1 2.7-.5 3.7' stroke='#4292c6' stroke-width='1.35' fill='none' stroke-linecap='round'/><circle cx='17.2' cy='20.2' r='0.65' fill='#4292c6'/><circle cx='18.2' cy='20.6' r='0.45' fill='#ffcdd2'/></svg>",
       "legendSize": 15
@@ -198,26 +194,6 @@
     "landmarks": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='18' viewBox='0 0 20 20'><path d='M11 2C6.5 2 3 5.5 3 10c0 5 8 11 8 11s8-6 8-11c0-4.5-3.5-8-8-8z' fill='#e67e22' stroke='#a04000' stroke-width='1'/><circle cx='11' cy='10' r='4.5' fill='#fff' stroke='#a04000' stroke-width='1'/></svg>",
       "legendSize": 15
-    },
-    "monument": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M11 2L3 9H19Z' fill='#d4a017'/><rect x='5' y='9' width='12' height='10' fill='#f1c40f'/><rect x='9' y='13' width='4' height='6' fill='#795548'/><rect x='3' y='19' width='16' height='2' fill='#8d6e63'/></svg>",
-      "legendSize": 18
-    },
-    "jatra": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><circle cx='11' cy='11' r='9' fill='#c0392b'/><path d='M7 8l2 6h6l2-6' fill='none' stroke='#fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='9' cy='15' r='1.3' fill='#fff'/><circle cx='13' cy='15' r='1.3' fill='#fff'/></svg>",
-      "legendSize": 18
-    },
-    "road-work": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M3 14h16' stroke='#f39c12' stroke-width='3' stroke-linecap='round'/><path d='M5 10h12' stroke='#e67e22' stroke-width='2' stroke-linecap='round'/><path d='M7 6h8' stroke='#d35400' stroke-width='1.5' stroke-linecap='round'/></svg>",
-      "legendSize": 18
-    },
-    "water": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M11 3c-3 4-6 7-6 10a6 6 0 0 0 12 0c0-3-3-6-6-10z' fill='#3498db'/></svg>",
-      "legendSize": 18
-    },
-    "sewage": {
-      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><path d='M4 6h14v3H4z' fill='#7f8c8d'/><path d='M6 9v7h3V9M13 9v7h3V9' fill='#95a5a6'/><path d='M3 16h16v2H3z' fill='#5d6d7e'/></svg>",
-      "legendSize": 18
     },
     "ward-office": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><rect x='4' y='10' width='16' height='10' rx='0.6' fill='#c0392b'/><rect x='4' y='10' width='16' height='2.2' fill='#922b21'/><path d='M3 10 L12 4 L21 10 Z' fill='#7b241c'/><path d='M5.5 10 L12 5.8 L18.5 10 Z' fill='#922b21'/><rect x='10' y='14' width='4' height='6' fill='#f5d0c5'/><rect x='6.5' y='12.5' width='2.8' height='2.3' fill='#f5d0c5'/><rect x='14.7' y='12.5' width='2.8' height='2.3' fill='#f5d0c5'/><path d='M3.5 10.2 L12 4.5 L20.5 10.2' stroke='#5d1a15' stroke-width='0.7' fill='none'/><path d='M5.8 10.1 L12 6.2 L18.2 10.1' stroke='#5d1a15' stroke-width='0.6' fill='none'/></svg>",
@@ -339,6 +315,36 @@
       }
     },
     {
+      "id": "main-roads",
+      "label": "Major Roads",
+      "visible": false,
+      "source": {
+        "url": "vector/general/major_road.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#34495e40",
+        "border": "#2c3e50"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#34495e",
+            "fill-opacity": 0.4
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#525252",
+            "line-width": 1.2
+          }
+        }
+      ]
+    },
+    {
       "id": "road-network",
       "label": "Road Network",
       "visible": false,
@@ -407,7 +413,7 @@
           "type": "fill",
           "paint": {
             "fill-color": "#9b59b6",
-            "fill-opacity": 0.20
+            "fill-opacity": 0.2
           }
         },
         {
@@ -416,6 +422,48 @@
           "paint": {
             "line-color": "#8e44ad",
             "line-width": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "buildings",
+      "label": "Buildings",
+      "visible": false,
+      "source": {
+        "url": "vector/building.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#bdc3c77a"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#bdc3c7",
+            "fill-opacity": 0.55,
+            "fill-outline-color": "#95a5a6"
+          }
+        },
+        {
+          "type": "fill-extrusion",
+          "minzoom": 15,
+          "paint": {
+            "fill-extrusion-color": "#bdc3c7",
+            "fill-extrusion-height": [
+              "coalesce",
+              [
+                "to-number",
+                [
+                  "get",
+                  "height"
+                ]
+              ],
+              6
+            ],
+            "fill-extrusion-base": 0,
+            "fill-extrusion-opacity": 0.75
           }
         }
       ]
@@ -480,78 +528,6 @@
       }
     },
     {
-      "id": "main-roads",
-      "label": "Major Roads",
-      "visible": false,
-      "source": {
-        "url": "vector/general/major_road.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#34495e40",
-        "border": "#2c3e50"
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#34495e",
-            "fill-opacity": 0.40
-          }
-        },
-        {
-          "type": "line",
-          "geometry": "polygon",
-          "paint": {
-            "line-color": "#525252",
-            "line-width": 1.2
-          }
-        }
-      ]
-    },
-    {
-      "id": "buildings",
-      "label": "Buildings",
-      "visible": false,
-      "source": {
-        "url": "vector/building.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#bdc3c77a"
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#bdc3c7",
-            "fill-opacity": 0.55,
-            "fill-outline-color": "#95a5a6"
-          }
-        },
-        {
-          "type": "fill-extrusion",
-          "minzoom": 15,
-          "paint": {
-            "fill-extrusion-color": "#bdc3c7",
-            "fill-extrusion-height": [
-              "coalesce",
-              [
-                "to-number",
-                [
-                  "get",
-                  "height"
-                ]
-              ],
-              6
-            ],
-            "fill-extrusion-base": 0,
-            "fill-extrusion-opacity": 0.75
-          }
-        }
-      ]
-    },
-    {
       "id": "educational-area",
       "label": "Educational Area",
       "visible": false,
@@ -585,6 +561,167 @@
             "label": "Type"
           }
         ]
+      }
+    },
+    {
+      "id": "temple",
+      "label": "Hindu Temple",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/temple.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "temple"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "temple",
+            "icon-size": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Hindu Temple",
+        "fields": []
+      }
+    },
+    {
+      "id": "hities",
+      "label": "Hities",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/hiti.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "hiti"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "hiti",
+            "icon-size": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Hiti",
+        "fields": []
+      }
+    },
+    {
+      "id": "inar",
+      "label": "Inar",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/inar.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "inar"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "inar",
+            "icon-size": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Inar",
+        "fields": []
+      }
+    },
+    {
+      "id": "falcha",
+      "label": "Falcha",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/falcha.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "falcha"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "falcha",
+            "icon-size": 0.85
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Falcha",
+        "fields": [
+          "Monument_1"
+        ]
+      }
+    },
+    {
+      "id": "public-tap",
+      "label": "Public Tap",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/public_water_tap.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "public-tap"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "public-tap",
+            "icon-size": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Public Tap",
+        "fields": [
+          "Fiscal Year"
+        ]
+      }
+    },
+    {
+      "id": "ganana-pokhari",
+      "label": "Ganana Pokhari",
+      "visible": false,
+      "source": {
+        "url": "vector/cultural_heritage_point/gahana_pokhari.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#0077be",
+        "fill-opacity": 1
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#0077be",
+            "fill-opacity": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Ganana Pokhari",
+        "fields": []
       }
     },
     {
@@ -709,6 +846,38 @@
       }
     },
     {
+      "id": "sewage-construction",
+      "label": "Sewage Construction",
+      "visible": false,
+      "source": {
+        "url": "vector/water_sanitation/sewage_construction.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#6c3483"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#6c3483",
+            "line-width": 2,
+            "line-opacity": 0.9
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sewage Construction",
+        "fields": [
+          "Name",
+          "Fiscal Year",
+          "Diameter",
+          "Remarks"
+        ]
+      }
+    },
+    {
       "id": "sewage-repair",
       "label": "Sewage Repair",
       "visible": false,
@@ -738,34 +907,342 @@
       }
     },
     {
-      "id": "sewage-construction",
-      "label": "Sewage Construction",
+      "id": "sewer-line",
+      "label": "Sewer Line",
       "visible": false,
       "source": {
-        "url": "vector/water_sanitation/sewage_construction.geojson"
+        "url": "vector/utility/sewer_line.geojson"
       },
       "legend": {
-        "type": "line",
-        "color": "#6c3483"
+        "type": "box",
+        "color": "#E74C3C",
+        "fill-opacity": 0.75
       },
       "render": [
         {
-          "type": "line",
+          "type": "fill",
           "paint": {
-            "line-color": "#6c3483",
-            "line-width": 2,
-            "line-opacity": 0.9
+            "fill-color": "#E74C3C",
+            "fill-opacity": 0.75,
+            "fill-outline-color": "rgba(0,0,0,0)"
           }
         }
       ],
       "interaction": {
         "type": "popup",
-        "title": "Sewage Construction",
+        "title": "Sewer Line",
         "fields": [
           "Name",
-          "Fiscal Year",
-          "Diameter",
-          "Remarks"
+          "Diameter"
+        ]
+      }
+    },
+    {
+      "id": "electric-pole",
+      "label": "Electricity Pole",
+      "visible": false,
+      "minzoom": 16,
+      "source": {
+        "url": "vector/utility/electricity_pole.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "electric-pole"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "electric-pole",
+            "icon-size": 0.25,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Electricity Pole",
+        "fields": [
+          "Name",
+          "Type"
+        ]
+      }
+    },
+    {
+      "id": "electricity-cable",
+      "label": "Electricity Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/electricity_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#000000"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#000000",
+            "line-width": 1.8,
+            "line-opacity": 1,
+            "line-dasharray": [
+              3,
+              2
+            ],
+            "line-offset": 2
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Electricity Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "ntc-cable",
+      "label": "NTC Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/ntc_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#2980B9"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#2980B9",
+            "line-width": 1.7,
+            "line-opacity": 1,
+            "line-offset": -3
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "NTC Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "wifi-cable",
+      "label": "WIFI Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/wifi_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#8E44AD"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#8E44AD",
+            "line-width": 1.6,
+            "line-opacity": 1,
+            "line-dasharray": [
+              3,
+              2
+            ],
+            "line-offset": -2
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "WIFI Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "kvda-pipe",
+      "label": "KVDA Pipe",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/kvda_pipe.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#16A085"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#16A085",
+            "line-width": 1.8,
+            "line-opacity": 1,
+            "line-dasharray": [
+              5,
+              2,
+              1,
+              2
+            ],
+            "line-offset": -1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "KVDA Pipe",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "melamchi-pipe",
+      "label": "Melamchi Pipe",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/melamchi_pipe.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#00A8CC"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#00A8CC",
+            "line-width": 2,
+            "line-opacity": 1,
+            "line-offset": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Melamchi Pipe",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "building-construction",
+      "label": "Building Construction",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/building_constuction.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#f39c1266",
+        "border": "#e67e22"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#f39c12",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#e67e22",
+            "line-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Building Construction Area",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "sports",
+      "label": "Sports Areas",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/sport_park.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#9b59b666",
+        "border": "#2980b9"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#9b59b6",
+            "fill-opacity": 0.4
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#2980b9",
+            "line-width": 1.8
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sports Area",
+        "fields": [
+          "Name",
+          "Fiscal Year"
+        ]
+      }
+    },
+    {
+      "id": "Land-Protection",
+      "label": "Land Protection",
+      "visible": false,
+      "source": {
+        "url": "vector/development_area/Land_Protection.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#27ae6066",
+        "border": "#1e8449"
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#27ae60",
+            "fill-opacity": 0.35
+          }
+        },
+        {
+          "type": "line",
+          "geometry": "polygon",
+          "paint": {
+            "line-color": "#1e8449",
+            "line-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Land Protection",
+        "fields": [
+          "Name",
+          "Fiscal Year"
         ]
       }
     },
@@ -977,508 +1454,6 @@
         "title": "Narayan Jatra",
         "fields": [
           "Name"
-        ]
-      }
-    },
-    {
-      "id": "hities",
-      "label": "Hities",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/hiti.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "hiti"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "hiti",
-            "icon-size": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Hiti",
-        "fields": []
-      }
-    },
-    {
-      "id": "inar",
-      "label": "Inar",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/inar.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "inar"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "inar",
-            "icon-size": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Inar",
-        "fields": []
-      }
-    },
-    {
-      "id": "public-tap",
-      "label": "Public Tap",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/public_water_tap.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "public-tap"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "public-tap",
-            "icon-size": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Public Tap",
-        "fields": [
-          "Fiscal Year"
-        ]
-      }
-    },
-    {
-      "id": "ganana-pokhari",
-      "label": "Ganana Pokhari",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/gahana_pokhari.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#0077be",
-        "fill-opacity": 1
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#0077be",
-            "fill-opacity": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Ganana Pokhari",
-        "fields": []
-      }
-    },
-    {
-      "id": "temple",
-      "label": "Hindu Temple",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/temple.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "temple"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "temple",
-            "icon-size": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Hindu Temple",
-        "fields": []
-      }
-    },
-    {
-      "id": "falcha",
-      "label": "Falcha",
-      "visible": false,
-      "source": {
-        "url": "vector/cultural_heritage_point/falcha.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "falcha"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "falcha",
-            "icon-size": 0.85
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Falcha",
-        "fields": [
-          "Monument_1"
-        ]
-      }
-    },
-    {
-      "id": "building-construction",
-      "label": "Building Construction",
-      "visible": false,
-      "source": {
-        "url": "vector/development_area/building_constuction.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#f39c1266",
-        "border": "#e67e22"
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#f39c12",
-            "fill-opacity": 0.35
-          }
-        },
-        {
-          "type": "line",
-          "geometry": "polygon",
-          "paint": {
-            "line-color": "#e67e22",
-            "line-width": 1.5
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Building Construction Area",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "sports",
-      "label": "Sports Areas",
-      "visible": false,
-      "source": {
-        "url": "vector/development_area/sport_park.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#9b59b666",
-        "border": "#2980b9"
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#9b59b6",
-            "fill-opacity": 0.4
-          }
-        },
-        {
-          "type": "line",
-          "geometry": "polygon",
-          "paint": {
-            "line-color": "#2980b9",
-            "line-width": 1.8
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Sports Area",
-        "fields": [
-          "Name",
-          "Fiscal Year"
-        ]
-      }
-    },
-    {
-      "id": "Land-Protection",
-      "label": "Land Protection",
-      "visible": false,
-      "source": {
-        "url": "vector/development_area/Land_Protection.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#27ae6066",
-        "border": "#1e8449"
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#27ae60",
-            "fill-opacity": 0.35
-          }
-        },
-        {
-          "type": "line",
-          "geometry": "polygon",
-          "paint": {
-            "line-color": "#1e8449",
-            "line-width": 1.5
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Land Protection",
-        "fields": [
-          "Name",
-          "Fiscal Year"
-        ]
-      }
-    },
-    {
-      "id": "electric-pole",
-      "label": "Electricity Pole",
-      "visible": false,
-      "minzoom": 16,
-      "source": {
-        "url": "vector/utility/electricity_pole.geojson"
-      },
-      "legend": {
-        "type": "icon",
-        "icon": "electric-pole"
-      },
-      "render": [
-        {
-          "type": "symbol",
-          "layout": {
-            "icon-image": "electric-pole",
-            "icon-size": 0.25,
-            "icon-allow-overlap": true,
-            "icon-ignore-placement": true
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Electricity Pole",
-        "fields": [
-          "Name",
-          "Type"
-        ]
-      }
-    },
-    {
-      "id": "ntc-cable",
-      "label": "NTC Cable",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/ntc_cable.geojson"
-      },
-      "legend": {
-        "type": "line",
-        "color": "#2980B9"
-      },
-      "render": [
-        {
-          "type": "line",
-          "paint": {
-            "line-color": "#2980B9",
-            "line-width": 1.7,
-            "line-opacity": 1,
-            "line-offset": -3
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "NTC Cable",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "wifi-cable",
-      "label": "WIFI Cable",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/wifi_cable.geojson"
-      },
-      "legend": {
-        "type": "line",
-        "color": "#8E44AD"
-      },
-      "render": [
-        {
-          "type": "line",
-          "paint": {
-            "line-color": "#8E44AD",
-            "line-width": 1.6,
-            "line-opacity": 1,
-            "line-dasharray": [
-              3,
-              2
-            ],
-            "line-offset": -2
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "WIFI Cable",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "kvda-pipe",
-      "label": "KVDA Pipe",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/kvda_pipe.geojson"
-      },
-      "legend": {
-        "type": "line",
-        "color": "#16A085"
-      },
-      "render": [
-        {
-          "type": "line",
-          "paint": {
-            "line-color": "#16A085",
-            "line-width": 1.8,
-            "line-opacity": 1,
-            "line-dasharray": [
-              5,
-              2,
-              1,
-              2
-            ],
-            "line-offset": -1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "KVDA Pipe",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "melamchi-pipe",
-      "label": "Melamchi Pipe",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/melamchi_pipe.geojson"
-      },
-      "legend": {
-        "type": "line",
-        "color": "#00A8CC"
-      },
-      "render": [
-        {
-          "type": "line",
-          "paint": {
-            "line-color": "#00A8CC",
-            "line-width": 2,
-            "line-opacity": 1,
-            "line-offset": 1
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Melamchi Pipe",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "electricity-cable",
-      "label": "Electricity Cable",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/electricity_cable.geojson"
-      },
-      "legend": {
-        "type": "line",
-        "color": "#000000"
-      },
-      "render": [
-        {
-          "type": "line",
-          "paint": {
-            "line-color": "#000000",
-            "line-width": 1.8,
-            "line-opacity": 1,
-            "line-dasharray": [
-              3,
-              2
-            ],
-            "line-offset": 2
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Electricity Cable",
-        "fields": [
-          "Name"
-        ]
-      }
-    },
-    {
-      "id": "sewer-line",
-      "label": "Sewer Line",
-      "visible": false,
-      "source": {
-        "url": "vector/utility/sewer_line.geojson"
-      },
-      "legend": {
-        "type": "box",
-        "color": "#E74C3C",
-        "fill-opacity": 0.75
-      },
-      "render": [
-        {
-          "type": "fill",
-          "paint": {
-            "fill-color": "#E74C3C",
-            "fill-opacity": 0.75,
-            "fill-outline-color": "rgba(0,0,0,0)"
-          }
-        }
-      ],
-      "interaction": {
-        "type": "popup",
-        "title": "Sewer Line",
-        "fields": [
-          "Name",
-          "Diameter"
-
         ]
       }
     }
