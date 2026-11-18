@@ -301,18 +301,18 @@ document.addEventListener("DOMContentLoaded", () => {
       description:
         "This map presents preliminary flood extent and impact information for Rasuwa, Nepal, following the major debris flow and flood event of 26 August 2026.",
       link: "./visualization/bhotekoshi_flood/index.html",
-      image: "./image/bhotekoshi_flood.jpg" 
+      image: "./image/bhotekoshi_flood.jpg"
     },
     {
       id: "visual2",
       event: "Development & Cultural Profile of Ward 5",
-      Date: "07-November, 2026",
+      Date: "11-November, 2026",
       description:
-        "This map presents the Development and Cultural Profile of Ward 5.",
+        "GIS-based mapping of Ward 5's infrastructure, urban development, public spaces and cultural heritage.",
       link: "./visualization/ward5_mapping/index.html",
-      image: "./image/ward5.png" 
+      image: "./image/ward5.png"
     }
-    
+
   ];
 
   const visualContainer = document.getElementById("visual-container");

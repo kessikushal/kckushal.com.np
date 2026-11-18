@@ -113,8 +113,16 @@
       ]
     },
     {
-      "title": "📍 Others",
-      "layers": []
+      "title": "⚡ Utility Networks",
+      "layers": [
+        "electric-pole",
+        "ntc-cable",
+        "wifi-cable",
+        "kvda-pipe",
+        "melamchi-pipe",
+        "electricity-cable",
+        "sewer-line"
+      ]
     }
   ],
   "sections": [
@@ -229,6 +237,10 @@
     },
     "beautification-maintenance": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='15' fill='#D68910'/><path d='M20.5 7.5a7 7 0 0 0-8.7 8.7L7 21l4 4 4.8-4.8a7 7 0 0 0 8.7-8.7l-4.2 4.2-3.5-3.5z' fill='#fff' stroke='#fff' stroke-width='1' stroke-linejoin='round'/></svg>",
+      "legendSize": 16
+    },
+    "electric-pole": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><path d='M31 57V13H48' stroke='#000000' stroke-width='4' fill='none' stroke-linecap='round'/><path d='M43 13h12l-3 7H43z' fill='#F1C40F' stroke='#000000' stroke-width='1.5'/><path d='M44 21l-3 5m8-5v6m7-6l3 5' stroke='#F1C40F' stroke-width='1.5' stroke-linecap='round'/><path d='M23 57h16' stroke='#000000' stroke-width='3' stroke-linecap='round'/><circle cx='31' cy='13' r='2' fill='#000000'/></svg>",
       "legendSize": 16
     }
   },
@@ -1239,6 +1251,234 @@
         "fields": [
           "Name",
           "Fiscal Year"
+        ]
+      }
+    },
+    {
+      "id": "electric-pole",
+      "label": "Electricity Pole",
+      "visible": false,
+      "minzoom": 16,
+      "source": {
+        "url": "vector/utility/electricity_pole.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "electric-pole"
+      },
+      "render": [
+        {
+          "type": "symbol",
+          "layout": {
+            "icon-image": "electric-pole",
+            "icon-size": 0.25,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Electricity Pole",
+        "fields": [
+          "Name",
+          "Type"
+        ]
+      }
+    },
+    {
+      "id": "ntc-cable",
+      "label": "NTC Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/ntc_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#2980B9"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#2980B9",
+            "line-width": 1.7,
+            "line-opacity": 1,
+            "line-offset": -3
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "NTC Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "wifi-cable",
+      "label": "WIFI Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/wifi_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#8E44AD"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#8E44AD",
+            "line-width": 1.6,
+            "line-opacity": 1,
+            "line-dasharray": [
+              3,
+              2
+            ],
+            "line-offset": -2
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "WIFI Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "kvda-pipe",
+      "label": "KVDA Pipe",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/kvda_pipe.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#16A085"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#16A085",
+            "line-width": 1.8,
+            "line-opacity": 1,
+            "line-dasharray": [
+              5,
+              2,
+              1,
+              2
+            ],
+            "line-offset": -1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "KVDA Pipe",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "melamchi-pipe",
+      "label": "Melamchi Pipe",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/melamchi_pipe.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#00A8CC"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#00A8CC",
+            "line-width": 2,
+            "line-opacity": 1,
+            "line-offset": 1
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Melamchi Pipe",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "electricity-cable",
+      "label": "Electricity Cable",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/electricity_cable.geojson"
+      },
+      "legend": {
+        "type": "line",
+        "color": "#000000"
+      },
+      "render": [
+        {
+          "type": "line",
+          "paint": {
+            "line-color": "#000000",
+            "line-width": 1.8,
+            "line-opacity": 1,
+            "line-dasharray": [
+              3,
+              2
+            ],
+            "line-offset": 2
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Electricity Cable",
+        "fields": [
+          "Name"
+        ]
+      }
+    },
+    {
+      "id": "sewer-line",
+      "label": "Sewer Line",
+      "visible": false,
+      "source": {
+        "url": "vector/utility/sewer_line.geojson"
+      },
+      "legend": {
+        "type": "box",
+        "color": "#E74C3C",
+        "fill-opacity": 0.75
+      },
+      "render": [
+        {
+          "type": "fill",
+          "paint": {
+            "fill-color": "#E74C3C",
+            "fill-opacity": 0.75,
+            "fill-outline-color": "rgba(0,0,0,0)"
+          }
+        }
+      ],
+      "interaction": {
+        "type": "popup",
+        "title": "Sewer Line",
+        "fields": [
+          "Name",
+          "Diameter"
+
         ]
       }
     }
