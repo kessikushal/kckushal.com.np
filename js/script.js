@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       id: "visual2",
       event: "Development & Cultural Profile of Ward 5",
-      Date: "11-November, 2026",
+      Date: "18-November, 2026",
       description:
         "GIS-based mapping of Ward 5's infrastructure, urban development, public spaces and cultural heritage.",
       link: "./visualization/ward5_mapping/index.html",

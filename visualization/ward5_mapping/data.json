@@ -45,7 +45,7 @@
   ],
   "groups": [
     {
-      "title": "🗺️ Administrative & Base Map",
+      "title": "📚 Administrative Layer",
       "layers": [
         "ward-boundary",
         "kmc-boundary",
@@ -96,7 +96,7 @@
       ]
     },
     {
-      "title": "🌿 Beautification & Public Realm",
+      "title": "🌿 Beautification & Public Territory",
       "layers": [
         "beautification-construction",
         "beautification-protection",
