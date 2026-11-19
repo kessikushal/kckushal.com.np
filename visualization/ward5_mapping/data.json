@@ -504,9 +504,7 @@
       "interaction": {
         "type": "popup",
         "title": "Node",
-        "fields": [
-          
-        ]
+        "fields": []
       }
     },
     {
@@ -1259,7 +1257,7 @@
     {
       "id": "cctv-camera",
       "label": "CCTV Camera",
-      "visible": true,
+      "visible": false,
       "source": {
         "url": "vector/public_safety_security/cctv_camera.geojson"
       },
@@ -1269,17 +1267,16 @@
       },
       "render": [
         {
-          "type": "circle",
-          "paint": {
-            "circle-radius": 7,
-            "circle-color": "#34495E",
-            "circle-opacity": 0.95,
-            "circle-stroke-color": "#FFFFFF",
-            "circle-stroke-width": 1.5
+          "type": "symbol",
+          "layout": {
+            "icon-image": "cctv-camera",
+            "icon-size": 0.25,
+            "icon-allow-overlap": true
           }
         }
       ],
       "interaction": {
+        "type": "popup",
         "title": "CCTV Camera",
         "fields": [
           "Name",
