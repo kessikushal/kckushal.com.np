@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "cctv_camera",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 0, "Name": "ANPR CCTV", "other": "Bishalnagar", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.331747546726831, 27.712019806909236 ] } },
+{ "type": "Feature", "properties": { "id": 0, "Name": "ANPR CCTV", "other": "Dhanwantari", "Fiscal Year": "82/83" }, "geometry": { "type": "Point", "coordinates": [ 85.334827972133994, 27.712514626375103 ] } },
+{ "type": "Feature", "properties": { "id": 1, "Name": "CCTV", "other": null, "Fiscal Year": "80/81" }, "geometry": { "type": "Point", "coordinates": [ 85.337397897176459, 27.714231975155005 ] } },
+{ "type": "Feature", "properties": { "id": 1, "Name": "CCTV", "other": null, "Fiscal Year": "80/81" }, "geometry": { "type": "Point", "coordinates": [ 85.337072663724726, 27.716675872235204 ] } }
+]
+}

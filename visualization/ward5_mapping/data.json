@@ -96,6 +96,12 @@
       ]
     },
     {
+      "title": "🛡️ Public Safety & Security",
+      "layers": [
+        "cctv-camera"
+      ]
+    },
+    {
       "title": "🌿 Beautification & Public Territory",
       "layers": [
         "beautification-construction",
@@ -217,6 +223,10 @@
     },
     "electric-pole": {
       "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><path d='M31 57V13H48' stroke='#000000' stroke-width='4' fill='none' stroke-linecap='round'/><path d='M43 13h12l-3 7H43z' fill='#F1C40F' stroke='#000000' stroke-width='1.5'/><path d='M44 21l-3 5m8-5v6m7-6l3 5' stroke='#F1C40F' stroke-width='1.5' stroke-linecap='round'/><path d='M23 57h16' stroke='#000000' stroke-width='3' stroke-linecap='round'/><circle cx='31' cy='13' r='2' fill='#000000'/></svg>",
+      "legendSize": 16
+    },
+    "cctv-camera": {
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><g fill='none' stroke='#17202A' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'><path d='M12 24 L39 14 L48 24 L21 34 Z' fill='#34495E'/><path d='M39 14 L49 9 L56 17 L48 24'/><path d='M21 34 L18 44 L31 44 L35 30'/><path d='M24 44 L24 53'/><path d='M14 53 H34'/><path d='M48 24 L55 30'/></g><circle cx='46' cy='18' r='3' fill='#E74C3C'/></svg>",
       "legendSize": 16
     }
   },
@@ -431,7 +441,7 @@
       "label": "Buildings",
       "visible": false,
       "source": {
-        "url": "vector/building.geojson"
+        "url": "vector/general/building.geojson"
       },
       "legend": {
         "type": "box",
@@ -441,7 +451,7 @@
         {
           "type": "fill",
           "paint": {
-            "fill-color": "#bdc3c7",
+            "fill-color": "#707070",
             "fill-opacity": 0.55,
             "fill-outline-color": "#95a5a6"
           }
@@ -450,7 +460,7 @@
           "type": "fill-extrusion",
           "minzoom": 15,
           "paint": {
-            "fill-extrusion-color": "#bdc3c7",
+            "fill-extrusion-color": "#707070",
             "fill-extrusion-height": [
               "coalesce",
               [
@@ -495,7 +505,7 @@
         "type": "popup",
         "title": "Node",
         "fields": [
-          "Name"
+          
         ]
       }
     },
@@ -1240,6 +1250,37 @@
       "interaction": {
         "type": "popup",
         "title": "Land Protection",
+        "fields": [
+          "Name",
+          "Fiscal Year"
+        ]
+      }
+    },
+    {
+      "id": "cctv-camera",
+      "label": "CCTV Camera",
+      "visible": true,
+      "source": {
+        "url": "vector/public_safety_security/cctv_camera.geojson"
+      },
+      "legend": {
+        "type": "icon",
+        "icon": "cctv-camera"
+      },
+      "render": [
+        {
+          "type": "circle",
+          "paint": {
+            "circle-radius": 7,
+            "circle-color": "#34495E",
+            "circle-opacity": 0.95,
+            "circle-stroke-color": "#FFFFFF",
+            "circle-stroke-width": 1.5
+          }
+        }
+      ],
+      "interaction": {
+        "title": "CCTV Camera",
         "fields": [
           "Name",
           "Fiscal Year"
